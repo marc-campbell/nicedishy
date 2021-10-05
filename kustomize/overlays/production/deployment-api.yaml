@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nicedishy-api
+spec:
+  template:
+    spec:
+      imagePullSecrets:
+        - name: ghcr
+      containers:
+        - name: nicedishy-api
+          image: ghcr.io/marccampbell/gitops/nicedishy-api
+          env:
+            - name: SESSION_KEY
+              value: this-is-not-too-secret
+            - name: ENCRYPTION_KEY
+              value: this-is-32-bytes-and-not-secret!
+            - name: API_ENDPOINT
+              value: https://api.nicedishy.com
+            - name: WEB_ENDPOINT
+              value: https://nicedishy.com

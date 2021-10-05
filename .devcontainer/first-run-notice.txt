@@ -1,0 +1,9 @@
+👋 Welcome to your NiceDishy Codespace!
+
+Just run `skaffold dev` to get started and grab a ☕️. 
+
+Drivers Manual:
+* `k` alias is available for `kubectl` with auto-completion for your pleasure
+* This is a `zsh` terminal with Oh My Zsh installed. Just thought you should know.
+
+

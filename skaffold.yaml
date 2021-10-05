@@ -1,0 +1,60 @@
+apiVersion: skaffold/v2beta2
+kind: Config
+
+profiles:
+  - name: codespace
+    activation:
+      - env: USER=codespace 
+    build:
+      local:
+        concurrency: 0
+        useBuildkit: true
+        push: true
+
+build:
+  insecureRegistries:
+    - localhost:5000
+    - k3d-nicedishy-registry.localhost:5000
+
+
+  artifacts:
+    - image: nicedishy-web
+      context: "./web"
+      sync:
+        manual:
+          - src: "src/**/*.jsx"
+            dest: "./"
+          - src: "src/**/*.js"
+            dest: "./"
+          - src: "src/**/*.png"
+            dest: "./"
+          - src: "src/**/*.scss"
+            dest: "./"
+          - src: "src/**/*.css"
+            dest: "./"
+      docker:
+        dockerfile: ./Dockerfile.skaffold
+
+    - image: nicedishy-api
+      context: "./"
+      docker:
+        dockerfile: ./Dockerfile.api.skaffold
+    # - image: promproxy
+    #   context: "./"
+    #   docker:
+    #     dockerfile: ./Dockerfile.promproxy.skaffold
+
+deploy:
+  statusCheckDeadlineSeconds: 240
+  kustomize:
+    paths:
+      - "./kustomize/overlays/dev"
+
+portForward:
+- resourceType: deployment
+  resourceName: nicedishy-web
+  port: 30003
+- resourceType: deployment
+  resourceName: nicedishy-api
+  port: 3000
+  localPort: 30065

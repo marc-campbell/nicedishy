@@ -1,0 +1,33 @@
+apiVersion: schemas.schemahero.io/v1alpha4
+kind: Table
+metadata:
+  name: google-user
+spec:
+  database: nicedishy-postgres
+  name: google_user
+  requires: []
+  schema:
+    postgres:
+      primaryKey:
+      - id
+      columns:
+      - name: id
+        type: text
+        constraints:
+          notNull: true
+      - name: email_address
+        type: text
+        constraints:
+          notNull: true
+      - name: avatar_url
+        type: text
+        constraints:
+          notNull: true          
+      - name: created_at
+        type: timestamp
+        constraints:
+          notNull: true
+      - name: last_login_at
+        type: timestamp
+        constraints:
+          notNull: true

@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nicedishy-api
+spec:
+  template:
+    spec:
+      containers:
+        - name: nicedishy-api
+          args: ["api", "--log-level", "debug"]
+          env:
+            - name: SESSION_KEY
+              value: this-is-not-too-secret
+            - name: ENCRYPTION_KEY
+              value: this-is-32-bytes-and-not-secret!
+            - name: API_ENDPOINT
+              value: http://localhost:30065
+            - name: WEB_ENDPOINT
+              value: http://localhost:30003
+            - name: CLUSTER_ENDPOINT
+              value: localhost:30066
+            - name: GOOGLE_CLIENTID
+              valueFrom:
+                secretKeyRef:
+                  name: nicedishy-google
+                  key: clientId
+            - name: GOOGLE_CLIENTSECRET
+              valueFrom:
+                secretKeyRef:
+                  name: nicedishy-google
+                  key: clientSecret
+            - name: GOOGLE_REDIRECTURI
+              value: http://localhost:30003/login/callback
+          

@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: nicedishy-promproxy
+  labels:
+    app: nicedishy-promproxy
+spec:
+  type: ClusterIP
+  ports:
+  - name: http
+    port: 3000
+    targetPort: http
+  selector:
+    app: nicedishy-promproxy

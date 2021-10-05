@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nicedishy-api
+spec:
+  selector:
+    matchLabels:
+      app: nicedishy-api
+  template:
+    metadata:
+      labels:
+        app: nicedishy-api
+    spec:
+      restartPolicy: Always
+      serviceAccountName: nicedishy
+      containers:
+        - name: nicedishy-api
+          image: nicedishy-api
+          imagePullPolicy: IfNotPresent
+          resources:
+            limits:
+              cpu: 200m
+              memory: 1000Mi
+            requests:
+              cpu: 100m
+              memory: 500Mi
+          args: ["api"]
+          ports:
+            - name: http
+              containerPort: 3000
+          env:
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.namespace
+            - name: POSTGRES_URI
+              valueFrom:
+                secretKeyRef:
+                  name: nicedishy-postgres # This secret is created in the migrations directory
+                  key: uri
+

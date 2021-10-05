@@ -1,0 +1,13 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nicedishy-promproxy
+spec:
+  template:
+    spec:
+      imagePullSecrets:
+        - name: ghcr
+      containers:
+        - name: nicedishy-promproxy
+          image: ghcr.io/marccampbell/gitops/nicedishy-promproxy
+          args: ["run", "--log-level", "debug"]

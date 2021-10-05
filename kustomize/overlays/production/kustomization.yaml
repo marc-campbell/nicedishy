@@ -1,0 +1,22 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: nicedishy
+resources:
+  - ./namespace.yaml
+  - ./imagepullsecret.yaml
+  - ../../base
+  - ../../../web/kustomize/overlays/production
+  - ../../../migrations/kustomize/overlays/production
+  - ./loadbalancer.yaml
+
+patches:
+  - ./deployment-api.yaml
+  - ./deployment-promproxy.yaml
+
+images:
+  - name: ghcr.io/marccampbell/gitops/nicedishy-api
+    newTag: NEW_TAG
+  - name: ghcr.io/marccampbell/gitops/nicedishy-web
+    newTag: NEW_TAG
+  - name: ghcr.io/marccampbell/gitops/nicedishy-promproxy
+    newTag: NEW_TAG
