@@ -10,27 +10,25 @@ import (
 
 	"github.com/marc-campbell/nicedishy/pkg/logger"
 	"github.com/marc-campbell/nicedishy/pkg/session"
+	"github.com/marc-campbell/nicedishy/pkg/stores"
 	"github.com/marc-campbell/nicedishy/pkg/user"
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/google"
 )
 
 type LoginCallbackRequest struct {
-	Code string `json:"code"`
+	Code  string `json:"code"`
+	State string `json:"state"`
 }
 
 type LoginCallbackResponse struct {
-	Error string `json:"error,omitempty"`
-	Token string `json:"token,omitempty"`
+	Error       string `json:"error,omitempty"`
+	Token       string `json:"token,omitempty"`
+	RedirectURI string `json:"redirectUri,omitempty"`
 }
 
 func LoginCallback(w http.ResponseWriter, r *http.Request) {
 	loginCallbackResponse := LoginCallbackResponse{}
-
-	/// state := r.URL.Query().Get("state")
-
-	// Verify state.
-	// TODO
 
 	loginCallbackRequest := LoginCallbackRequest{}
 	if err := json.NewDecoder(r.Body).Decode(&loginCallbackRequest); err != nil {
@@ -39,6 +37,23 @@ func LoginCallback(w http.ResponseWriter, r *http.Request) {
 		JSON(w, http.StatusInternalServerError, loginCallbackResponse)
 		return
 	}
+
+	ok, next, err := stores.GetStore().GetOAuthState(context.Background(), loginCallbackRequest.State)
+	if err != nil {
+		logger.Error(err)
+		loginCallbackResponse.Error = err.Error()
+		JSON(w, http.StatusInternalServerError, loginCallbackResponse)
+		return
+	}
+
+	fmt.Printf("\n1\n")
+	if !ok {
+		loginCallbackResponse.Error = "Invalid state"
+		JSON(w, http.StatusBadRequest, loginCallbackResponse)
+		return
+	}
+
+	loginCallbackResponse.RedirectURI = next
 
 	conf := &oauth2.Config{
 		ClientID:     os.Getenv("GOOGLE_CLIENTID"),

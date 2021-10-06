@@ -1,9 +1,11 @@
 package handlers
 
 import (
+	"context"
 	"net/http"
 	"os"
 
+	"github.com/marc-campbell/nicedishy/pkg/stores"
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/google"
 )
@@ -29,7 +31,15 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		Endpoint: google.Endpoint,
 	}
 
-	url := conf.AuthCodeURL("TODO")
+	next := r.URL.Query().Get("next")
+	state, err := stores.GetStore().CreateOAuthState(context.Background(), next)
+	if err != nil {
+		loginResponse.Error = err.Error()
+		JSON(w, http.StatusInternalServerError, loginResponse)
+		return
+	}
+
+	url := conf.AuthCodeURL(state)
 
 	loginResponse.RedirectURL = url
 

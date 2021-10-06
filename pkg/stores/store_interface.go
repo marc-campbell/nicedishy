@@ -30,6 +30,8 @@ type Store interface {
 
 	CreateSession(ctx context.Context, user *usertypes.User, accessToken string) (*sessiontypes.Session, error)
 	GetSession(ctx context.Context, id string) (*sessiontypes.Session, error)
+	CreateOAuthState(ctx context.Context, next string) (string, error)
+	GetOAuthState(ctx context.Context, state string) (bool, string, error)
 
 	GetUserByEmail(ctx context.Context, emailAddress string) (*usertypes.User, error)
 	GetUserByID(ctx context.Context, id string) (*usertypes.User, error)

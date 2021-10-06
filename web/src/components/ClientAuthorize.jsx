@@ -5,7 +5,16 @@ import * as url from "url";
 import "../scss/components/login.scss";
 import { Utilities } from '../utilities/utilities';
 
-class CompleteCLILogin extends React.Component {
+class ClientAuthorize extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      isLoading: true,
+      dishies: [],
+    }
+  }
+
   componentDidMount = async() => {
     if (!Utilities.isLoggedIn()) {
       return;
@@ -48,6 +57,10 @@ class CompleteCLILogin extends React.Component {
   }
 
   render() {
+    if (this.state.isLoading) {
+      return <div>loading</div>;
+    }
+
     return (
       <Flex alignSelf="center" paddingTop={50} paddingBottom={50} alignItems="center" justifyContent="center">
         <Box display="flex">
@@ -70,4 +83,4 @@ class CompleteCLILogin extends React.Component {
   }
 }
 
-export default CompleteCLILogin;
+export default ClientAuthorize;

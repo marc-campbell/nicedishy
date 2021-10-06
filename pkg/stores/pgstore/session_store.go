@@ -47,3 +47,42 @@ func (s PGStore) GetSession(ctx context.Context, id string) (*sessiontypes.Sessi
 
 	return &sess, nil
 }
+
+func (s PGStore) CreateOAuthState(ctx context.Context, next string) (string, error) {
+	pg := persistence.MustGetPGSession()
+
+	id, err := ksuid.NewRandom()
+	if err != nil {
+		return "", errors.Wrap(err, "failed to generate session id")
+	}
+
+	now := time.Now()
+
+	query := `insert into oauth_state (id, created_at, next) values ($1, $2, $3)`
+	_, err = pg.Exec(ctx, query, id.String(), now, next)
+	if err != nil {
+		return "", errors.Wrap(err, "insert oauth state")
+	}
+
+	return id.String(), nil
+}
+
+func (s PGStore) GetOAuthState(ctx context.Context, id string) (bool, string, error) {
+	pg := persistence.MustGetPGSession()
+
+	query := `select id, next from oauth_state where id = $1`
+	next := ""
+
+	row := pg.QueryRow(ctx, query, id)
+	if err := row.Scan(&id, &next); err != nil {
+		return false, "", errors.Wrap(err, "failed to scan oauth state")
+	}
+
+	query = `delete from oauth_state where id = $1`
+	_, err := pg.Exec(ctx, query, id)
+	if err != nil {
+		return false, "", errors.Wrap(err, "delete oauth state")
+	}
+
+	return true, next, nil
+}

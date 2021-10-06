@@ -1,15 +1,17 @@
 import * as React from 'react';
 import {Box, Flex, Button, Heading} from '@primer/components'
+import * as url from "url";
 
 import "../scss/components/login.scss";
 import { Utilities } from '../utilities/utilities';
 
 class Login extends React.Component {
   onClickLogin = async () => {
+    // ensure the user is logged out
     Utilities.logoutUser();
 
     try {
-      const res = await fetch(`${window.env.API_ENDPOINT}/login`);
+      const res = await fetch(`${window.env.API_ENDPOINT}/login?next=${encodeURIComponent(url.parse(window.location.href, true).query.next)}`);
       if (!res.ok) {
         console.log("error")
         return;

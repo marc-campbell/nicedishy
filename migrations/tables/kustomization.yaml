@@ -5,3 +5,4 @@ resources:
 - session.yaml
 - dishy.yaml
 - dishy_token.yaml
+- oauth_state.yaml

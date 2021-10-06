@@ -7,7 +7,6 @@ import UnsupportedBrowser from "./components/static/UnsupportedBrowser";
 import { Utilities } from "./utilities/utilities";
 import Login from "./components/Login";
 import LoginCallback from "./components/LoginCallback";
-import CompleteCLILogin from "./components/CompleteCLILogin";
 import LoggedInRoot from "./components/root/LoggedInRoot";
 import {ThemeProvider} from '@primer/components'
 
@@ -90,10 +89,9 @@ class Root extends Component {
             <Switch>
               <Route exact path="/login" render={props => <Login {...props} />} />
               <Route exact path="/login/callback" render={props => <LoginCallback {...props} />} />
-              <Route exact path="/complete-cli-login" render={props => <CompleteCLILogin {...props} />} />
               <Route path="/unsupported" component={UnsupportedBrowser} />
               <Route path="/" render={props =>
-                Utilities.isLoggedIn() ? <LoggedInRoot {...props} /> : <Redirect to="/login" />}
+                Utilities.isLoggedIn() ? <LoggedInRoot {...props} /> : <Redirect to={`/login?next=${props.location.pathname}`} />}
               />
             </Switch>
             <Footer />

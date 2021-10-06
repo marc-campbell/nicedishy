@@ -1,6 +1,4 @@
 import * as React from "react";
-import { Button, Card, Elevation } from "@blueprintjs/core";
-import { Grid, Row, Col } from "react-flexbox-grid";
 import * as url from "url";
 
 class LoginCallback extends React.Component {
@@ -9,6 +7,7 @@ class LoginCallback extends React.Component {
 
     this.state = {
       getAuthComplete: false,
+      next: "/",
     }
 
   }
@@ -25,10 +24,12 @@ class LoginCallback extends React.Component {
   }
 
     (async () => {
+      let next = "";
       try {
         const query = url.parse(window.location.href, true).query;
-        const sessionToken = await this.requestSessionToken(query.code);
-        window.localStorage.setItem("token", sessionToken);
+        const response = await this.requestSessionToken(query.code, query.state);
+        window.localStorage.setItem("token", response.token);
+        next = response.redirectUri === "" ? "/" : response.redirectUri;
       } catch (err) {
         console.log(err);
         this.props.history.replace("/error");
@@ -36,6 +37,7 @@ class LoginCallback extends React.Component {
       }
       this.setState({
         getAuthComplete: true,
+        next,
       });
     })();
   }
@@ -52,14 +54,10 @@ class LoginCallback extends React.Component {
       return;
     }
 
-    this.setState({
-      getAuthComplete: false,
-    });
-
-    this.props.history.replace("/");
+    this.props.history.replace(this.state.next);
   }
 
-  requestSessionToken = async (code) => {
+  requestSessionToken = async (code, state) => {
     const uri = `${window.env.API_ENDPOINT}/login/callback`;
     const response = await fetch(uri, {
       method: "post",
@@ -68,6 +66,7 @@ class LoginCallback extends React.Component {
       },  
       body: JSON.stringify({
         code,
+        state,
       }),
     });
 
@@ -76,7 +75,7 @@ class LoginCallback extends React.Component {
     }
 
     const body = await response.json();
-    return body.token;
+    return body;
   }
 
   render() {
