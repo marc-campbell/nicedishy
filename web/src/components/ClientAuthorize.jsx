@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {Box, Flex, Button, Heading} from '@primer/components'
+import {Box, Button, Heading, Link} from '@primer/components'
 import * as url from "url";
 
 import "../scss/components/login.scss";
@@ -12,17 +12,13 @@ class ClientAuthorize extends React.Component {
     this.state = {
       isLoading: true,
       dishies: [],
+      isComplete: false,
     }
   }
 
   componentDidMount = async() => {
-    if (!Utilities.isLoggedIn()) {
-      return;
-    }
-
-    try {
-      const query = url.parse(window.location.href, true).query;
-      const res = await fetch(`${window.env.API_ENDPOINT}/auth-cli?code=${query.code}`, {
+    try {   
+      const res = await fetch(`${window.env.API_ENDPOINT}/dishies`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -35,24 +31,37 @@ class ClientAuthorize extends React.Component {
       }
 
       const data = await res.json();
-      console.log(data);
+      
+      this.setState({
+        isLoading: false,
+        dishies: data.dishies,
+      });
     } catch (err) {
       console.error(err);
     }
   }
 
-  onClickLogin = async () => {
+  onSelectDishy = async(id) => {
     try {
-      const res = await fetch(`${window.env.API_ENDPOINT}/login`);
+      const res = await fetch(`${window.env.API_ENDPOINT}/dishy/${id}/token`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": Utilities.getToken(),
+        },
+      });
+
       if (!res.ok) {
-        console.log("error")
         return;
       }
 
       const data = await res.json();
-      window.location.href = data.redirectURL;
-    } catch(err) {
-      console.log(err);
+      window.open(`nicedishy://token?token=${data.token}`)
+      this.setState({
+        isComplete: true,
+      });
+    } catch (err) {
+      console.error(err);
     }
   }
 
@@ -60,25 +69,33 @@ class ClientAuthorize extends React.Component {
     if (this.state.isLoading) {
       return <div>loading</div>;
     }
+    
+    if (this.state.isComplete) {
+      return <div>You can close this window.</div>
+    }
+    
+    const dishies = this.state.dishies.map((dishy) => {
+      return (
+        <Link onClick={this.onSelectDishy.bind(this, dishy.id)} key={dishy.id}>
+          <Box display="flex" borderColor="#000" bg="#5b6b7c" color="#fff" borderWidth={1} borderStyle="solid" p={3} minWidth={600}>
+            <Box flex={1} fontWeight={600} fontSize="2em" color="#fff">{dishy.name}</Box>
+            <Box width={60}>---&gt;</Box>
+          </Box>
+        </Link>
+      );
+    });
 
     return (
-      <Flex alignSelf="center" paddingTop={50} paddingBottom={50} alignItems="center" justifyContent="center">
-        <Box display="flex">
-          <Box width={800}>
-            <Heading>Log in to CentralContext</Heading>
-            <strong>You will be taken to GitHub to authenticate.</strong>
-            <p>
-              By logging in, you are agreeing to our Terms of Service and Privacy Policy. We ask
-              for read access to your GitHub profile in order to provide a complete experience
-              here. We don't ask for permissions to change anything or to read your code on GitHub.
-            </p>
-          </Box>
-          <Box width={100}></Box>
-          <Box width={300} marginTop={30}>
-            <Button width="80%" onClick={this.onClickLogin}>Log In With GitHub</Button>
+      <Box flexDirection="column" display="flex" alignSelf="center" paddingTop={50} paddingBottom={50} alignItems="center" justifyContent="center">
+        <Box>
+          <Heading>Select a dishy</Heading>
+        </Box>
+        <Box>
+          <Box flexDirection="column" display="flex">
+            {dishies}
           </Box>
         </Box>
-      </Flex>
+      </Box>
     );
   }
 }

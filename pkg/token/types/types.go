@@ -1,10 +1,10 @@
 package types
 
 import (
-	usertypes "github.com/marc-campbell/nicedishy/pkg/user/types"
+	dishytypes "github.com/marc-campbell/nicedishy/pkg/dishy/types"
 )
 
 type Token struct {
-	SHA  string
-	User *usertypes.User
+	SHA   string
+	Dishy *dishytypes.Dishy
 }

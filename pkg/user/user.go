@@ -3,6 +3,7 @@ package user
 import (
 	"context"
 
+	"github.com/marc-campbell/nicedishy/pkg/dishy"
 	"github.com/marc-campbell/nicedishy/pkg/stores"
 	"github.com/marc-campbell/nicedishy/pkg/user/types"
 	"github.com/pkg/errors"
@@ -14,6 +15,10 @@ func GetOrCreate(ctx context.Context, email string, avatarURL string) (*types.Us
 		createdUser, err := stores.GetStore().CreateUser(ctx, email, avatarURL)
 		if err != nil {
 			return nil, errors.Wrap(err, "failed to create user")
+		}
+
+		if _, err := dishy.CreateDefaultForUser(ctx, createdUser.ID); err != nil {
+			return nil, errors.Wrap(err, "failed to create default for user")
 		}
 
 		return createdUser, nil

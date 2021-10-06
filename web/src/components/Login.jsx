@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {Box, Flex, Button, Heading} from '@primer/components'
+import {Box, Button, Heading} from '@primer/components'
 import * as url from "url";
 
 import "../scss/components/login.scss";
@@ -26,7 +26,7 @@ class Login extends React.Component {
 
   render() {
     return (
-      <Flex alignSelf="center" paddingTop={50} paddingBottom={50} alignItems="center" justifyContent="center">
+      <Box display="flex" alignSelf="center" paddingTop={50} paddingBottom={50} alignItems="center" justifyContent="center">
         <Box display="flex">
           <Box width={800}>
             <Heading>Log in to NiceDishy</Heading>
@@ -42,7 +42,7 @@ class Login extends React.Component {
             <Button width="80%" onClick={this.onClickLogin}>Log In With Google</Button>
           </Box>
         </Box>
-      </Flex>
+      </Box>
     );
   }
 }

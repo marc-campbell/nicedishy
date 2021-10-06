@@ -31,12 +31,16 @@ CURRENT_USER := $(shell id -u -n)
 export GO111MODULE=on
 export GOPROXY=https://proxy.golang.org
 
-.PHONE: all
-all: bin/nicedishy-api
+.PHONY: all
+all: bin/nicedishy-api bin/generate-data
 
 .PHONY: bin/nicedishy-api
 bin/nicedishy-api:
 	go build -o bin/nicedishy-api ./cmd/api
+
+.PHONY: bin/generate-data
+bin/generate-data:
+	go build -o bin/generate-data ./cmd/generate-data
 
 .PHONY: fmt
 fmt:

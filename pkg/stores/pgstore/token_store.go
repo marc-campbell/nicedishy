@@ -15,22 +15,22 @@ func (s PGStore) GetToken(ctx context.Context, token string) (*tokentypes.Token,
 
 	sha := fmt.Sprintf("%x", sha256.Sum256([]byte(token)))
 
-	query := `select user_id from user_token where token_sha = $1`
+	query := `select dishy_id from dishy_token where token_sha = $1`
 	row := pg.QueryRow(ctx, query, sha)
 
-	var userID string
-	if err := row.Scan(&userID); err != nil {
+	var dishyID string
+	if err := row.Scan(&dishyID); err != nil {
 		return nil, errors.Wrap(err, "scan user")
 	}
 
-	user, err := s.GetUserByID(ctx, userID)
+	dishy, err := s.GetDishy(ctx, dishyID)
 	if err != nil {
-		return nil, errors.Wrap(err, "get user")
+		return nil, errors.Wrap(err, "get dishy")
 	}
 
 	t := tokentypes.Token{
-		SHA:  sha,
-		User: user,
+		SHA:   sha,
+		Dishy: dishy,
 	}
 
 	return &t, nil
