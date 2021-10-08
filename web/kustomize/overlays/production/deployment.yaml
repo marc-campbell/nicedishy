@@ -9,7 +9,7 @@ spec:
         - name: ghcr
       containers:
         - name: nicedishy-web
-          image: ghcr.io/marccampbell/gitops/nicedishy-web
+          image: ghcr.io/marc-campbell/nicedishy-gitops/nicedishy-web
           env:
             - name: API_SERVER
               value: "https://api.nicedishy.com"

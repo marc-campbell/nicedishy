@@ -9,5 +9,5 @@ spec:
         - name: ghcr
       containers:
         - name: nicedishy-promproxy
-          image: ghcr.io/marccampbell/gitops/nicedishy-promproxy
+          image: ghcr.io/marc-campbell/nicedishy-gitops/nicedishy-promproxy
           args: ["run", "--log-level", "debug"]

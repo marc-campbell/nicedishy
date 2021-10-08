@@ -11,12 +11,11 @@ resources:
 
 patches:
   - ./deployment-api.yaml
-  - ./deployment-promproxy.yaml
 
 images:
-  - name: ghcr.io/marccampbell/gitops/nicedishy-api
+  - name: ghcr.io/marc-campbell/nicedishy-gitops/nicedishy-api
     newTag: NEW_TAG
-  - name: ghcr.io/marccampbell/gitops/nicedishy-web
+  - name: ghcr.io/marc-campbell/nicedishy-gitops/nicedishy-web
     newTag: NEW_TAG
-  - name: ghcr.io/marccampbell/gitops/nicedishy-promproxy
+  - name: ghcr.io/marc-campbell/nicedishy-gitops/nicedishy-promproxy
     newTag: NEW_TAG
