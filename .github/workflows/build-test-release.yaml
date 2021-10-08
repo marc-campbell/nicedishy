@@ -61,13 +61,6 @@ jobs:
           path: ./bin
       - run: chmod a+x ./bin/nicedishy-api      
         
-      - id: prep-api
-        run: |
-          DOCKER_IMAGE=ghcr.io/marc-campbell/nicedishy-gitops/nicedishy-api
-          VERSION=${GITHUB_REF#refs/tags/}
-          TAGS="${DOCKER_IMAGE}:${VERSION}"
-          echo ::set-output name=tags::${TAGS}        
-
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
       - uses: docker/login-action@v1.10.0
@@ -77,23 +70,22 @@ jobs:
           username: nicedishy-bot
           password: ${{ secrets.GITOPS_DEPLOY_TOKEN }}          
 
+      - name: Get the version
+        id: vars
+        run: echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
+
       - name: Build api image
         uses: docker/build-push-action@v2.6.1
         with:
           context: .
-          tags: ${{ steps.prep-api.outputs.tags }}
+          tags: ${{ steps.vars.outputs.sha_short }}
           file: ./deploy/Dockerfile.api
           push: true
          
-      - name: Get the version
-        id: get_tag
-        shell: bash
-        run: echo ::set-output name=GIT_TAG::${GITHUB_REF/refs\/tags\//}
-
       - name: Render kustomization image tags
         env:
-          GIT_TAG: ${{ steps.get_tag.outputs.GIT_TAG }}
-        run: sed -i "s/NEW_TAG/$GIT_TAG/g" kustomize/overlays/production/kustomization.yaml                 
+          VERSION: ${{ steps.vars.outputs.sha_short }}
+        run: sed -i "s/NEW_TAG/$VERSION/g" kustomize/overlays/production/kustomization.yaml                 
 
       - name: kustomize build it all
         uses: karancode/kustomize-github-action@master
@@ -101,9 +93,7 @@ jobs:
           kustomize_version: '4.1.0'
           kustomize_build_dir: './kustomize/overlays/production'
           kustomize_comment: true
-          kustomize_output_file: "gitops-rendered.yaml"
-        env:
-          GITHUB_ACCESS_TOKEN: ${{ secrets.GITHUB_ACCESS_TOKEN }}        
+          kustomize_output_file: "gitops-rendered.yaml" 
 
       - name: upload rendered yaml
         uses: actions/upload-artifact@v2.2.4
