@@ -122,7 +122,7 @@
     "react-helmet": "^5.2.1",
     "react-modal": "3.11.2",
     "react-select": "^2.4.3",
-    "react-tooltip": "4.2.6",
+    "react-tooltip": "4.2.21",
     "react-vis": "^1.11.7",
     "styled-components": "^5.2.3",
     "trim": "^1.0.1",
