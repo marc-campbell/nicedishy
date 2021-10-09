@@ -104,14 +104,14 @@ jobs:
         run: echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
 
       - name: Build api image
-        uses: docker/build-push-action@v2.6.1
+        uses: docker/build-push-action@v2.7.0
         with:
           context: .
           tags: ghcr.io/marc-campbell/nicedishy-gitops/nicedishy-api:${{ steps.vars.outputs.sha_short }}
           file: ./deploy/Dockerfile.api
           push: true
       - name: Build web image
-        uses: docker/build-push-action@v2.6.1
+        uses: docker/build-push-action@v2.7.0
         with:
           context: .
           tags: ghcr.io/marc-campbell/nicedishy-gitops/nicedishy-api:${{ steps.vars.outputs.sha_short }
