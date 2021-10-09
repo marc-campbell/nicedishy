@@ -116,7 +116,7 @@
     "prismjs": "1.23.0",
     "query-string": "6.13.1",
     "randomstring": "^1.1.5",
-    "react-apexcharts": "1.3.7",
+    "react-apexcharts": "1.3.9",
     "react-favicon": "^0.0.21",
     "react-flexbox-grid": "^2.1.2",
     "react-helmet": "^5.2.1",
