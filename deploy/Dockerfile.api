@@ -7,10 +7,6 @@ RUN wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-k
   && rm -rf /var/lib/apt/lists/*
 
 
-ENV PROJECTPATH=/go/src/github.com/marc-campbell/nicedishy
-WORKDIR $PROJECTPATH
-ADD Makefile $PROJECTPATH/
+ADD ./bin/nicedishy-api /nicedishy-api
 
-ADD ./bin/nicedishy-api ./bin/nicedishy-api
-
-ENTRYPOINT ["./bin/nicedishy-api"]
+ENTRYPOINT ["/nicedishy-api"]
