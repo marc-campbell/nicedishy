@@ -44,7 +44,7 @@ jobs:
           path: ./bin/nicedishy-api
 
       - name: Setup Node.js environment
-        uses: actions/setup-node@v2.3.0
+        uses: actions/setup-node@v2.4.1
         with:
           node-version: '12'
       - name: Get yarn cache directory path
