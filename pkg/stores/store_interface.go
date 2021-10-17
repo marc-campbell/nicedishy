@@ -2,6 +2,7 @@ package stores
 
 import (
 	"context"
+	"time"
 
 	dishytypes "github.com/marc-campbell/nicedishy/pkg/dishy/types"
 	sessiontypes "github.com/marc-campbell/nicedishy/pkg/session/types"
@@ -44,4 +45,5 @@ type Store interface {
 	GetDishyForUser(ctx context.Context, id string, userID string) (*dishytypes.Dishy, error)
 	CreateDishyToken(ctx context.Context, id string) (string, error)
 	GetDishy(ctx context.Context, id string) (*dishytypes.Dishy, error)
+	SetDishyLastReceivedStats(ctx context.Context, id string, when time.Time) error
 }

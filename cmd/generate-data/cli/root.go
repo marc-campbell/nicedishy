@@ -2,6 +2,7 @@ package cli
 
 import (
 	"fmt"
+	"math/rand"
 	"os"
 	"strings"
 	"time"
@@ -20,20 +21,26 @@ func RootCmd() *cobra.Command {
 			viper.BindPFlags(cmd.Flags())
 		},
 		RunE: func(cmd *cobra.Command, args []string) error {
+			rand.Seed(time.Now().Unix())
+
 			v := viper.GetViper()
 
 			token := v.GetString("token")
 
 			// generate 4 weeks of data for the token
 			end := time.Now()
-			current := end.Add(-time.Duration(time.Hour * 24 * 7 * 4))
+			//current := end.Add(-time.Duration(time.Hour * 24 * 7 * 4))
+			current := end.Add(-time.Duration(time.Hour * 24))
+
+			uptimeSeconds := 1500
 
 			for current.Before(end) {
-				if err := generator.GenerateAndSendData(token, current); err != nil {
+				if err := generator.GenerateAndSendData(token, current, uptimeSeconds); err != nil {
 					return err
 				}
 
 				current = current.Add(time.Minute * 5)
+				uptimeSeconds += 5
 			}
 			return nil
 		},

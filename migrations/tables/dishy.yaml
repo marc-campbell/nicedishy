@@ -27,3 +27,5 @@ spec:
         type: text
         constraints:
           notNull: true
+      - name: last_metric_at
+        type: timestamp

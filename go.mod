@@ -10,6 +10,8 @@ require (
 	github.com/jackc/pgx/v4 v4.13.0
 	github.com/kr/pretty v0.2.0 // indirect
 	github.com/pkg/errors v0.9.1
+	github.com/prometheus/client_golang v1.11.0 // indirect
+	github.com/prometheus/tsdb v0.7.1 // indirect
 	github.com/segmentio/ksuid v1.0.4
 	github.com/spf13/cobra v1.2.1
 	github.com/spf13/viper v1.8.1

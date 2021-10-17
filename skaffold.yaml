@@ -58,3 +58,11 @@ portForward:
   resourceName: nicedishy-api
   port: 3000
   localPort: 30065
+- resourceType: statefulset
+  resourceName: grafana
+  port: 3000
+  localPort: 33333
+- resourceType: service
+  resourceName: prometheus-operated
+  port: 9090
+  localPort: 9090

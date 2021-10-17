@@ -107,3 +107,14 @@ func (s PGStore) GetDishy(ctx context.Context, id string) (*dishytypes.Dishy, er
 
 	return &dishy, nil
 }
+
+func (s PGStore) SetDishyLastReceivedStats(ctx context.Context, id string, when time.Time) error {
+	pg := persistence.MustGetPGSession()
+
+	query := `update dishy set last_metric_at = $1 where id = $2 and not exists (select 1 from dishy where id = $3 and last_metric_at > $4)`
+	if _, err := pg.Exec(ctx, query, when, id, id, when); err != nil {
+		return fmt.Errorf("error setting last_metric_at: %v", err)
+	}
+
+	return nil
+}

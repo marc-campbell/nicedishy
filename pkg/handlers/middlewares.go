@@ -2,6 +2,9 @@ package handlers
 
 import (
 	"net/http"
+
+	dishytypes "github.com/marc-campbell/nicedishy/pkg/dishy/types"
+	tokentypes "github.com/marc-campbell/nicedishy/pkg/token/types"
 )
 
 func RequireValidSessionQuietMiddleware(next http.Handler) http.Handler {
@@ -26,4 +29,13 @@ func RequireValidTokenQuietMiddleware(next http.Handler) http.Handler {
 		r = setToken(r, t)
 		next.ServeHTTP(w, r)
 	})
+}
+
+func DishyFromTokenContext(r *http.Request) *dishytypes.Dishy {
+	val := r.Context().Value(tokenKey{})
+	tok, ok := val.(*tokentypes.Token)
+	if !ok {
+		return nil
+	}
+	return tok.Dishy
 }

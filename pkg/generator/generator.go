@@ -4,13 +4,14 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"math/rand"
 	"net/http"
 	"time"
 
 	"github.com/marc-campbell/nicedishy/pkg/handlers"
 )
 
-func GenerateAndSendData(token string, timestamp time.Time) error {
+func GenerateAndSendData(token string, timestamp time.Time, uptimeSeconds int) error {
 	hardwareVersion := "rev1_pre_production"
 	softwareVersion := "98601479-46bd-4c5a-acbf-2d4839518ce2.uterm.release"
 	endpoint := "http://localhost:30065"
@@ -22,6 +23,14 @@ func GenerateAndSendData(token string, timestamp time.Time) error {
 				HardwareVersion: hardwareVersion,
 				SoftwareVersion: softwareVersion,
 			},
+			DeviceState: handlers.StoreDataStatusDeviceStateRequest{
+				UptimeSeconds: uptimeSeconds,
+			},
+			State:                 "connected",
+			SNR:                   0.0 + rand.Float64()*(9.0-0.0),
+			DownlinkThroughputBps: 5000.0 + rand.Float64()*(7000.0-5000.0),
+			UplinkThroughputBps:   700.0 + rand.Float64()*(1200.0-700.0),
+			PopPingLatencyMs:      20.0 + rand.Float64()*(90.0-20.0),
 		},
 	}
 
