@@ -37,6 +37,8 @@ apiVersion: v1
 kind: Service
 metadata:
   name: prom-pushgateway
+  labels:
+    prom-data: external
 spec:
   type: ClusterIP
   ports:

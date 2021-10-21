@@ -66,3 +66,7 @@ portForward:
   resourceName: prometheus-operated
   port: 9090
   localPort: 9090
+- resourceType: service
+  resourceName: prom-pushgateway
+  port: 9091
+  localPort: 9091

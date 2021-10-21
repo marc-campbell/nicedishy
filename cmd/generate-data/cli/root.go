@@ -29,8 +29,8 @@ func RootCmd() *cobra.Command {
 
 			// generate 4 weeks of data for the token
 			end := time.Now()
-			//current := end.Add(-time.Duration(time.Hour * 24 * 7 * 4))
-			current := end.Add(-time.Duration(time.Hour * 24))
+			current := end.Add(-time.Duration(time.Hour * 24 * 7 * 4))
+			// current := end.Add(-time.Duration(time.Hour * 24))
 
 			uptimeSeconds := 1500
 

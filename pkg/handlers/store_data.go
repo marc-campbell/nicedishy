@@ -52,8 +52,6 @@ func StoreData(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	fmt.Printf("%#v\n", storeDataRequest)
-
 	// update the "last received data from" date of the dish
 	dishy := DishyFromTokenContext(r)
 	if dishy == nil {
@@ -94,5 +92,6 @@ func StoreData(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	fmt.Println("data sent to push gateway")
 	w.WriteHeader(http.StatusCreated)
 }
