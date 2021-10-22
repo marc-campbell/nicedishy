@@ -27,22 +27,20 @@ func RootCmd() *cobra.Command {
 
 			token := v.GetString("token")
 
-			// generate 4 weeks of data for the token
-			end := time.Now()
-			current := end.Add(-time.Duration(time.Hour * 24 * 7 * 4))
-			// current := end.Add(-time.Duration(time.Hour * 24))
+			current := time.Now()
 
 			uptimeSeconds := 1500
 
-			for current.Before(end) {
+			for {
 				if err := generator.GenerateAndSendData(token, current, uptimeSeconds); err != nil {
 					return err
 				}
 
 				current = current.Add(time.Minute * 5)
 				uptimeSeconds += 5
+
+				time.Sleep(time.Second * 5)
 			}
-			return nil
 		},
 	}
 

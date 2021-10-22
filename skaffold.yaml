@@ -70,3 +70,7 @@ portForward:
   resourceName: prom-pushgateway
   port: 9091
   localPort: 9091
+- resourceType: service
+  resourceName: minio
+  port: 9999
+  localPort: 9999

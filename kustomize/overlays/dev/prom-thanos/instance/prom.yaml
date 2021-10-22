@@ -41,11 +41,24 @@ subjects:
   name: prometheus
   namespace: default
 ---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: thanos-objstore-config
+data:
+  thanos.yaml: dHlwZTogczMKY29uZmlnOgogIGJ1Y2tldDogdGhhbm9zCiAgZW5kcG9pbnQ6IG1pbmlvOjkwMDAKICBhY2Nlc3Nfa2V5OiBhYmNkZWYxMjM0NTYKICBzZWNyZXRfa2V5OiBhYmNkZWYxMjM0NTY=
+---
 apiVersion: monitoring.coreos.com/v1
 kind: Prometheus
 metadata:
   name: prometheus
 spec:
+  thanos:
+    baseImage: quay.io/thanos/thanos
+    version: v0.23.1
+    objectStorageConfig:
+      key: thanos.yaml
+      name: thanos-objstore-config    
   serviceAccountName: prometheus
   serviceMonitorSelector:
     matchLabels:

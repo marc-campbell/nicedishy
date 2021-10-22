@@ -25,6 +25,7 @@ spec:
       - args:
           - server
           - /data
+          - --console-address=:9999
         env:
         - name: MINIO_ACCESS_KEY
           value: abcdef123456
@@ -48,6 +49,8 @@ spec:
         ports:
           - containerPort: 9000
             name: service
+          - containerPort: 9999
+            name: console
         readinessProbe:
           failureThreshold: 3
           httpGet:
@@ -74,3 +77,20 @@ spec:
       resources:
         requests:
           storage: 1Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: minio  
+spec:
+  ports:
+  - name: service
+    port: 9000
+    targetPort: 9000
+  - name: console
+    port: 9999
+    targetPort: 9999    
+  selector:
+    app: minio
+    release: minio
+  type: ClusterIP

@@ -31,6 +31,9 @@ func GenerateAndSendData(token string, timestamp time.Time, uptimeSeconds int) e
 			DownlinkThroughputBps: 5000.0 + rand.Float64()*(7000.0-5000.0),
 			UplinkThroughputBps:   700.0 + rand.Float64()*(1200.0-700.0),
 			PopPingLatencyMs:      20.0 + rand.Float64()*(90.0-20.0),
+			PopPingDropRate:       0.0 + rand.Float64()*(1.0-0.0),
+			PercentObstructed:     0.0 + rand.Float64()*(1.0-0.0),
+			SecondsObstructed:     0.0 + rand.Float64()*(900-0.0),
 		},
 	}
 
