@@ -54,3 +54,12 @@ vet:
 test: fmt vet
 	go test ./pkg/... ./cmd/...
 
+.PHONY: thanos
+thanos:
+	rm -rf kube-thanos
+	git clone https://github.com/thanos-io/kube-thanos.git kube-thanos
+	cd kube-thanos && make vendor
+	cd kube-thanos && ./build.sh ../thanos.jsonnet
+	rm -rf ./kustomize/overlays/dev/thanos && mkdir -p ./kustomize/overlays/dev/thanos
+	cp -r ../kube-thanos/manifests/* ./kustomize/overlays/dev/thanos
+	rm -rf kube-thanos

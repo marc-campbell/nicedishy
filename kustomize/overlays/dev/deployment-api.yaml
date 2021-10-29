@@ -31,4 +31,8 @@ spec:
                   key: clientSecret
             - name: GOOGLE_REDIRECTURI
               value: http://localhost:30003/login/callback
-          
+            - name: METRICS_DB_URI
+              valueFrom:
+                secretKeyRef:
+                  name: nicedishy-timescale
+                  key: uri

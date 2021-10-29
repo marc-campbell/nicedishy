@@ -3,14 +3,12 @@ package handlers
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 	"net/http"
 	"time"
 
 	"github.com/marc-campbell/nicedishy/pkg/logger"
+	"github.com/marc-campbell/nicedishy/pkg/persistence"
 	"github.com/marc-campbell/nicedishy/pkg/stores"
-	"github.com/prometheus/client_golang/prometheus"
-	"github.com/prometheus/client_golang/prometheus/push"
 )
 
 type StoreDataStatusDeviceStateRequest struct {
@@ -70,60 +68,10 @@ func StoreData(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	downlinkThroughputBps := prometheus.NewGauge(prometheus.GaugeOpts{
-		Name: "downlink_throughput_bps",
-		Help: "The reported downlink throughput in bits per second.",
-	})
-	downlinkThroughputBps.Set(storeDataRequest.Status.DownlinkThroughputBps)
-
-	uplinkThroughputBps := prometheus.NewGauge(prometheus.GaugeOpts{
-		Name: "uplink_throughput_bps",
-		Help: "The reported uplink throughput in bits per second.",
-	})
-	uplinkThroughputBps.Set(storeDataRequest.Status.UplinkThroughputBps)
-
-	snr := prometheus.NewGauge(prometheus.GaugeOpts{
-		Name: "snr",
-		Help: "The reported signal to noise ratio.",
-	})
-	snr.Set(storeDataRequest.Status.SNR)
-
-	popPingLatencyMs := prometheus.NewGauge(prometheus.GaugeOpts{
-		Name: "pop_ping_latency_ms",
-		Help: "The reported ping latency to the POP.",
-	})
-	popPingLatencyMs.Set(storeDataRequest.Status.PopPingLatencyMs)
-
-	popPingDropRate := prometheus.NewGauge(prometheus.GaugeOpts{
-		Name: "pop_ping_drop_rate",
-		Help: "The reported drop rate of the ping to the POP.",
-	})
-	popPingDropRate.Set(storeDataRequest.Status.PopPingDropRate)
-
-	percentObstructed := prometheus.NewGauge(prometheus.GaugeOpts{
-		Name: "percent_obstructed",
-		Help: "The reported percent obstructed.",
-	})
-	percentObstructed.Set(storeDataRequest.Status.PercentObstructed)
-
-	secondsObstructed := prometheus.NewGauge(prometheus.GaugeOpts{
-		Name: "seconds_obstructed",
-		Help: "The reported seconds obstructed.",
-	})
-	secondsObstructed.Set(storeDataRequest.Status.SecondsObstructed)
-
-	registry := prometheus.NewRegistry()
-
-	pusher := push.New("http://prom-pushgateway:9091", dishy.ID).Gatherer(registry)
-	pusher.Collector(downlinkThroughputBps)
-	pusher.Collector(uplinkThroughputBps)
-	pusher.Collector(snr)
-	pusher.Collector(popPingLatencyMs)
-	pusher.Collector(popPingDropRate)
-	pusher.Collector(percentObstructed)
-	pusher.Collector(secondsObstructed)
-
-	if err := pusher.Add(); err != nil {
+	metricsDB := persistence.MustGetMetricsDBSession()
+	query := `insert into dishy_data (time, dishy_id, state, snr, downlink_throughput_bps, uplink_throughput_bps, pop_ping_latency_ms, pop_ping_drop_rate, percent_obstructed, seconds_obstructed) values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`
+	_, err = metricsDB.Exec(context.Background(), query, when, dishy.ID, storeDataRequest.Status.State, storeDataRequest.Status.SNR, storeDataRequest.Status.DownlinkThroughputBps, storeDataRequest.Status.UplinkThroughputBps, storeDataRequest.Status.PopPingLatencyMs, storeDataRequest.Status.PopPingDropRate, storeDataRequest.Status.PercentObstructed, storeDataRequest.Status.SecondsObstructed)
+	if err != nil {
 		logger.Error(err)
 		storeDataResponse.Error = err.Error()
 		JSON(w, http.StatusInternalServerError, storeDataResponse)
@@ -137,6 +85,5 @@ func StoreData(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	fmt.Println("data sent to push gateway")
 	w.WriteHeader(http.StatusCreated)
 }

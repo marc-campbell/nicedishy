@@ -3,3 +3,4 @@ kind: Kustomization
 resources:
   - ../../base
   - ./postgres-secret.yaml
+  - ./timescale-secret.yaml

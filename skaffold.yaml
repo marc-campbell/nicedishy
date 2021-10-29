@@ -62,15 +62,3 @@ portForward:
   resourceName: grafana
   port: 3000
   localPort: 33333
-- resourceType: service
-  resourceName: prometheus-operated
-  port: 9090
-  localPort: 9090
-- resourceType: service
-  resourceName: prom-pushgateway
-  port: 9091
-  localPort: 9091
-- resourceType: service
-  resourceName: minio
-  port: 9999
-  localPort: 9999

@@ -19,3 +19,8 @@ spec:
               value: https://api.nicedishy.com
             - name: WEB_ENDPOINT
               value: https://nicedishy.com
+            - name: METRICS_DB_URI
+              valueFrom:
+                secretKeyRef:
+                  name: nicedishy-timescale
+                  key: uri

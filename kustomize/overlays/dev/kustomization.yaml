@@ -6,9 +6,8 @@ resources:
   - ../../../migrations/kustomize/overlays/dev
   - ./clusterrole.yaml
   - ./google-secret.yaml
-  - ./prom-thanos/instance
-  - ./minio.yaml
+  - ./timescale-secret.yaml
+  - ./grafana.yaml
   
 patches:
   - deployment-api.yaml
-  # - deployment-promproxy.yaml
