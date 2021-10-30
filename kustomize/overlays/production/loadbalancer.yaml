@@ -35,22 +35,4 @@ spec:
     - name: http
       port: 80
       targetPort: http
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: nicedishy-promproxy-lb
-  namespace: nicedishy
-  annotations:
-    service.beta.kubernetes.io/do-loadbalancer-name: "prom.nicedishy.com"
-    service.beta.kubernetes.io/do-loadbalancer-protocol: "tcp"
-  labels:
-    app: nicedishy-promproxy
-spec:
-  type: LoadBalancer
-  selector:
-    app: nicedishy-promproxy
-  ports:
-    - name: http
-      port: 443
-      targetPort: http
+

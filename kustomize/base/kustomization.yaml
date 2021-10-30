@@ -3,5 +3,3 @@ kind: Kustomization
 resources:
   - ./deployment-api.yaml
   - ./service-api.yaml
-  # - ./deployment-promproxy.yaml
-  - ./service-promproxy.yaml

@@ -39,10 +39,6 @@ build:
       context: "./"
       docker:
         dockerfile: ./Dockerfile.api.skaffold
-    # - image: promproxy
-    #   context: "./"
-    #   docker:
-    #     dockerfile: ./Dockerfile.promproxy.skaffold
 
 deploy:
   statusCheckDeadlineSeconds: 240

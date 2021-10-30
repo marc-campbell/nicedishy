@@ -18,5 +18,3 @@ images:
     newTag: NEW_TAG
   - name: ghcr.io/marc-campbell/nicedishy-gitops/nicedishy-web
     newTag: NEW_TAG
-  - name: ghcr.io/marc-campbell/nicedishy-gitops/nicedishy-promproxy
-    newTag: NEW_TAG
