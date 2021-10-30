@@ -31,3 +31,16 @@ create table dishy_data (
 );
 SELECT create_hypertable('dishy_data', 'time'); 
 ```
+
+
+## Flux
+
+Flux was installed with the following command (useful when upgrading):
+
+```
+
+```
+
+### Operations
+
+To see 
