@@ -4,6 +4,7 @@ namespace: nicedishy
 resources:
   - ./namespace.yaml
   - ./imagepullsecret.yaml
+  - ./google-secret.yaml
   - ../../base
   - ../../../web/kustomize/overlays/production
   - ../../../migrations/kustomize/overlays/production

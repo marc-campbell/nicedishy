@@ -63,3 +63,7 @@ thanos:
 	rm -rf ./kustomize/overlays/dev/thanos && mkdir -p ./kustomize/overlays/dev/thanos
 	cp -r ../kube-thanos/manifests/* ./kustomize/overlays/dev/thanos
 	rm -rf kube-thanos
+
+.PHONY: swag
+swag:
+	cd cmd/api && swag init

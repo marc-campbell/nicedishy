@@ -16,7 +16,7 @@ type LoginResponse struct {
 }
 
 // Login is the handler called from the client when they click the login button
-// This should generate the GitHub URL that we want to redirect the client to
+// This should generate the Google URL that we want to redirect the client to
 // and return it
 func Login(w http.ResponseWriter, r *http.Request) {
 	loginResponse := LoginResponse{}
