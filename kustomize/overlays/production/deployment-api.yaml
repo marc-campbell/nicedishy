@@ -19,7 +19,7 @@ spec:
               value: https://api.nicedishy.com
             - name: WEB_ENDPOINT
               value: https://nicedishy.com
-           - name: GOOGLE_CLIENTID
+            - name: GOOGLE_CLIENTID
               valueFrom:
                 secretKeyRef:
                   name: nicedishy-google
