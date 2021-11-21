@@ -19,6 +19,18 @@ spec:
               value: https://api.nicedishy.com
             - name: WEB_ENDPOINT
               value: https://nicedishy.com
+           - name: GOOGLE_CLIENTID
+              valueFrom:
+                secretKeyRef:
+                  name: nicedishy-google
+                  key: clientId
+            - name: GOOGLE_CLIENTSECRET
+              valueFrom:
+                secretKeyRef:
+                  name: nicedishy-google
+                  key: clientSecret
+            - name: GOOGLE_REDIRECTURI
+              value: https://nicedishy.com/login/callback
             - name: METRICS_DB_URI
               valueFrom:
                 secretKeyRef:
