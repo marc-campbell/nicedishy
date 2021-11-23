@@ -16,6 +16,6 @@ patches:
 
 images:
   - name: ghcr.io/marc-campbell/nicedishy-gitops/nicedishy-api
-    newTag: NEW_TAG
+    newTag: "NEW_TAG"
   - name: ghcr.io/marc-campbell/nicedishy-gitops/nicedishy-web
-    newTag: NEW_TAG
+    newTag: "NEW_TAG"
