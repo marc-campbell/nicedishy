@@ -70,8 +70,8 @@ swag:
 
 .PHONY: sealedsecrets
 sealedsecrets:
-	kubeseal --cert ./sealedsecret.pem --format yaml < ./kustomize/overlays/production/google-secret-raw.yaml > ./kustomize/overlays/production/google-secret.ymal
-	kubeseal --cert ./sealedsecret.pem --format yaml < ./kustomize/overlays/production/imagepullsecret-raw.yaml > ./kustomize/overlays/production/imagepullsecret.ymal
-	kubeseal --cert ./sealedsecret.pem --format yaml < ./migrations/kustomize/overlays/production/postgres-secret-raw.yaml > ./migrations/kustomize/overlays/production/postgres-secret.ymal
-	kubeseal --cert ./sealedsecret.pem --format yaml < ./migrations/kustomize/overlays/production/timescale-secret-raw.yaml > ./migrations/kustomize/overlays/production/timescale-secret.ymal
-	# kubeseal --cert ./sealedsecret.pem --format yaml < ./web/kustomize/overlays/production/cloudflare-secret-raw.yaml > ./web/kustomize/overlays/production/cloudflare-secret.ymal
+	kubeseal --cert ./sealedsecret.pem --format yaml < ./kustomize/overlays/production/google-secret-raw.yaml > ./kustomize/overlays/production/google-secret.yaml
+	kubeseal --cert ./sealedsecret.pem --format yaml < ./kustomize/overlays/production/imagepullsecret-raw.yaml > ./kustomize/overlays/production/imagepullsecret.yaml
+	kubeseal --cert ./sealedsecret.pem --format yaml < ./migrations/kustomize/overlays/production/postgres-secret-raw.yaml > ./migrations/kustomize/overlays/production/postgres-secret.yaml
+	kubeseal --cert ./sealedsecret.pem --format yaml < ./migrations/kustomize/overlays/production/timescale-secret-raw.yaml > ./migrations/kustomize/overlays/production/timescale-secret.yaml
+	# kubeseal --cert ./sealedsecret.pem --format yaml < ./web/kustomize/overlays/production/cloudflare-secret-raw.yaml > ./web/kustomize/overlays/production/cloudflare-secret.yaml
