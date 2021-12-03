@@ -11,6 +11,12 @@ ENV PROJECTPATH=/go/src/github.com/marc-campbell/nicedishy
 WORKDIR $PROJECTPATH
 ADD Makefile $PROJECTPATH/
 
-ADD ./bin/nicedishy-api ./bin/nicedishy-api
+ADD cmd .
+ADD pkg .
+ADD go.mod .
+ADD go.sum .
+ADD Makefile .
+
+RUN make bin/nicedishy-api
 
 ENTRYPOINT ["./bin/nicedishy-api"]
