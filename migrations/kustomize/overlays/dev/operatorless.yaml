@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  generateName: nicedishy-migrations
+  name: nicedishy-migrations
 spec:
   volumes:
     - name: migrations
