@@ -1,0 +1,10 @@
+icon: https://github.com/okteto/polling/raw/master/icon.png
+deploy:
+  - okteto build -t okteto.dev/nicedishy-frontend:${OKTETO_GIT_COMMIT} nicedishy-frontend
+  - okteto build -t okteto.dev/nicedishy-api:${OKTETO_GIT_COMMIT} nicedishy-api
+  - cd kustomize/overlays/dev && kustomize edit set image frontend=okteto.dev/nicedishy-frontend:${OKTETO_GIT_COMMIT}
+  - cd kustomize/overlays/dev && kustomize edit set image api=okteto.dev/nicedishy-api:${OKTETO_GIT_COMMIT}
+  - kubectl apply -k kustomize/overlays/dev
+devs:
+  - nicedishy/okteto.yml
+  - okteto.yml  

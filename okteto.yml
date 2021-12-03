@@ -1,0 +1,10 @@
+name: api
+image: okteto/golang:1
+command: bash
+workdir: /okteto
+sync:
+  - .:/usr/src/app
+resources:
+  limits:
+    cpu: "2"
+    memory: 4Gi

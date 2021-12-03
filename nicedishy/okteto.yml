@@ -1,0 +1,10 @@
+name: nicedishy-frontend
+image: okteto/node:16
+command: bash
+workdir: /okteto
+sync:
+  - .:/okteto
+resources:
+  limits:
+    cpu: "2"
+    memory: 4Gi
