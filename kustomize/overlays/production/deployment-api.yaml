@@ -7,6 +7,7 @@ spec:
     spec:
       imagePullSecrets:
         - name: ghcr
+      serviceAccountName: nicedishy          
       containers:
         - name: nicedishy-api
           image: ghcr.io/marc-campbell/nicedishy-gitops/nicedishy-api

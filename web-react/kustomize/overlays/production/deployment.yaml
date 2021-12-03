@@ -1,15 +1,15 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nicedishy-web
+  name: nicedishy-frontend
 spec:
   template:
     spec:
       imagePullSecrets:
         - name: ghcr
       containers:
-        - name: nicedishy-web
-          image: ghcr.io/marc-campbell/nicedishy-gitops/nicedishy-web
+        - name: nicedishy-frontend
+          image: ghcr.io/marc-campbell/nicedishy-gitops/nicedishy-frontend
           env:
             - name: API_SERVER
               value: "https://api.nicedishy.com"

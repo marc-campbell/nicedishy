@@ -1,12 +1,12 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nicedishy-web
+  name: nicedishy-frontend
 spec:
   template:
     spec:
       containers:
-        - name: nicedishy-web
+        - name: nicedishy-frontend
           ports:
             - name: http
               containerPort: 3000

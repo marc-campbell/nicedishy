@@ -12,7 +12,6 @@ spec:
         app: nicedishy-api
     spec:
       restartPolicy: Always
-      serviceAccountName: nicedishy
       containers:
         - name: nicedishy-api
           image: nicedishy-api

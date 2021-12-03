@@ -27,7 +27,7 @@ spec:
             requests:
               cpu: 100m
               memory: 500Mi
-          args: ["tunnel", "--no-autoupdate", "--origincert", "/etc/cloudflare/cert.pem", "--url", "http://nicedishy-web:3000", "--credentials-file", "/etc/cloudflare/f218bb48-2075-4d35-8745-fd206e429465.json"]
+          args: ["tunnel", "--no-autoupdate", "--origincert", "/etc/cloudflare/cert.pem", "--url", "http://nicedishy-frontend:3000", "--credentials-file", "/etc/cloudflare/f218bb48-2075-4d35-8745-fd206e429465.json"]
       volumes:
         - name: argo-tunnel
           secret:

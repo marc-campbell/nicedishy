@@ -18,7 +18,7 @@ build:
 
 
   artifacts:
-    - image: nicedishy-web
+    - image: nicedishy-frontend
       context: "./nicedishy"
       sync:
         manual:
@@ -42,7 +42,7 @@ deploy:
 
 portForward:
 - resourceType: deployment
-  resourceName: nicedishy-web
+  resourceName: nicedishy-frontend
   port: 3000
   localPort: 3000
 - resourceType: deployment

@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nicedishy-web
+  name: nicedishy-frontend
 spec:
   selector:
     matchLabels:
-      app: nicedishy-web
+      app: nicedishy-frontend
   template:
     metadata:
       labels:
-        app: nicedishy-web
+        app: nicedishy-frontend
     spec:
       containers:
-        - name: nicedishy-web
-          image: nicedishy-web
+        - name: nicedishy-frontend
+          image: nicedishy-frontend
           imagePullPolicy: IfNotPresent
 
 

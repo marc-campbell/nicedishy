@@ -7,11 +7,11 @@ metadata:
     service.beta.kubernetes.io/do-loadbalancer-name: "nicedishy.com"
     service.beta.kubernetes.io/do-loadbalancer-protocol: "http"
   labels:
-    app: nicedishy-web
+    app: nicedishy-frontend
 spec:
   type: LoadBalancer
   selector:
-    app: nicedishy-web
+    app: nicedishy-frontend
   ports:
     - name: http
       port: 80
