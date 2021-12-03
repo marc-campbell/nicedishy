@@ -4,7 +4,7 @@ kind: Config
 profiles:
   - name: codespace
     activation:
-      - env: USER=codespace 
+      - env: USER=codespace
     build:
       local:
         concurrency: 0
@@ -19,18 +19,12 @@ build:
 
   artifacts:
     - image: nicedishy-web
-      context: "./web"
+      context: "./nicedishy"
       sync:
         manual:
-          - src: "src/**/*.jsx"
+          - src: "pages/**"
             dest: "./"
-          - src: "src/**/*.js"
-            dest: "./"
-          - src: "src/**/*.png"
-            dest: "./"
-          - src: "src/**/*.scss"
-            dest: "./"
-          - src: "src/**/*.css"
+          - src: "styles/**"
             dest: "./"
       docker:
         dockerfile: ./Dockerfile.skaffold
@@ -49,7 +43,8 @@ deploy:
 portForward:
 - resourceType: deployment
   resourceName: nicedishy-web
-  port: 30003
+  port: 3000
+  localPort: 3000
 - resourceType: deployment
   resourceName: nicedishy-api
   port: 3000

@@ -1,0 +1,15 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nicedishy-web
+spec:
+  template:
+    spec:
+      containers:
+        - name: nicedishy-web
+          ports:
+            - name: http
+              containerPort: 3000
+          env:
+            - name: API_SERVER
+              value: "http://localhost:30065"

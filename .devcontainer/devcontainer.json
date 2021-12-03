@@ -45,11 +45,10 @@
 	// Add the IDs of extensions you want installed when the container is created.
 	"extensions": [
 		"dbaeumer.vscode-eslint",
-        "GitHub.vscode-pull-request-github",
         "golang.go",
         "github.copilot",
         "lizebang.bash-extension-pack",
-        "streetsidesoftware.code-spell-checker",
+        "editorconfig.editorconfig"
 	],
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally. These are automated from skaffold
