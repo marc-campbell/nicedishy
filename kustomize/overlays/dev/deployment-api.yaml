@@ -5,6 +5,10 @@ metadata:
 spec:
   template:
     spec:
+      volumes:
+        - name: migrations
+          emptyDir:
+            medium: Memory    
       initContainers:
         - image: nicedishy-migrations
           name: migrations-plan
