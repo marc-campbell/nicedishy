@@ -9,7 +9,7 @@ spec:
         medium: Memory
   restartPolicy: OnFailure
   initContainers:
-    - image: migrations-image
+    - image: nicedishy-migrations
       name: migrations-plan
       volumeMounts:
         - name: migrations
@@ -28,7 +28,7 @@ spec:
               name: my-postgres-secret
               key: uri
   containers:
-    - image: migrations-image
+    - image: nicedishy-migrations
       name: migrations-apply
       volumeMounts:
         - name: migrations
