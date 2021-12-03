@@ -5,6 +5,42 @@ metadata:
 spec:
   template:
     spec:
+      initContainers:
+        - image: nicedishy-migrations
+          name: migrations-plan
+          volumeMounts:
+            - name: migrations
+              mountPath: /migrations
+          args: ["plan"]
+          env:
+            - name: SCHEMAHERO_DRIVER
+              value: postgres
+            - name: SCHEMAHERO_SPEC_FILE
+              value: /tables
+            - name: SCHEMAHERO_OUT
+              value: /migrations/plan.yaml
+            - name: SCHEMAHERO_URI
+              valueFrom:
+                secretKeyRef:
+                  name: nicedishy-postgres
+                  key: uri
+        - image: nicedishy-migrations
+          name: migrations-apply
+          volumeMounts:
+            - name: migrations
+              mountPath: /migrations
+          args: ["apply"]
+          env:
+            - name: SCHEMAHERO_DRIVER
+              value: postgres
+            - name: SCHEMAHERO_DDL
+              value: /migrations/plan.yaml
+            - name: SCHEMAHERO_URI
+              valueFrom:
+                secretKeyRef:
+                  name: nicedishy-postgres
+                  key: uri
+
       containers:
         - name: nicedishy-api
           args: ["api", "--log-level", "debug"]
