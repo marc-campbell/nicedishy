@@ -22,8 +22,8 @@ func Start() {
 	**********************************************************************/
 
 	r.HandleFunc("/healthz", handlers.Healthz)
-	r.HandleFunc("/api/v1/login", handlers.Login)
-	r.Path("/api/v1/login/callback").Methods("POST").HandlerFunc(handlers.LoginCallback)
+	r.HandleFunc("/v1/login", handlers.Login)
+	r.Path("/v1/login/callback").Methods("POST").HandlerFunc(handlers.LoginCallback)
 
 	/**********************************************************************
 	* Static routes
@@ -34,12 +34,12 @@ func Start() {
 	**********************************************************************/
 	sessionAuthQuietRouter := r.PathPrefix("").Subrouter()
 	sessionAuthQuietRouter.Use(handlers.RequireValidSessionQuietMiddleware)
-	sessionAuthQuietRouter.Path("/api/v1/dishies").Methods("GET").HandlerFunc(handlers.GetDishies)
-	sessionAuthQuietRouter.Path("/api/v1/dishy/{id}/token").Methods("GET").HandlerFunc(handlers.GetDishyToken)
+	sessionAuthQuietRouter.Path("/v1/dishies").Methods("GET").HandlerFunc(handlers.GetDishies)
+	sessionAuthQuietRouter.Path("/v1/dishy/{id}/token").Methods("GET").HandlerFunc(handlers.GetDishyToken)
 
 	tokenAuthQuietRouter := r.PathPrefix("").Subrouter()
 	tokenAuthQuietRouter.Use(handlers.RequireValidTokenQuietMiddleware)
-	tokenAuthQuietRouter.Path("/api/v1/stats").Methods("POST").HandlerFunc(handlers.StoreData)
+	tokenAuthQuietRouter.Path("/v1/stats").Methods("POST").HandlerFunc(handlers.StoreData)
 
 	srv := &http.Server{
 		Handler: r,

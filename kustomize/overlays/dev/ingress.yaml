@@ -14,19 +14,8 @@ spec:
               service:
                 name: nicedishy-frontend
                 port:
-                  number: 3000
----       
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: nicedishy-api
-  annotations:
-    dev.okteto.com/generate-host: "true"
-spec:
-  rules:
-    - http:
-        paths:           
-          - path: /
+                  number: 3000                  
+          - path: /api
             pathType: Prefix
             backend:
               service:
