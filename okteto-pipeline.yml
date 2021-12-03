@@ -1,9 +1,14 @@
 icon: https://github.com/okteto/polling/raw/master/icon.png
 deploy:
+  - envsubst < kustomize/overlays/dev/google-secret-tmpl.yaml > kustomize/overlays/dev/google-secret.yaml
+  - envsubst < kustomize/overlays/dev/timescale-secret-tmpl.yaml > kustomize/overlays/dev/timescale-secret.yaml
+
   - okteto build -f ./nicedishy/Dockerfile.skaffold -t okteto.dev/nicedishy-frontend:${OKTETO_GIT_COMMIT} nicedishy
   - okteto build -f ./Dockerfile.api.skaffold -t okteto.dev/nicedishy-api:${OKTETO_GIT_COMMIT} .
+  
   - cd kustomize/overlays/dev && kustomize edit set image frontend=okteto.dev/nicedishy-frontend:${OKTETO_GIT_COMMIT}
   - cd kustomize/overlays/dev && kustomize edit set image api=okteto.dev/nicedishy-api:${OKTETO_GIT_COMMIT}
+  
   - kubectl apply -k kustomize/overlays/dev
 devs:
   - nicedishy/okteto.yml
