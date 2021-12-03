@@ -8,3 +8,5 @@ resources:
   limits:
     cpu: "2"
     memory: 4Gi
+environment:
+  - API_ENDPOINT=https://nicedishy-api-marccampbell.cloud.okteto.net/
