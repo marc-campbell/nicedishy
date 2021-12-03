@@ -1,0 +1,3 @@
+FROM schemahero/schemahero:latest
+
+ADD --chown=schemahero:schemahero ./tables ./tables
