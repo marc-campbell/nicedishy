@@ -4,7 +4,6 @@ resources:
   - ../../base
   - ../../../nicedishy/kustomize/overlays/dev
   - ../../../migrations/kustomize/overlays/dev
-  - ./clusterrole.yaml
   - ./google-secret.yaml
   - ./timescale-secret.yaml
   - ./grafana.yaml
