@@ -6,4 +6,6 @@ ADD . .
 
 EXPOSE 3000
 
+RUN yarn 
+
 ENTRYPOINT ["yarn", "dev"]
