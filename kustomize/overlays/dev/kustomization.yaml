@@ -8,7 +8,6 @@ resources:
   - ./timescale-secret.yaml
   - ./grafana.yaml
   - ./ingress.yaml
-  - ./clusterip.yaml
 
 patches:
   - deployment-api.yaml
