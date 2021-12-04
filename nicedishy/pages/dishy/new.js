@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router'
 import Layout from "../../components/layout";
 import { FormGroup, TextInput, Button } from '@primer/components';
+import { Utilities } from '../../utils/utilities';
 
 export default function Page() {
   const router = useRouter();
@@ -9,7 +10,28 @@ export default function Page() {
   const [name, setName] = useState("");
 
   const handleSave = async () => {
-    console.log('here');
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/v1/dishy`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': Utilities.getToken(),
+        },
+        body: JSON.stringify({
+          name,
+        }),
+      });
+
+      if (!res.ok) {
+        console.error('Error creating dishy');
+        return;
+      }
+
+      const data = await res.json();
+      console.log(data);
+    } catch(err) {
+      console.error(err);
+    }
   }
 
   return (
