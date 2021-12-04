@@ -4,6 +4,7 @@ import (
 	"context"
 	"time"
 
+	"github.com/jackc/pgx/v4"
 	"github.com/marc-campbell/nicedishy/pkg/persistence"
 	sessiontypes "github.com/marc-campbell/nicedishy/pkg/session/types"
 	usertypes "github.com/marc-campbell/nicedishy/pkg/user/types"
@@ -75,6 +76,10 @@ func (s PGStore) GetOAuthState(ctx context.Context, id string) (bool, string, er
 
 	row := pg.QueryRow(ctx, query, id)
 	if err := row.Scan(&id, &next); err != nil {
+		if err == pgx.ErrNoRows {
+			return false, "", nil
+		}
+
 		return false, "", errors.Wrap(err, "failed to scan oauth state")
 	}
 

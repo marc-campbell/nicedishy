@@ -2,7 +2,7 @@ import * as React from "react";
 import {Box, Button, Heading} from "@primer/components"
 import * as url from "url";
 
-import { Utilities } from "../utils/utilities";
+import { Utilities } from "../../utils/utilities";
 
 class Login extends React.Component {
   onClickLogin = async () => {

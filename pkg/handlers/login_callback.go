@@ -46,13 +46,16 @@ func LoginCallback(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	fmt.Printf("\n1\n")
 	if !ok {
 		loginCallbackResponse.Error = "Invalid state"
 		JSON(w, http.StatusBadRequest, loginCallbackResponse)
 		return
 	}
 
+	if next == "undefined" {
+		next = ""
+	}
+	
 	loginCallbackResponse.RedirectURI = next
 
 	conf := &oauth2.Config{
