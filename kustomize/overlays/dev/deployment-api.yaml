@@ -54,9 +54,9 @@ spec:
             - name: ENCRYPTION_KEY
               value: this-is-32-bytes-and-not-secret!
             - name: API_ENDPOINT
-              value: http://localhost:30065
+              value: https://nicedishy-api-marccampbell.cloud.okteto.net
             - name: WEB_ENDPOINT
-              value: http://localhost:30003
+              value: https://nicedishy-marccampbell.cloud.okteto.net
             - name: CLUSTER_ENDPOINT
               value: localhost:30066
             - name: GOOGLE_CLIENTID
@@ -70,7 +70,7 @@ spec:
                   name: nicedishy-google
                   key: clientSecret
             - name: GOOGLE_REDIRECTURI
-              value: http://localhost:30003/login/callback
+              value: https://nicedishy-marccampbell.cloud.okteto.net/login/callback
             - name: METRICS_DB_URI
               valueFrom:
                 secretKeyRef:

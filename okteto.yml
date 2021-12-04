@@ -1,9 +1,9 @@
-name: api
+name: nicedishy-api
 image: okteto/golang:1
 command: bash
-workdir: /okteto
+workdir: /go/src/github.com/marc-campbell/nicedishy
 sync:
-  - .:/usr/src/app
+  - .:/go/src/github.com/marc-campbell/nicedishy
 resources:
   limits:
     cpu: "2"

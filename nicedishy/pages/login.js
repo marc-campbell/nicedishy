@@ -10,7 +10,7 @@ class Login extends React.Component {
     Utilities.logoutUser();
 
     try {
-      const res = await fetch(`${process.env.API_ENDPOINT}/login?next=${encodeURIComponent(url.parse(window.location.href, true).query.next)}`);
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/v1/login?next=${encodeURIComponent(url.parse(window.location.href, true).query.next)}`);
       if (!res.ok) {
         console.log("error")
         return;
