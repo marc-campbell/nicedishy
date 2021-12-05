@@ -5,7 +5,9 @@ export default function Layout({ children }) {
   return (
     <>
       <Navbar />
-      <main>{children}</main>
+      <div class="col-lg-8 mx-auto p-3 py-md-5">
+        <main>{children}</main>
+      </div>
       <Footer />
     </>
   )

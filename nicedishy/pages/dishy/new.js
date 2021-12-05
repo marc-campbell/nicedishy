@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router'
 import Layout from "../../components/layout";
-import { FormGroup, TextInput, Button } from '@primer/components';
 import { Utilities } from '../../utils/utilities';
 
 export default function Page() {
@@ -28,7 +27,7 @@ export default function Page() {
       }
 
       const data = await res.json();
-      console.log(data);
+      router.push('/dishies');
     } catch(err) {
       console.error(err);
     }

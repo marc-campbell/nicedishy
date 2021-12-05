@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Utilities } from "../../utils/utilities";
 import { useRouter } from 'next/router'
+import Layout from "../../components/layout";
 
-function Dishies() {
+export default function Page() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [dishies, setDishies] = useState([]);
@@ -48,7 +49,6 @@ function Dishies() {
 
   return (
     <div>
-      <h1>Dishy (or Dishies if you are lucky)</h1>
       {
         dishies.map((dishy) => {
           return (
@@ -65,4 +65,10 @@ function Dishies() {
   );
 }
 
-export default Dishies;
+Page.getLayout = function getLayout(page) {
+  return (
+    <Layout>
+      {page}
+    </Layout>
+  );
+}
