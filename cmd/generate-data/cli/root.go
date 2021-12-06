@@ -27,17 +27,21 @@ func RootCmd() *cobra.Command {
 
 			token := v.GetString("token")
 
-			current := time.Now()
+			current := time.Now().UTC().Add(-1 * viper.GetDuration("duration"))
 
 			uptimeSeconds := 1500
 
 			for {
-				if err := generator.GenerateAndSendData(token, current, uptimeSeconds); err != nil {
+				if err := generator.GenerateAndSendData(v.GetString("endpoint"), token, current, uptimeSeconds); err != nil {
 					return err
 				}
 
 				current = current.Add(time.Minute * 5)
 				uptimeSeconds += 5
+
+				if current.After(time.Now()) {
+					return nil
+				}
 
 				time.Sleep(time.Second * 5)
 			}
@@ -50,6 +54,8 @@ func RootCmd() *cobra.Command {
 
 	cmd.Flags().String("token", "", "the token")
 	cmd.MarkFlagRequired("token")
+	cmd.Flags().String("endpoint", "https://api.nicedishy.com", "endpoint of the api server")
+	cmd.Flags().Duration("duration", time.Hour*7*24, "number of days to ingest")
 
 	return cmd
 }

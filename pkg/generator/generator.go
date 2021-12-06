@@ -11,10 +11,9 @@ import (
 	"github.com/marc-campbell/nicedishy/pkg/handlers"
 )
 
-func GenerateAndSendData(token string, timestamp time.Time, uptimeSeconds int) error {
+func GenerateAndSendData(endpoint string, token string, timestamp time.Time, uptimeSeconds int) error {
 	hardwareVersion := "rev1_pre_production"
 	softwareVersion := "98601479-46bd-4c5a-acbf-2d4839518ce2.uterm.release"
-	endpoint := "http://localhost:30065"
 
 	storeDataRequest := handlers.StoreDataRequest{
 		When: timestamp.Format(time.RFC3339),

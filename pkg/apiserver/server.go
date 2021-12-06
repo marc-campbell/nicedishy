@@ -48,7 +48,7 @@ func Start() {
 		Addr:    ":3000",
 	}
 
-	fmt.Printf("Starting nicedishy api on port %d...\n", 3000)
+	fmt.Printf("Starting nicedishy-api on port %d...\n", 3000)
 
 	log.Fatal(srv.ListenAndServe())
 }

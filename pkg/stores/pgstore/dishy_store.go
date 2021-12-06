@@ -15,7 +15,7 @@ import (
 func (s PGStore) ListDishies(ctx context.Context, userID string) ([]*dishytypes.Dishy, error) {
 	pg := persistence.MustGetPGSession()
 
-	query := `select id, created_at, name from dishy where user_id = $1`
+	query := `select id, created_at, last_metric_at, name from dishy where user_id = $1`
 	rows, err := pg.Query(ctx, query, userID)
 	if err != nil {
 		return nil, fmt.Errorf("error querying for dishies: %v", err)
@@ -24,10 +24,16 @@ func (s PGStore) ListDishies(ctx context.Context, userID string) ([]*dishytypes.
 	dishies := []*dishytypes.Dishy{}
 	for rows.Next() {
 		var d dishytypes.Dishy
-		err := rows.Scan(&d.ID, &d.CreatedAt, &d.Name)
+		var lastMetricAt sql.NullTime
+		err := rows.Scan(&d.ID, &d.CreatedAt, &lastMetricAt, &d.Name)
 		if err != nil {
 			return nil, fmt.Errorf("error scanning for dishies: %v", err)
 		}
+
+		if lastMetricAt.Valid {
+			d.LastMetricAt = &lastMetricAt.Time
+		}
+
 		dishies = append(dishies, &d)
 	}
 
@@ -58,16 +64,21 @@ func (s PGStore) CreateDishy(ctx context.Context, userID string, name string) (*
 func (s PGStore) GetDishyForUser(ctx context.Context, id string, userID string) (*dishytypes.Dishy, error) {
 	pg := persistence.MustGetPGSession()
 
-	query := `select id, created_at, name from dishy where user_id = $1 and id = $2`
+	query := `select id, created_at, last_metric_at, name from dishy where user_id = $1 and id = $2`
 	row := pg.QueryRow(ctx, query, userID, id)
 
 	dishy := dishytypes.Dishy{}
+	lastMetricAt := sql.NullTime{}
 
-	if err := row.Scan(&dishy.ID, &dishy.CreatedAt, &dishy.Name); err != nil {
+	if err := row.Scan(&dishy.ID, &dishy.CreatedAt, &lastMetricAt, &dishy.Name); err != nil {
 		if err == sql.ErrNoRows {
 			return nil, nil
 		}
 
+	}
+
+	if lastMetricAt.Valid {
+		dishy.LastMetricAt = &lastMetricAt.Time
 	}
 
 	return &dishy, nil
@@ -93,16 +104,21 @@ func (s PGStore) CreateDishyToken(ctx context.Context, id string) (string, error
 func (s PGStore) GetDishy(ctx context.Context, id string) (*dishytypes.Dishy, error) {
 	pg := persistence.MustGetPGSession()
 
-	query := `select id, created_at, name from dishy where id = $1`
+	query := `select id, created_at, last_metric_at, name from dishy where id = $1`
 	row := pg.QueryRow(ctx, query, id)
 
 	dishy := dishytypes.Dishy{}
+	lastMetricAt := sql.NullTime{}
 
-	if err := row.Scan(&dishy.ID, &dishy.CreatedAt, &dishy.Name); err != nil {
+	if err := row.Scan(&dishy.ID, &dishy.CreatedAt, &lastMetricAt, &dishy.Name); err != nil {
 		if err == sql.ErrNoRows {
 			return nil, nil
 		}
 
+	}
+
+	if lastMetricAt.Valid {
+		dishy.LastMetricAt = &lastMetricAt.Time
 	}
 
 	return &dishy, nil

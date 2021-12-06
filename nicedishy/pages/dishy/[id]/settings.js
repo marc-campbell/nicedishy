@@ -9,6 +9,15 @@ export default function Page() {
 
   const [name, setName] = useState("");
 
+  fetchDishy( async () => {
+
+  });
+
+  useEffect( async () => {
+    const data = await fetchDishy();
+    console.log(data);
+  }, []);
+
   const handleSave = async () => {
 
   }

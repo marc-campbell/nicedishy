@@ -1,6 +1,7 @@
 
 @import '~bootstrap/dist/css/bootstrap.min.css';
 @import '~bootstrap-icons/font/bootstrap-icons.css';
+@import '~react-vis/dist/style.css';
 
 .card-hover .read-more:hover {
   font-size: 14px;
