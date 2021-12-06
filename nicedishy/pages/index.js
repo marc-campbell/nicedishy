@@ -61,11 +61,11 @@ export default function Home() {
                 <ul className="navbar-nav">
 
                 <li className="nav-item">
-                    <a className="btn" href="/docs">Docs</a>
+                    <Link className="btn" href="/docs">Docs</Link>
                   </li>
 
                   <li className="nav-item">
-                    <a className="btn btn-primary btn-transition" href="/login">Log In</a>
+                    <Link className="btn btn-primary btn-transition" href="/login">Log In</Link>
                   </li>
                 </ul>
               </div>

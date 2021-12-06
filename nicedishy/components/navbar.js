@@ -1,5 +1,6 @@
 import * as React from "react";
 import { Utilities } from "../utils/utilities";
+import Link from 'next/link'
 
 export default function Navbar() {
   const handleLogout = () => {
@@ -9,9 +10,9 @@ export default function Navbar() {
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
       <div className="container-fluid">
-        <a className="navbar-brand" href="/">
+        <Link className="navbar-brand" href="/">
           <img src="/images/icon-white.png" alt="" width="30" height="24" />
-        </a>
+        </Link>
         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon"></span>
         </button>

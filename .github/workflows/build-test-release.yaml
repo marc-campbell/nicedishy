@@ -1,166 +1,166 @@
-# name: build-test-release
+name: build-test-release
 
-# on:
-#   push:
-#     branches:
-#       - "**"
+on:
+  push:
+    branches:
+      - "**"
 
-# jobs:
-#   build:
-#     runs-on: ubuntu-18.04
-#     steps:
-#       - uses: actions/setup-go@v2.1.4
-#         with:
-#           go-version: '^1.16.8'
+jobs:
+  build:
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/setup-go@v2.1.4
+        with:
+          go-version: '^1.16.8'
 
-#       - name: setup env
-#         run: |
-#           echo "GOPATH=$(go env GOPATH)" >> $GITHUB_ENV
-#           echo "$(go env GOPATH)/bin" >> $GITHUB_PATH
-#         shell: bash
+      - name: setup env
+        run: |
+          echo "GOPATH=$(go env GOPATH)" >> $GITHUB_ENV
+          echo "$(go env GOPATH)/bin" >> $GITHUB_PATH
+        shell: bash
 
-#       - id: go-cache-paths
-#         run: |
-#           echo "::set-output name=go-build::$(go env GOCACHE)"
-#           echo "::set-output name=go-mod::$(go env GOMODCACHE)"
-#       - uses: actions/checkout@v2.3.4
+      - id: go-cache-paths
+        run: |
+          echo "::set-output name=go-build::$(go env GOCACHE)"
+          echo "::set-output name=go-mod::$(go env GOMODCACHE)"
+      - uses: actions/checkout@v2.3.4
 
-#       - uses: actions/cache@v2.1.6
-#         with:
-#           path: ${{ steps.go-cache-paths.outputs.go-build }}
-#           key: ${{ runner.os }}-go-build-${{ hashFiles('**/go.sum') }}
-#       - uses: actions/cache@v2.1.6
-#         with:
-#           path: ${{ steps.go-cache-paths.outputs.go-mod }}
-#           key: ${{ runner.os }}-go-mod-${{ hashFiles('**/go.sum') }}
+      - uses: actions/cache@v2.1.6
+        with:
+          path: ${{ steps.go-cache-paths.outputs.go-build }}
+          key: ${{ runner.os }}-go-build-${{ hashFiles('**/go.sum') }}
+      - uses: actions/cache@v2.1.6
+        with:
+          path: ${{ steps.go-cache-paths.outputs.go-mod }}
+          key: ${{ runner.os }}-go-mod-${{ hashFiles('**/go.sum') }}
 
 
-#       - run: make test
-#       - run: make all
+      - run: make test
+      - run: make all
 
-#       - uses: actions/upload-artifact@v2.2.4
-#         with:
-#           name: nicedishy-api
-#           path: ./bin/nicedishy-api
+      - uses: actions/upload-artifact@v2.2.4
+        with:
+          name: nicedishy-api
+          path: ./bin/nicedishy-api
 
-#       - name: Setup Node.js environment
-#         uses: actions/setup-node@v2.3.0
-#         with:
-#           node-version: '12'
-#       - name: Get yarn cache directory path
-#         id: yarn-cache-dir-path
-#         run: echo "::set-output name=dir::$(yarn cache dir)"
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v2.3.0
+        with:
+          node-version: '12'
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
 
-#       - uses: actions/cache@v2.1.6
-#         id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
-#         with:
-#           path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-#           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-#           restore-keys: |
-#             ${{ runner.os }}-yarn-
-#       - name: Build web
-#         env:
-#           GIT_TAG: ${{ steps.get_tag.outputs.GIT_TAG }}
-#         run: make -C web build-release
-#       - uses: actions/upload-artifact@v2.2.4
-#         with:
-#           name: web
-#           path: ./web/dist
+      - uses: actions/cache@v2.1.6
+        id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+      - name: Build web
+        env:
+          GIT_TAG: ${{ steps.get_tag.outputs.GIT_TAG }}
+        run: make -C web build-release
+      - uses: actions/upload-artifact@v2.2.4
+        with:
+          name: web
+          path: ./web/dist
 
-#   release:
-#     runs-on: ubuntu-18.04
-#     needs: [build]
-#     steps:
-#       - uses: actions/checkout@v2.3.4
+  release:
+    runs-on: ubuntu-18.04
+    needs: [build]
+    steps:
+      - uses: actions/checkout@v2.3.4
 
-#       - uses: actions/cache@v2.1.6
-#         with:
-#           path: ~/go/pkg/mod
-#           key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
-#           restore-keys: |
-#             ${{ runner.os }}-go-
-#       - uses: actions/download-artifact@v2.0.10
-#         with:
-#           name: nicedishy-api
-#           path: ./bin
-#       - run: chmod a+x ./bin/nicedishy-api      
-#       - name: Download web artifact
-#         uses: actions/download-artifact@v2.0.10
-#         with:
-#           name: web
-#           path: ./web/dist
+      - uses: actions/cache@v2.1.6
+        with:
+          path: ~/go/pkg/mod
+          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+          restore-keys: |
+            ${{ runner.os }}-go-
+      - uses: actions/download-artifact@v2.0.10
+        with:
+          name: nicedishy-api
+          path: ./bin
+      - run: chmod a+x ./bin/nicedishy-api
+      - name: Download web artifact
+        uses: actions/download-artifact@v2.0.10
+        with:
+          name: web
+          path: ./web/dist
 
-#       - name: Set up Docker Buildx
-#         uses: docker/setup-buildx-action@v1
-#       - uses: docker/login-action@v1.10.0
-#         name: log in to docker registry
-#         with:
-#           registry: ghcr.io
-#           username: nicedishy-bot
-#           password: ${{ secrets.GITOPS_DEPLOY_TOKEN }}          
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      - uses: docker/login-action@v1.10.0
+        name: log in to docker registry
+        with:
+          registry: ghcr.io
+          username: nicedishy-bot
+          password: ${{ secrets.GITOPS_DEPLOY_TOKEN }}
 
-#       - name: Get the version
-#         id: vars
-#         run: echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
+      - name: Get the version
+        id: vars
+        run: echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
 
-#       - name: Build api image
-#         uses: docker/build-push-action@v2.7.0
-#         with:
-#           context: .
-#           tags: ghcr.io/marc-campbell/nicedishy-gitops/nicedishy-api:${{ steps.vars.outputs.sha_short }}
-#           file: ./deploy/Dockerfile.api
-#           push: true
-#       - name: Build web image
-#         uses: docker/build-push-action@v2.7.0
-#         with:
-#           context: .
-#           tags: ghcr.io/marc-campbell/nicedishy-gitops/nicedishy-frontend:${{ steps.vars.outputs.sha_short }}
-#           file: ./deploy/Dockerfile.web
-#           push: true
+      - name: Build api image
+        uses: docker/build-push-action@v2.7.0
+        with:
+          context: .
+          tags: ghcr.io/marc-campbell/nicedishy-gitops/nicedishy-api:${{ steps.vars.outputs.sha_short }}
+          file: ./deploy/Dockerfile.api
+          push: true
+      - name: Build web image
+        uses: docker/build-push-action@v2.7.0
+        with:
+          context: .
+          tags: ghcr.io/marc-campbell/nicedishy-gitops/nicedishy-frontend:${{ steps.vars.outputs.sha_short }}
+          file: ./deploy/Dockerfile.web
+          push: true
 
-#       - name: Render kustomization image tags
-#         env:
-#           VERSION: ${{ steps.vars.outputs.sha_short }}
-#         run: sed -i "s/NEW_TAG/$VERSION/g" kustomize/overlays/production/kustomization.yaml                 
+      - name: Render kustomization image tags
+        env:
+          VERSION: ${{ steps.vars.outputs.sha_short }}
+        run: sed -i "s/NEW_TAG/$VERSION/g" kustomize/overlays/production/kustomization.yaml
 
-#       - name: kustomize build it all
-#         uses: karancode/kustomize-github-action@master
-#         with:
-#           kustomize_version: '4.1.0'
-#           kustomize_build_dir: './kustomize/overlays/production'
-#           kustomize_comment: true
-#           kustomize_output_file: "gitops-rendered.yaml" 
+      - name: kustomize build it all
+        uses: karancode/kustomize-github-action@master
+        with:
+          kustomize_version: '4.1.0'
+          kustomize_build_dir: './kustomize/overlays/production'
+          kustomize_comment: true
+          kustomize_output_file: "gitops-rendered.yaml"
 
-#       - name: upload rendered yaml
-#         uses: actions/upload-artifact@v2.2.4
-#         with:
-#           name: gitops-rendered.yaml
-#           path: gitops-rendered.yaml          
+      - name: upload rendered yaml
+        uses: actions/upload-artifact@v2.2.4
+        with:
+          name: gitops-rendered.yaml
+          path: gitops-rendered.yaml
 
-#       - uses: actions/checkout@v2.3.4
-#         name: "check out gitops repo"
-#         with:
-#           repository: marc-campbell/nicedishy-gitops
-#           token: ${{ secrets.GITOPS_DEPLOY_TOKEN }}
-#           path: nicedishy-gitops
+      - uses: actions/checkout@v2.3.4
+        name: "check out gitops repo"
+        with:
+          repository: marc-campbell/nicedishy-gitops
+          token: ${{ secrets.GITOPS_DEPLOY_TOKEN }}
+          path: nicedishy-gitops
 
-#       - run: |
-#           mkdir -p ./nicedishy-gitops/clusters/digitalocean/nicedishy
-#       - name: Split the rendered doc
-#         uses: marccampbell/yaml-toolbox/action/split@master
-#         with:
-#           path: ./gitops-rendered.yaml
-#           out: ./nicedishy-gitops/clusters/digitalocean/nicedishy
+      - run: |
+          mkdir -p ./nicedishy-gitops/clusters/digitalocean/nicedishy
+      - name: Split the rendered doc
+        uses: marccampbell/yaml-toolbox/action/split@master
+        with:
+          path: ./gitops-rendered.yaml
+          out: ./nicedishy-gitops/clusters/digitalocean/nicedishy
 
-#       - name: gitops-commit
-#         run: |
-#           git config --global user.email "deploy@nicedishy.com"
-#           git config --global user.name "NiceDishy Bot"
-#           cd nicedishy-gitops/clusters/digitalocean/nicedishy && git add . && git commit --allow-empty -m "Deploy from ${GITHUB_REF}"
+      - name: gitops-commit
+        run: |
+          git config --global user.email "deploy@nicedishy.com"
+          git config --global user.name "NiceDishy Bot"
+          cd nicedishy-gitops/clusters/digitalocean/nicedishy && git add . && git commit --allow-empty -m "Deploy from ${GITHUB_REF}"
 
-#       - name: Push changes
-#         uses: ad-m/github-push-action@master
-#         with:
-#           github_token: ${{ secrets.GITOPS_DEPLOY_TOKEN }}
-#           directory: nicedishy-gitops/clusters/digitalocean/nicedishy
-#           repository: marc-campbell/nicedishy-gitops          
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITOPS_DEPLOY_TOKEN }}
+          directory: nicedishy-gitops/clusters/digitalocean/nicedishy
+          repository: marc-campbell/nicedishy-gitops

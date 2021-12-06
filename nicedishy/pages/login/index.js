@@ -38,7 +38,7 @@ export default function Page() {
       <p>
         By logging in, you are agreeing to our Terms of Service and Privacy Policy. We ask
         for read access to your Google profile in order to provide a complete experience
-        here. We don't ask for permissions to change anything in your Google account.
+        here. We don&apos;t ask for permissions to change anything in your Google account.
       </p>
       <button width="80%" onClick={onClickLogin}>Log In With Google</button>
     </>

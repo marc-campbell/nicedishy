@@ -83,7 +83,7 @@ export default function Page() {
       <div className="container">
         <div style={{textAlign: "center"}}>
           <a href="#" className="btn btn-outline-secondary">
-            <i class="bi bi-plus-circle"></i>
+            <i className="bi bi-plus-circle"></i>
             {' '}
             Add Another Dishy
           </a>
