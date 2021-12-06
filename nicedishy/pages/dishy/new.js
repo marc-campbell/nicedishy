@@ -44,10 +44,10 @@ export default function Page() {
         Stuck? Just name it after your location (maybe your city?).
         It's just a label and you can always change it later.
       </p>
-      <FormGroup>
-        <TextInput id="example-text" value={name} onChange={e => setName(e.target.value)} />
-        <Button onClick={handleSave}>Let's Go</Button>
-      </FormGroup>
+      <div className="mb-3">
+        <input type="email" className="form-control" placeholder="Mammoth Lakes, CA" value={name} onChange={e => setName(e.target.value)} />
+        <a href="#" className="btn btn-primary" onClick={handleSave}>Let's Go</a>
+      </div>
     </div>
   );
 }

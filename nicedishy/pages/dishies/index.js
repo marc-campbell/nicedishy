@@ -47,21 +47,49 @@ export default function Page() {
     );
   }
 
-  return (
-    <div>
-      {
-        dishies.map((dishy) => {
-          return (
-            <div key={dishy.id}>
-              <h3>{dishy.name}</h3>
+  const handleDownloadClick = (e) => {
+    e.preventDefault();
+    router.push('/download');
+  }
+
+  const cards = dishies.map((dishy) => {
+    return (
+      <div key={dishy.id} className="card" style={{width: "100%"}}>
+        <div className="card-body">
+          <div className="row">
+            <div className="col-5" style={{textAlign: "center"}}>
+              <h2 className="card-title">{dishy.name}</h2>
+              <p className="card-text">Not connected</p>
             </div>
-          );
-        })
-      }
-      <div>
-        <h3>Add a new dishy</h3>
+            <div className="col-3" />
+            <div className="col-4" style={{textAlign: "center"}}>
+              <p>
+                To connect your Dishy, download and install our app on a laptop or workstation that’s connected to the Dishy network.
+              </p>
+              <a href="#" className="btn btn-primary" onClick={handleDownloadClick}>Download</a>
+              {' '}
+              <a href="#" className="btn btn-outline-primary">Docs</a>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
+    );
+  });
+
+  return (
+    <>
+      {cards}
+      <br /><br />
+      <div className="container">
+        <div style={{textAlign: "center"}}>
+          <a href="#" className="btn btn-outline-secondary">
+            <i class="bi bi-plus-circle"></i>
+            {' '}
+            Add Another Dishy
+          </a>
+        </div>
+      </div>
+    </>
   );
 }
 

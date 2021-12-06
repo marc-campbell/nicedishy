@@ -1,10 +1,13 @@
-import * as React from "react";
+import React, { useEffect, useState } from 'react';
 import * as url from "url";
-
 import { Utilities } from "../../utils/utilities";
+import Layout from "../../components/layout";
+import { useRouter } from 'next/router'
 
-class Login extends React.Component {
-  onClickLogin = async () => {
+export default function Page() {
+  const router = useRouter();
+
+  const onClickLogin = async () => {
     // ensure the user is logged out
     Utilities.logoutUser();
 
@@ -22,20 +25,30 @@ class Login extends React.Component {
     }
   }
 
-  render() {
-    return (
-      <>
-        <h1>Log in to NiceDishy</h1>
-        <strong>You will be taken to Google to authenticate.</strong>
-        <p>
-          By logging in, you are agreeing to our Terms of Service and Privacy Policy. We ask
-          for read access to your Google profile in order to provide a complete experience
-          here. We don't ask for permissions to change anything in your Google account.
-        </p>
-        <button width="80%" onClick={this.onClickLogin}>Log In With Google</button>
-      </>
-    );
-  }
+  useEffect( () => {
+    if (Utilities.getToken()) {
+      router.push("/dishies");
+    }
+  })
+
+  return (
+    <>
+      <h1>Log in to NiceDishy</h1>
+      <strong>You will be taken to Google to authenticate.</strong>
+      <p>
+        By logging in, you are agreeing to our Terms of Service and Privacy Policy. We ask
+        for read access to your Google profile in order to provide a complete experience
+        here. We don't ask for permissions to change anything in your Google account.
+      </p>
+      <button width="80%" onClick={onClickLogin}>Log In With Google</button>
+    </>
+  );
 }
 
-export default Login;
+Page.getLayout = function getLayout(page) {
+  return (
+    <Layout>
+      {page}
+    </Layout>
+  );
+}
