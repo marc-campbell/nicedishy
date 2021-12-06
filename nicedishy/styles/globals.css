@@ -1,3 +1,20 @@
 
 @import '~bootstrap/dist/css/bootstrap.min.css';
 @import '~bootstrap-icons/font/bootstrap-icons.css';
+
+.card .read-more:hover {
+  font-size: 14px;
+}
+
+.card:hover {
+  box-shadow: 8px 8px 8px #8c98a4;
+  transform:scale(1.02);
+}
+
+.card-hover {
+  height:200px;
+  width:200px;
+  border:1px solid black;
+  transition:.3s;
+  margin: 3rem;
+}
