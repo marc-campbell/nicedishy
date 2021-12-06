@@ -105,7 +105,7 @@ export default function Home() {
                       Nice Dishy
                     </h1>
 
-                    <p className="lead">Continuous monitoring for your Starlink Dishy, from anywhere.
+                    <p className="lead">Continuous monitoring for your Starlink Dishy (Flatface or Squarepants), from anywhere.
   <br /><br />
   Compare the performance of your Dishy with everyone else!</p>
                   </div>
