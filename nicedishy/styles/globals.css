@@ -9,11 +9,10 @@
 .card:hover {
   box-shadow: 8px 8px 8px #8c98a4;
   transform:scale(1.02);
+  border: 1px solid #8c98a4;
 }
 
 .card-hover {
-  height:200px;
-  width:200px;
   border:1px solid black;
   transition:.3s;
   margin: 3rem;
