@@ -6,11 +6,10 @@ resources:
   - ./imagepullsecret.yaml
   - ./google-secret.yaml
   - ../../base
-  - ../../../web/kustomize/overlays/production
   - ../../../migrations/kustomize/overlays/production
   - ./loadbalancer.yaml
   - ./clusterrole.yaml
-  
+
 patches:
   - ./deployment-api.yaml
 

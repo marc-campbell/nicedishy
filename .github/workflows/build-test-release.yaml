@@ -43,30 +43,6 @@ jobs:
           name: nicedishy-api
           path: ./bin/nicedishy-api
 
-      - name: Setup Node.js environment
-        uses: actions/setup-node@v2.3.0
-        with:
-          node-version: '12'
-      - name: Get yarn cache directory path
-        id: yarn-cache-dir-path
-        run: echo "::set-output name=dir::$(yarn cache dir)"
-
-      - uses: actions/cache@v2.1.6
-        id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
-        with:
-          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-yarn-
-      - name: Build web
-        env:
-          GIT_TAG: ${{ steps.get_tag.outputs.GIT_TAG }}
-        run: make -C web build-release
-      - uses: actions/upload-artifact@v2.2.4
-        with:
-          name: web
-          path: ./web/dist
-
   release:
     runs-on: ubuntu-18.04
     needs: [build]
@@ -84,11 +60,6 @@ jobs:
           name: nicedishy-api
           path: ./bin
       - run: chmod a+x ./bin/nicedishy-api
-      - name: Download web artifact
-        uses: actions/download-artifact@v2.0.10
-        with:
-          name: web
-          path: ./web/dist
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
@@ -109,13 +80,6 @@ jobs:
           context: .
           tags: ghcr.io/marc-campbell/nicedishy-gitops/nicedishy-api:${{ steps.vars.outputs.sha_short }}
           file: ./deploy/Dockerfile.api
-          push: true
-      - name: Build web image
-        uses: docker/build-push-action@v2.7.0
-        with:
-          context: .
-          tags: ghcr.io/marc-campbell/nicedishy-gitops/nicedishy-frontend:${{ steps.vars.outputs.sha_short }}
-          file: ./deploy/Dockerfile.web
           push: true
 
       - name: Render kustomization image tags
