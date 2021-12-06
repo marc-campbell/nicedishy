@@ -46,4 +46,5 @@ type Store interface {
 	CreateDishyToken(ctx context.Context, id string) (string, error)
 	GetDishy(ctx context.Context, id string) (*dishytypes.Dishy, error)
 	SetDishyLastReceivedStats(ctx context.Context, id string, when time.Time) error
+	DeleteDishy(ctx context.Context, id string) error
 }

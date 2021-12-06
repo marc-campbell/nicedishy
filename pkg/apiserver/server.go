@@ -37,6 +37,7 @@ func Start() {
 	sessionAuthQuietRouter.Path("/api/v1/dishy").Methods("POST").HandlerFunc(handlers.CreateDishy)
 	sessionAuthQuietRouter.Path("/api/v1/dishies").Methods("GET").HandlerFunc(handlers.GetDishies)
 	sessionAuthQuietRouter.Path("/api/v1/dishy/{id}/token").Methods("GET").HandlerFunc(handlers.GetDishyToken)
+	sessionAuthQuietRouter.Path("/api/v1/dishy/{id}").Methods("DELETE").HandlerFunc(handlers.DeleteDishy)
 
 	tokenAuthQuietRouter := r.PathPrefix("").Subrouter()
 	tokenAuthQuietRouter.Use(handlers.RequireValidTokenQuietMiddleware)

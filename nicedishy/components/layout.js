@@ -4,11 +4,13 @@ import Footer from './footer'
 export default function Layout({ children }) {
   return (
     <>
-      <Navbar />
-      <div className="col-lg-8 mx-auto p-3 py-md-5">
-        <main>{children}</main>
+      <div className="col-lg-8 mx-auto">
+        <Navbar />
+          <div className="py-md-5 p3">
+            <main>{children}</main>
+          </div>
+        <Footer />
       </div>
-      <Footer />
     </>
   )
 }

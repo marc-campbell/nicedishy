@@ -8,6 +8,10 @@ export default function Page() {
   const [isLoading, setIsLoading] = useState(false);
   const [dishies, setDishies] = useState([]);
 
+  const handleSettingsClick = (dishyId) => {
+    router.push(`/dishy/${dishyId}/settings`);
+  }
+
   const fetchDishies = async() => {
     try {
       const res = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/v1/dishies`, {
@@ -69,6 +73,10 @@ export default function Page() {
               <a href="#" className="btn btn-primary" onClick={handleDownloadClick}>Download</a>
               {' '}
               <a href="#" className="btn btn-outline-primary">Docs</a>
+              <br /><br />
+              <a href="#" onClick={handleSettingsClick.bind(this, dishy.id)}>
+                Settings <i className="bi bi-gear"></i>
+              </a>
             </div>
           </div>
         </div>

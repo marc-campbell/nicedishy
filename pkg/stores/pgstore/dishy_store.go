@@ -118,3 +118,14 @@ func (s PGStore) SetDishyLastReceivedStats(ctx context.Context, id string, when 
 
 	return nil
 }
+
+func (s PGStore) DeleteDishy(ctx context.Context, id string) error {
+	pg := persistence.MustGetPGSession()
+
+	query := `delete from dishy where id = $1`
+	if _, err := pg.Exec(ctx, query, id); err != nil {
+		return fmt.Errorf("error deleting dishy: %w", err)
+	}
+
+	return nil
+}
