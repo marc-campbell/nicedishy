@@ -45,7 +45,9 @@ function LoginCallback() {
       }
 
       window.localStorage.setItem("token", response.token);
-      nextUrl = !response.redirectUri ? "/dishies" : response.redirectUri;
+
+      nextUrl = window.sessionStorage.getItem('next') ? window.sessionStorage.getItem('next') : '/dishies';
+      window.sessionStorage.removeItem('next');
     } catch (err) {
       console.log(err);
       router.replace("/error");

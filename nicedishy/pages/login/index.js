@@ -11,6 +11,13 @@ export default function Page() {
     // ensure the user is logged out
     Utilities.logoutUser();
 
+    // set or clear the next url from sessionstorage
+    window.sessionStorage.removeItem('next');
+    const query = url.parse(window.location.href, true).query;
+    if (query && query.next) {
+      window.sessionStorage.setItem('next', query.next);
+    }
+
     try {
       const res = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/v1/login?next=${encodeURIComponent(url.parse(window.location.href, true).query.next)}`);
       if (!res.ok) {
