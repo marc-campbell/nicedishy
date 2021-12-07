@@ -39,7 +39,6 @@ func GetDishies(w http.ResponseWriter, r *http.Request) {
 			Dishy: *d,
 		}
 
-		// TODO get stats
 		latestStats, err := dishy.GetLatestStats(d.ID)
 		if err != nil {
 			logger.Error(err)
@@ -48,6 +47,15 @@ func GetDishies(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		dishyWithStats.Latest = latestStats
+
+		recentStats, err := dishy.GetRecentStats(d.ID)
+		if err != nil {
+			logger.Error(err)
+			getDishiesResponse.Error = err.Error()
+			w.WriteHeader(http.StatusInternalServerError)
+			return
+		}
+		dishyWithStats.RecentStats = recentStats
 
 		dishiesWithStats = append(dishiesWithStats, &dishyWithStats)
 	}

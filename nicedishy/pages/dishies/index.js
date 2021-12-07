@@ -125,41 +125,27 @@ export default function Page() {
       )
     }
 
+    let latencyData = [];
+    let uploadData = [];
+    let downloadData = [];
 
-    const latencyData = [
-      {x: 0, y: 100},
-      {x: 1, y: 5},
-      {x: 2, y: 4},
-      {x: 3, y: 9},
-      {x: 4, y: 1},
+    for (const [when, stats] of Object.entries(dishy.recent)) {
+      const x = new Date(when);
+      latencyData.push({
+        x: x,
+        y: stats.popPingLatencyMs,
+      });
 
-    ];
+      uploadData.push({
+        x: x,
+        y: stats.uplinkThroughputBps,
+      });
 
-    const uploadData = [
-      {x: 0, y: 8},
-      {x: 1, y: 5},
-      {x: 2, y: 4},
-      {x: 3, y: 9},
-      {x: 4, y: 1},
-      {x: 5, y: 7},
-      {x: 6, y: 6},
-      {x: 7, y: 3},
-      {x: 8, y: 2},
-      {x: 9, y: 0}
-    ];
-
-    const downloadData = [
-      {x: 0, y: 9},
-      {x: 1, y: 2},
-      {x: 2, y: 5},
-      {x: 3, y: 1},
-      {x: 4, y: 8},
-      {x: 5, y: 3},
-      {x: 6, y: 4},
-      {x: 7, y: 6},
-      {x: 8, y: 1},
-      {x: 9, y: 1}
-    ];
+      downloadData.push({
+        x: x,
+        y: stats.downloadThroughputBps,
+      });
+    }
 
     return (
       <div key={dishy.id} className="card" style={{width: "100%"}}>
@@ -169,7 +155,7 @@ export default function Page() {
               <h2 className="card-title">{dishy.name}</h2>
               <div className="row" style={{paddingTop: "30px"}}>
                 <div className="col-4">
-                  <div style={{fontSize: "3em", lineHeight: "1.3em"}}>24ms</div>
+                  <div style={{fontSize: "3em", lineHeight: "1.3em"}}>{dishy.latest.popPingLatencyMs.toFixed(0)}ms</div>
                   Ping
                 </div>
                 <div className="col-4">
