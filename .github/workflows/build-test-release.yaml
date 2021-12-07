@@ -38,7 +38,7 @@ jobs:
       - run: make test
       - run: make all
 
-      - uses: actions/upload-artifact@v2.2.4
+      - uses: actions/upload-artifact@v2.3.0
         with:
           name: nicedishy-api
           path: ./bin/nicedishy-api
@@ -96,7 +96,7 @@ jobs:
           kustomize_output_file: "gitops-rendered.yaml"
 
       - name: upload rendered yaml
-        uses: actions/upload-artifact@v2.2.4
+        uses: actions/upload-artifact@v2.3.0
         with:
           name: gitops-rendered.yaml
           path: gitops-rendered.yaml
