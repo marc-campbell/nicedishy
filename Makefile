@@ -34,6 +34,10 @@ export GOPROXY=https://proxy.golang.org
 .PHONY: all
 all: bin/nicedishy-api bin/generate-data
 
+.PHONY: run
+run: bin/nicedishy-api
+	./bin/nicedishy-api api
+
 .PHONY: bin/nicedishy-api
 bin/nicedishy-api:
 	go build -o bin/nicedishy-api ./cmd/api

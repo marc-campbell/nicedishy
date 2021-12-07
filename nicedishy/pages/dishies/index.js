@@ -127,16 +127,12 @@ export default function Page() {
 
 
     const latencyData = [
-      {x: 0, y: 8},
+      {x: 0, y: 100},
       {x: 1, y: 5},
       {x: 2, y: 4},
       {x: 3, y: 9},
       {x: 4, y: 1},
-      {x: 5, y: 7},
-      {x: 6, y: 6},
-      {x: 7, y: 3},
-      {x: 8, y: 2},
-      {x: 9, y: 0}
+
     ];
 
     const uploadData = [
@@ -171,10 +167,10 @@ export default function Page() {
           <div className="row">
             <div className="col-6" style={{textAlign: "center"}}>
               <h2 className="card-title">{dishy.name}</h2>
-              <div className="row">
+              <div className="row" style={{paddingTop: "30px"}}>
                 <div className="col-4">
-                  <span style={{fontSize: "4em"}}>24ms</span><br /><br />
-                  ping
+                  <div style={{fontSize: "3em", lineHeight: "1.3em"}}>24ms</div>
+                  Ping
                 </div>
                 <div className="col-4">
                   <GaugeChart
@@ -195,13 +191,13 @@ export default function Page() {
             </div>
 
             <div className="col-3" style={{textAlign: "center", paddingTop: "60px"}}>
-              <XYPlot height={100} width={400}>
+              <XYPlot height={100} width={220}>
                 <LineSeries data={latencyData} />
               </XYPlot><br />
               Latency
             </div>
             <div className="col-3" style={{textAlign: "center", paddingTop: "60px"}}>
-              <XYPlot height={100} width={400}>
+              <XYPlot height={100} width={220}>
                 <LineSeries data={downloadData} />
                 <LineSeries data={uploadData} />
               </XYPlot><br />
