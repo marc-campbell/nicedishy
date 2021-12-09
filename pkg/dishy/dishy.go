@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/jackc/pgx/v4"
 	"github.com/marc-campbell/nicedishy/pkg/dishy/types"
 	"github.com/marc-campbell/nicedishy/pkg/persistence"
 )
@@ -18,6 +19,10 @@ func GetLatestStats(id string) (*types.DishyStat, error) {
 
 	stats := types.DishyStat{}
 	if err := row.Scan(&stats.State, &stats.SNR, &stats.DownlinkThroughputBps, &stats.UplinkThroughputBps, &stats.PopPingLatencyMs, &stats.PopPingDropRate, &stats.PercentObstructed, &stats.ObstructedSeconds); err != nil {
+		if err == pgx.ErrNoRows {
+			return nil, nil
+		}
+
 		return nil, fmt.Errorf("error scanning stats: %w", err)
 	}
 
@@ -29,6 +34,10 @@ func GetRecentStats(id string) (map[time.Time]*types.DishyStat, error) {
 	query := `select time, state, snr, downlink_throughput_bps, uplink_throughput_bps, pop_ping_latency_ms, pop_ping_drop_rate, percent_obstructed, seconds_obstructed from dishy_data where dishy_id = $1 order by time desc limit 10`
 	rows, err := metricsDB.Query(context.Background(), query, id)
 	if err != nil {
+		if err == pgx.ErrNoRows {
+			return nil, nil
+		}
+
 		return nil, fmt.Errorf("error querying: %w", err)
 	}
 
