@@ -1,8 +1,8 @@
 name: nicedishy-frontend
 command: yarn dev
-workdir: /okteto
+workdir: /src
 sync:
-  - .:/okteto
+  - .:/src
 resources:
   limits:
     cpu: "2"
