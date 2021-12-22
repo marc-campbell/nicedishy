@@ -2,48 +2,45 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: postgres
+  name: timescale
   labels:
-    app: postgres
+    app: timescale
 spec:
   type: ClusterIP
   ports:
-  - name: postgres
+  - name: timescale
     port: 5432
-    targetPort: postgres
+    targetPort: timescale
   selector:
-    app: postgres
+    app: timescale
 ---
 apiVersion: v1
 kind: Secret
 metadata:
-  name: nicedishy-postgres
+  name: nicedishy-timescale
   labels:
-    app: postgres
+    app: timescale
 type: Opaque
 stringData:
-  uri: "postgresql://nicedishy:nicedishy@postgres/nicedishy?connect_timeout=10&application_name=nicedishy&sslmode=disable"
+  uri: "postgresql://nicedishy:nicedishy@timescale/nicedishy?connect_timeout=10&application_name=nicedishy&sslmode=disable"
 ---
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: postgres
+  name: timescale
 spec:
   selector:
     matchLabels:
-      app: postgres
-  serviceName: postgres
+      app: timescale
+  serviceName: timescale
   template:
     metadata:
       labels:
-        app: postgres
+        app: timescale
     spec:
-      securityContext:
-        runAsUser: 999 # the default 'postgres' user
-        fsGroup: 999
       containers:
-      - name: postgres
-        image: postgres:10.7
+      - name: timescale
+        image: timescale/timescaledb:latest-pg14
         imagePullPolicy: IfNotPresent
         env:
         - name: PGDATA
@@ -55,7 +52,7 @@ spec:
         - name: POSTGRES_DB
           value: nicedishy
         ports:
-        - name: postgres
+        - name: timescale
           containerPort: 5432
         livenessProbe:
           exec:
