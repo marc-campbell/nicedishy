@@ -6,7 +6,6 @@ RUN wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-k
     postgresql-client-10 \
   && rm -rf /var/lib/apt/lists/*
 
-
 ENV PROJECTPATH=/go/src/github.com/marc-campbell/nicedishy
 WORKDIR $PROJECTPATH
 
@@ -14,9 +13,12 @@ ADD go.mod .
 ADD go.sum .
 ADD Makefile .
 
+RUN --mount=type=cache,target=/go/pkg/mod go mod download
+
 ADD cmd/ cmd
 ADD pkg/ pkg
 
+RUN --mount=type=cache,target=/go/pkg/mod --mount=type=cache,target=/go/bin make build
 
 RUN make bin/nicedishy-api
 
