@@ -2,6 +2,7 @@ icon: https://github.com/okteto/polling/raw/master/icon.png
 deploy:
   - envsubst < kustomize/overlays/dev/google-secret-tmpl.yaml > kustomize/overlays/dev/google-secret.yaml
   - envsubst < kustomize/overlays/dev/deployment-api.tmpl.yaml > kustomize/overlays/dev/deployment-api.yaml
+  - envsubst < nicedishy/.env.tmpl > nicedishy/.env
 
   - okteto build -f ./nicedishy/Dockerfile.okteto -t okteto.dev/nicedishy-frontend:${OKTETO_GIT_COMMIT} nicedishy
   - okteto build -f ./Dockerfile.okteto -t okteto.dev/nicedishy-api:${OKTETO_GIT_COMMIT} .
