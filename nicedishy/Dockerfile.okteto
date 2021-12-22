@@ -1,11 +1,11 @@
 FROM node:16
 EXPOSE 3000 9229
 
-ADD . .
 
+COPY package.json yarn.lock ./
+RUN --mount=type=cache,target=/root/.yarn YARN_CACHE_FOLDER=/root/.yarn yarn install
 
-EXPOSE 3000
-
-RUN yarn 
+COPY . .
+RUN --mount=type=cache,target=./node_modules/.cache/webpack yarn build
 
 ENTRYPOINT ["yarn", "dev"]
