@@ -1,5 +1,4 @@
 name: nicedishy-api
-image: okteto/golang:1
 command: bash
 workdir: /go/src/github.com/marc-campbell/nicedishy
 sync:
