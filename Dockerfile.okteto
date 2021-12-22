@@ -18,7 +18,7 @@ RUN --mount=type=cache,target=/go/pkg/mod go mod download
 ADD cmd/ cmd
 ADD pkg/ pkg
 
-RUN --mount=type=cache,target=/go/pkg/mod --mount=type=cache,target=/go/bin make bin/nicedishy-api
+RUN --mount=type=cache,target=/go/pkg/mod --mount=type=cache,target=/go/bin make build
 
 RUN make bin/nicedishy-api
 
