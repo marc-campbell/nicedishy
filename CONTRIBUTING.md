@@ -1,12 +1,6 @@
 NiceDishy is the Web and API side of the nicedishy.com service.
 This runs in Kubernetes.
 
-## Setting up a dev environment
-1. Use codespaces
-1. Build (`make`)
-1. `skaffold dev`
-
-## Local dev ports
 
 ## Generating some data
 
@@ -16,7 +10,42 @@ This runs in Kubernetes.
 
 ## Deploy the table schema to timescale
 
+
 ```
+create table session (
+  id text not null primary key,
+  user_id text not null,
+  expire_at timestamptz not null,
+  access_token text not null
+);
+
+create table oauth_state (
+  id text not null primary key,
+  created_at timestamptz not null,
+  next text not null
+);
+
+create table google_user (
+  id text not null primary key,
+  email_address text not null,
+  avatar_url text not null,
+  created_at timestamptz not null,
+  last_login_at timestamptz not null
+);
+
+create table dishy (
+  id text not null primary key,
+  user_id text not null,
+  created_at timestamptz not null,
+  name text not null,
+  last_metric_at timestamptz
+);
+
+create table dishy_token (
+  token_sha text not null primary key,
+  dishy_id text not null
+);
+
 create table dishy_data (
   time timestamptz not null,
   dishy_id text not null,

@@ -8,7 +8,7 @@ spec:
       volumes:
         - name: migrations
           emptyDir:
-            medium: Memory    
+            medium: Memory
       initContainers:
         - image: nicedishy-migrations
           name: migrations-plan
@@ -26,7 +26,7 @@ spec:
             - name: SCHEMAHERO_URI
               valueFrom:
                 secretKeyRef:
-                  name: nicedishy-postgres
+                  name: nicedishy-timescale
                   key: uri
         - image: nicedishy-migrations
           name: migrations-apply
@@ -42,7 +42,7 @@ spec:
             - name: SCHEMAHERO_URI
               valueFrom:
                 secretKeyRef:
-                  name: nicedishy-postgres
+                  name: nicedishy-timescale
                   key: uri
 
       containers:
@@ -70,9 +70,14 @@ spec:
                   name: nicedishy-google
                   key: clientSecret
             - name: GOOGLE_REDIRECTURI
-              value: https://nicedishy-marccampbell.cloud.okteto.net/login/callback
+              value: https://nicedishy-${OKTETO_NAMESPACE}.cloud.okteto.net/login/callback
             - name: METRICS_DB_URI
               valueFrom:
                 secretKeyRef:
                   name: nicedishy-timescale
+                  key: uri
+            - name: POSTGRES_URI
+              valueFrom:
+                secretKeyRef:
+                  name: nicedishy-timescale # we use the same database in dev
                   key: uri
