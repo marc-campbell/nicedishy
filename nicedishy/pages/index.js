@@ -63,7 +63,7 @@ export default function Home() {
         <div className="container">
           <nav className="js-mega-menu navbar-nav-wrap">
             <a className="navbar-brand" href="./index.html" aria-label="Front">
-              <img className="navbar-brand-logo" src="/images/logo.png" alt="NiceDishy" />
+              <img className="navbar-brand-logo" src="/images/nicedishy-icon.png" alt="NiceDishy" />
             </a>
 
             <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -80,11 +80,10 @@ export default function Home() {
                 <ul className="navbar-nav">
 
                 <li className="nav-item">
-                  <Link href="/docs"><div className="btn btn-transition">Docs</div></Link>
+                  <Link href="/signup"><div className="btn btn-transition btn-outline-primary">Sign Up</div></Link>
                 </li>
-
                 <li className="nav-item">
-                  <Link href="/login"><div className="btn btn-transition btn-outline-primary">Sign Up</div></Link>
+                  <Link href="/login"><div className="btn btn-transition">Log In</div></Link>
                 </li>
               </ul>
             </div>
@@ -102,7 +101,7 @@ export default function Home() {
                 <div className="col-lg-5">
                   <div className="mb-5">
                     <h1 className="display-4 mb-3">
-                      Nice Dishy
+                      <img src="/images/nicedishy-word.png" />
                     </h1>
 
                     <p className="lead">Continuous monitoring for your Starlink Dishy (Flatface or Squarepants), from anywhere.

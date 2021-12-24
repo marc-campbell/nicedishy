@@ -21630,9 +21630,9 @@ label.form-control,
 }
 
 .navbar-brand-logo {
-  width: 100%;
   min-width: 7.5rem;
   max-width: 7.5rem;
+  height: 120px;
 }
 
 .navbar-brand-collapsed,

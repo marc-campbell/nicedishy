@@ -7,7 +7,9 @@ import { useRouter } from 'next/router'
 export default function Page() {
   const router = useRouter();
 
-  const onClickLogin = async () => {
+  const onClickSignup = async (ev) => {
+    ev.preventDefault();
+
     // ensure the user is logged out
     Utilities.logoutUser();
 
@@ -40,14 +42,13 @@ export default function Page() {
 
   return (
     <>
-      <h1>Log in to NiceDishy</h1>
-      <strong>You will be taken to Google to authenticate.</strong>
+      <h1>Create a NiceDishy account</h1>
       <p>
-        By logging in, you are agreeing to our Terms of Service and Privacy Policy. We ask
+        By signing up, you are agreeing to our Terms of Service and Privacy Policy. We ask
         for read access to your Google profile in order to provide a complete experience
         here. We don&apos;t ask for permissions to change anything in your Google account.
       </p>
-      <a href="#" width="80%" onClick={onClickLogin}>
+      <a href="#" width="80%" onClick={onClickSignup}>
         <img src="/images/btn_google_signin_dark_pressed_web@2x.png" alt="Sign in with Google" style={{width: "200px"}} />
       </a>
     </>
