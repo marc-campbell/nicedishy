@@ -81,3 +81,5 @@ spec:
                 secretKeyRef:
                   name: nicedishy-timescale # we use the same database in dev
                   key: uri
+            - name: NICEDISHY_ENDPOINT
+              value: http://localhost:3000

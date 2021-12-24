@@ -29,6 +29,11 @@ func RootCmd() *cobra.Command {
 
 			current := time.Now().UTC().Add(-1 * viper.GetDuration("duration"))
 
+			if v.GetBool("fill") {
+				// get the most recent time and set current the the interval after that
+				// TODO
+			}
+
 			uptimeSeconds := 1500
 
 			for {
@@ -43,7 +48,7 @@ func RootCmd() *cobra.Command {
 					return nil
 				}
 
-				time.Sleep(time.Second * 5)
+				// time.Sleep(time.Second * 5)
 			}
 		},
 	}
@@ -56,6 +61,7 @@ func RootCmd() *cobra.Command {
 	cmd.MarkFlagRequired("token")
 	cmd.Flags().String("endpoint", "https://api.nicedishy.com", "endpoint of the api server")
 	cmd.Flags().Duration("duration", time.Hour*7*24, "number of days to ingest")
+	cmd.Flags().Bool("fill", false, "set to true to fill the most recent gap of data")
 
 	return cmd
 }
