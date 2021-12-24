@@ -7,7 +7,9 @@ import { useRouter } from 'next/router'
 export default function Page() {
   const router = useRouter();
 
-  const onClickLogin = async () => {
+  const onClickLogin = async (ev) => {
+    ev.preventDefault();
+
     // ensure the user is logged out
     Utilities.logoutUser();
 

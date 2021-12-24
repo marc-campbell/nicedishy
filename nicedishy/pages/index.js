@@ -25,11 +25,7 @@ export default function Home() {
 
   return (
     <div>
-      <header id="header" className="navbar navbar-expand-lg navbar-end navbar-absolute-top navbar-light navbar-show-hide"
-        data-hs-header-options='{
-          "fixMoment": 1000,
-          "fixEffect": "slide"
-        }'>
+      <header id="header" className="navbar navbar-expand-lg navbar-end navbar-absolute-top navbar-light navbar-show-hide">
         <div className="container navbar-topbar">
           <nav className="js-mega-menu navbar-nav-wrap">
             <button className="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#topbarNavDropdown" aria-controls="topbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -61,7 +57,7 @@ export default function Home() {
         </div>
 
         <div className="container">
-          <nav className="js-mega-menu navbar-nav-wrap">
+          <nav className="js-mega-menu navbar-nav-wrap navbar-custom">
             <a className="navbar-brand" href="./index.html" aria-label="Front">
               <img className="navbar-brand-logo" src="/images/nicedishy-icon.png" alt="NiceDishy" />
             </a>

@@ -17,14 +17,14 @@ export default function Navbar() {
       <nav className="navbar navbar-default">
         <div className="container-fluid">
           <a className="navbar-brand" href="#" onClick={handleLogoClick}>
-            <img src="/images/nicedishy-logo.png" alt="" width="48" height="48" />
+            <img src="/images/nicedishy-logo.png" alt="" height="48" />
           </a>
           <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span className="navbar-toggler-icon"></span>
           </button>
 
           <div className="nav navbar-nav navbar-right">
-            <div className="btn btn-link" onClick={handleLogout}>Logout</div>
+            <div className="btn btn-link" style={{textAlign: "right"}} onClick={handleLogout}>Logout</div>
           </div>
         </div>
       </nav>
