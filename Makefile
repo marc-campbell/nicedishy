@@ -38,6 +38,7 @@ build: bin/nicedishy-api bin/generate-data
 run: bin/nicedishy-api
 	./bin/nicedishy-api api
 
+.PHONY: bin/nicedishy-api
 bin/nicedishy-api:
 	go build -o bin/nicedishy-api ./cmd/api
 

@@ -3,6 +3,8 @@ package handlers
 import (
 	"context"
 	"encoding/json"
+	"fmt"
+	"io/ioutil"
 	"net/http"
 	"time"
 
@@ -45,13 +47,23 @@ type StoreDataResponse struct {
 func StoreData(w http.ResponseWriter, r *http.Request) {
 	storeDataResponse := StoreDataResponse{}
 
+	payload, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		logger.Error(err)
+		JSON(w, http.StatusInternalServerError, err)
+		return
+	}
+
+	fmt.Printf("--> %s\n", payload)
 	storeDataRequest := StoreDataRequest{}
-	if err := json.NewDecoder(r.Body).Decode(&storeDataRequest); err != nil {
+	if err := json.Unmarshal(payload, &storeDataRequest); err != nil {
 		logger.Error(err)
 		storeDataResponse.Error = err.Error()
 		JSON(w, http.StatusInternalServerError, storeDataResponse)
 		return
 	}
+
+	fmt.Printf("%#v\n", storeDataRequest)
 
 	// update the "last received data from" date of the dish
 	dishy := DishyFromTokenContext(r)

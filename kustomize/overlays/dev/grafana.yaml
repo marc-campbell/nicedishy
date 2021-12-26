@@ -65,3 +65,20 @@ spec:
         requests:
           storage: 1Gi
 
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: grafana
+  labels:
+    app: grafana
+  annotations:
+    dev.okteto.com/auto-ingress: "true"
+spec:
+  type: ClusterIP
+  ports:
+  - name: http
+    port: 3000
+    targetPort: http-grafana
+  selector:
+    app: grafana
