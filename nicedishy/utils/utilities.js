@@ -224,5 +224,16 @@ export const Utilities = {
     let i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
     if (i === 0) { return bytes + " " + sizes[i]; }
     return (bytes / Math.pow(1024, i)).toFixed(1) + " " + sizes[i];
+  },
+
+  mbps(bytes, seconds) {
+    var speed = seconds ? bytes * 8 / seconds : 0
+    var units = [' bps', ' kbps', ' Mbps', ' Gbps', ' Tbps', 'Pbps', 'Ebps', 'Zbps', 'Ybps']
+    var unitNum = 0
+    while (speed > 1024) {
+        speed = speed / 1024
+        unitNum++
+    }
+    return Math.max(speed, 0.1).toFixed(0) + units[unitNum]
   }
 };

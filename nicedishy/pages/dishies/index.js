@@ -3,7 +3,6 @@ import { Utilities, secondsAgo } from "../../utils/utilities";
 import { useRouter } from 'next/router'
 import Layout from "../../components/layout";
 import {XYPlot, LineSeries} from 'react-vis'
-import GaugeChart from 'react-gauge-chart';
 
 export default function Page() {
   const router = useRouter();
@@ -156,8 +155,6 @@ export default function Page() {
       });
     }
 
-    console.log(dishy.latest);
-
     return (
       <div key={dishy.id} className="card" style={{width: "100%"}}>
         <div className="card-body">
@@ -170,35 +167,33 @@ export default function Page() {
                   Ping
                 </div>
                 <div className="col-4">
-                  <GaugeChart
-                    percent={0.45}
-                    colors={["#FF5F6D", "#00ff00"]}
-                    hideText={true}
-                  />
-                  uplink
+                  <div style={{fontSize: "3em", lineHeight: "1.3em"}}>{Utilities.mbps(dishy.latest.uplinkThroughputBps, 10)}</div>
+                  current upload
                 </div>
                 <div className="col-4">
-                <GaugeChart
-                    percent={0.9}
-                    colors={["#FF5F6D", "#00ff00"]}
-                    hideText={true}
-                  />downlink
+                <div style={{fontSize: "3em", lineHeight: "1.3em"}}>{Utilities.mbps(dishy.latest.downloadThroughputBps, 10)}</div>
+                  current download
                 </div>
               </div>
             </div>
 
-            <div className="col-3" style={{textAlign: "center", paddingTop: "60px"}}>
+            <div className="col-2" style={{textAlign: "center", paddingTop: "60px"}}>
               <XYPlot height={100} width={220}>
                 <LineSeries data={latencyData} />
               </XYPlot><br />
-              Latency
+              Ping
             </div>
-            <div className="col-3" style={{textAlign: "center", paddingTop: "60px"}}>
+            <div className="col-2" style={{textAlign: "center", paddingTop: "60px"}}>
               <XYPlot height={100} width={220}>
-                <LineSeries data={downloadData} />
                 <LineSeries data={uploadData} />
               </XYPlot><br />
-              Upload / Download
+              Upload Speed
+            </div>
+            <div className="col-2" style={{textAlign: "center", paddingTop: "60px"}}>
+              <XYPlot height={100} width={220}>
+                <LineSeries data={downloadData} />
+              </XYPlot><br />
+              Download Speed
             </div>
           </div>
 
