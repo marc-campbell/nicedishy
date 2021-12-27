@@ -82,6 +82,7 @@ func StoreData(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// 206.214.226.67,172.70.210.63
+	// split and takje the first one
 	if strings.Contains(ipAddress, ",") {
 		ipAddress = strings.Split(ipAddress, ",")[0]
 	}

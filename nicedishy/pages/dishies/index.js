@@ -28,6 +28,11 @@ export default function Page() {
         },
       });
 
+      if (res.status === 401) {
+        router.push('/login?next=/dishies');
+        return;
+      }
+
       if (!res.ok) {
         return;
       }
@@ -41,6 +46,10 @@ export default function Page() {
 
   useEffect( async () => {
     const data = await fetchDishies();
+    if (!data) {
+      return;
+    }
+
     if (data.dishies.length === 0) {
       router.replace('/dishy/new');
       return;
@@ -146,6 +155,8 @@ export default function Page() {
         y: stats.downloadThroughputBps,
       });
     }
+
+    console.log(dishy.latest);
 
     return (
       <div key={dishy.id} className="card" style={{width: "100%"}}>
