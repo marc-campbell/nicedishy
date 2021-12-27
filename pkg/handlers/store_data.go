@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"net"
 	"net/http"
+	"strings"
 	"time"
 
 	"github.com/marc-campbell/nicedishy/pkg/dishy"
@@ -78,6 +79,11 @@ func StoreData(w http.ResponseWriter, r *http.Request) {
 		}
 
 		ipAddress = ip
+	}
+
+	// 206.214.226.67,172.70.210.63
+	if strings.Contains(ipAddress, ",") {
+		ipAddress = strings.Split(ipAddress, ",")[0]
 	}
 
 	// update the "last received data from" date of the dish
