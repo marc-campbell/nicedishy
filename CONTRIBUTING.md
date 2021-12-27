@@ -71,7 +71,8 @@ create table dishy_data (
   pop_ping_latency_ms double precision,
   pop_ping_drop_rate double precision,
   percent_obstructed double precision,
-  seconds_obstructed double precision
+  seconds_obstructed double precision,
+  download_speed double precision
 );
 SELECT create_hypertable('dishy_data', 'time'); 
 ```
