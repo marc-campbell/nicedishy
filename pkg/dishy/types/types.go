@@ -11,7 +11,6 @@ type Dishy struct {
 }
 
 type DishyStat struct {
-	State                 string  `json:"state"`
 	SNR                   int     `json:"snr"`
 	DownlinkThroughputBps float64 `json:"downloadThroughputBps"`
 	UplinkThroughputBps   float64 `json:"uplinkThroughputBps"`
