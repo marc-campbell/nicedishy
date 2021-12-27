@@ -38,8 +38,23 @@ create table dishy (
   user_id text not null,
   created_at timestamptz not null,
   name text not null,
-  last_metric_at timestamptz
+  last_metric_at timestamptz,
+  last_geocheck_at timestamptz
 );
+
+create table dishy_geo (
+  time timestamptz not null,
+  id text not null,
+  ip_address text not null,
+  continent text not null,
+  country text not null,
+  region text not null,
+  city text not null,
+  org text not null,
+  latitude double precision not null,
+  longitude double precision not null
+);
+select create_hypertable('dishy_geo', 'time');
 
 create table dishy_token (
   token_sha text not null primary key,
@@ -49,7 +64,7 @@ create table dishy_token (
 create table dishy_data (
   time timestamptz not null,
   dishy_id text not null,
-  state text,
+  ip_address text not null,
   snr integer,
   downlink_throughput_bps double precision,
   uplink_throughput_bps double precision,

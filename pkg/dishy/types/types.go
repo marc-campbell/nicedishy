@@ -3,10 +3,11 @@ package types
 import "time"
 
 type Dishy struct {
-	ID           string     `json:"id"`
-	CreatedAt    time.Time  `json:"createdAt"`
-	LastMetricAt *time.Time `json:"lastMetricAt,omitempty"`
-	Name         string     `json:"name"`
+	ID             string     `json:"id"`
+	CreatedAt      time.Time  `json:"createdAt"`
+	LastMetricAt   *time.Time `json:"lastMetricAt,omitempty"`
+	LastGeocheckAt *time.Time `json:"-"`
+	Name           string     `json:"name"`
 }
 
 type DishyStat struct {
@@ -24,4 +25,19 @@ type DishyWithStats struct {
 	Dishy
 	Latest      *DishyStat               `json:"latest"`
 	RecentStats map[time.Time]*DishyStat `json:"recent"`
+}
+
+// https://ipwhois.io/documentation
+type GeoCheck struct {
+	IPAddress string `json:"ip"`
+	Continent string `json:"continent"`
+	Country   string `json:"country"`
+	Region    string `json:"region"`
+
+	City string `json:"city"`
+
+	Latitude  float64 `json:"latitude"`
+	Longitude float64 `json:"longitude"`
+
+	Org string `json:"org"`
 }

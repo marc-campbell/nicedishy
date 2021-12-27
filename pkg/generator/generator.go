@@ -25,7 +25,6 @@ func GenerateAndSendData(endpoint string, token string, timestamp time.Time, upt
 			DeviceState: handlers.StoreDataStatusDeviceStateRequest{
 				UptimeSeconds: uptimeSeconds,
 			},
-			State:                 "connected",
 			SNR:                   0.0 + rand.Float64()*(9.0-0.0),
 			DownlinkThroughputBps: 5000.0 + rand.Float64()*(7000.0-5000.0),
 			UplinkThroughputBps:   700.0 + rand.Float64()*(1200.0-700.0),

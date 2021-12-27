@@ -104,13 +104,14 @@ func (s PGStore) CreateDishyToken(ctx context.Context, id string) (string, error
 func (s PGStore) GetDishy(ctx context.Context, id string) (*dishytypes.Dishy, error) {
 	pg := persistence.MustGetPGSession()
 
-	query := `select id, created_at, last_metric_at, name from dishy where id = $1`
+	query := `select id, created_at, last_metric_at, last_geocheck_at, name from dishy where id = $1`
 	row := pg.QueryRow(ctx, query, id)
 
 	dishy := dishytypes.Dishy{}
 	lastMetricAt := sql.NullTime{}
+	lastGeocheckAt := sql.NullTime{}
 
-	if err := row.Scan(&dishy.ID, &dishy.CreatedAt, &lastMetricAt, &dishy.Name); err != nil {
+	if err := row.Scan(&dishy.ID, &dishy.CreatedAt, &lastMetricAt, &lastGeocheckAt, &dishy.Name); err != nil {
 		if err == sql.ErrNoRows {
 			return nil, nil
 		}
@@ -119,6 +120,10 @@ func (s PGStore) GetDishy(ctx context.Context, id string) (*dishytypes.Dishy, er
 
 	if lastMetricAt.Valid {
 		dishy.LastMetricAt = &lastMetricAt.Time
+	}
+
+	if lastGeocheckAt.Valid {
+		dishy.LastGeocheckAt = &lastGeocheckAt.Time
 	}
 
 	return &dishy, nil
@@ -141,6 +146,23 @@ func (s PGStore) DeleteDishy(ctx context.Context, id string) error {
 	query := `delete from dishy where id = $1`
 	if _, err := pg.Exec(ctx, query, id); err != nil {
 		return fmt.Errorf("error deleting dishy: %w", err)
+	}
+
+	return nil
+}
+
+func (s PGStore) UpdateDishyGeo(ctx context.Context, id string, when time.Time, geo *dishytypes.GeoCheck) error {
+	pg := persistence.MustGetMetricsDBSession()
+
+	query := `insert into dishy_geo (time, id, ip_address, continent, country, region, city, org, latitude, longitude) values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`
+	if _, err := pg.Exec(ctx, query, when, id, geo.IPAddress, geo.Continent, geo.Country, geo.Region, geo.City, geo.Org, geo.Latitude, geo.Longitude); err != nil {
+		return fmt.Errorf("error inserting geo: %w", err)
+	}
+
+	otherPg := persistence.MustGetPGSession()
+	query = `update dishy set last_geocheck_at = $1 where id = $2`
+	if _, err := otherPg.Exec(ctx, query, when, id); err != nil {
+		return fmt.Errorf("error updating last_geocheck_at: %w", err)
 	}
 
 	return nil

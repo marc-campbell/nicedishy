@@ -2,7 +2,10 @@ package dishy
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
+	"io/ioutil"
+	"net/http"
 	"time"
 
 	"github.com/jackc/pgx/v4"
@@ -53,4 +56,30 @@ func GetRecentStats(id string) (map[time.Time]*types.DishyStat, error) {
 	}
 
 	return recent, nil
+}
+
+// Geocheck will look up the ip address and make sure it looks to be
+// a starlink address
+func Geocheck(id string, ipAddress string) (*types.GeoCheck, error) {
+	req, err := http.NewRequest("GET", fmt.Sprintf("https://ipwhois.app/json/%s", ipAddress), nil)
+	if err != nil {
+		return nil, fmt.Errorf("create request: %w", err)
+	}
+
+	resp, err := http.DefaultClient.Do(req)
+	if err != nil {
+		return nil, fmt.Errorf("do request: %w", err)
+	}
+
+	b, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return nil, fmt.Errorf("read body: %w", err)
+	}
+
+	geoCheck := types.GeoCheck{}
+	if err := json.Unmarshal(b, &geoCheck); err != nil {
+		return nil, fmt.Errorf("unmarshal json: %w", err)
+	}
+
+	return &geoCheck, nil
 }
