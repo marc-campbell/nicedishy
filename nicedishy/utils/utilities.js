@@ -235,5 +235,31 @@ export const Utilities = {
         unitNum++
     }
     return Math.max(speed, 0.1).toFixed(0) + units[unitNum]
+  },
+
+  async fetchNonce() {
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/v1/nonce`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": Utilities.getToken(),
+        },
+      });
+
+      if (res.status === 401) {
+        router.push('/login?next=/dishies');
+        return;
+      }
+
+      if (!res.ok) {
+        return;
+      }
+
+      const data = await res.json();
+      return data.nonce;
+    } catch (err) {
+      console.error(err);
+    }
   }
 };

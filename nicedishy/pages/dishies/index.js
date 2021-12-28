@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { Utilities, secondsAgo } from "../../utils/utilities";
 import { useRouter } from 'next/router'
 import Layout from "../../components/layout";
-import {XYPlot, LineSeries} from 'react-vis'
 import GaugeChart from 'react-gauge-chart';
 
 export default function Page() {
@@ -18,35 +17,9 @@ export default function Page() {
     router.push(`/dishy/${dishyId}/settings`);
   }
 
-  const fetchNonce = async() => {
-    try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/v1/nonce`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": Utilities.getToken(),
-        },
-      });
-
-      if (res.status === 401) {
-        router.push('/login?next=/dishies');
-        return;
-      }
-
-      if (!res.ok) {
-        return;
-      }
-
-      const data = await res.json();
-      return data.nonce;
-    } catch (err) {
-      console.error(err);
-    }
-  }
-
   useEffect( async () => {
     // generate a nonce to use for the event source connection
-    const nonce = await fetchNonce();
+    const nonce = await Utilities.fetchNonce();
     const source = new EventSource(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/v1/dishies/stream?nonce=${nonce}`);
     source.onmessage = (event) => {
       setIsLoading(false);

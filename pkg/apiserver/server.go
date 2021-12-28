@@ -46,6 +46,7 @@ func Start() {
 	nonceAuthQuietRouter := r.PathPrefix("").Subrouter()
 	nonceAuthQuietRouter.Use(handlers.RequireValidNonceMiddleware)
 	nonceAuthQuietRouter.Path("/api/v1/dishies/stream").Methods("GET").HandlerFunc(handlers.StreamDishies)
+	nonceAuthQuietRouter.Path("/api/v1/dishy/stream").Methods("GET").HandlerFunc(handlers.StreamDishy)
 
 	tokenAuthQuietRouter := r.PathPrefix("").Subrouter()
 	tokenAuthQuietRouter.Use(handlers.RequireValidTokenQuietMiddleware)
