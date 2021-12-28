@@ -18,12 +18,13 @@ type DishyStat struct {
 	PopPingDropRate       float64 `json:"popPingDropRate"`
 	PercentObstructed     float64 `json:"percentObstructed"`
 	ObstructedSeconds     float64 `json:"obstructedSeconds"`
+	DownloadSpeed         float64 `json:"downloadSpeed"`
+	UploadSpeed           float64 `json:"uploadSpeed"`
 }
 
 type DishyWithStats struct {
 	Dishy
-	Latest      *DishyStat               `json:"latest"`
-	RecentStats map[time.Time]*DishyStat `json:"recent"`
+	Latest *DishyStat `json:"latest"`
 }
 
 // https://ipwhois.io/documentation

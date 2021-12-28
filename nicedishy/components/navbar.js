@@ -10,6 +10,10 @@ export default function Navbar() {
   }
 
   const handleLogoClick = () => {
+    if (Utilities.isLoggedIn()) {
+      router.push('/dishies');
+      return;
+    }
     router.push("/");
   }
 

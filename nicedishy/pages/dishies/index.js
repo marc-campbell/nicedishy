@@ -3,6 +3,7 @@ import { Utilities, secondsAgo } from "../../utils/utilities";
 import { useRouter } from 'next/router'
 import Layout from "../../components/layout";
 import {XYPlot, LineSeries} from 'react-vis'
+import GaugeChart from 'react-gauge-chart';
 
 export default function Page() {
   const router = useRouter();
@@ -133,70 +134,62 @@ export default function Page() {
       )
     }
 
-    let latencyData = [];
-    let uploadData = [];
-    let downloadData = [];
-
-    for (const [when, stats] of Object.entries(dishy.recent)) {
-      const x = new Date(when);
-      latencyData.push({
-        x: x,
-        y: stats.popPingLatencyMs,
-      });
-
-      uploadData.push({
-        x: x,
-        y: stats.uplinkThroughputBps,
-      });
-
-      downloadData.push({
-        x: x,
-        y: stats.downloadThroughputBps,
-      });
-    }
-
     return (
       <div key={dishy.id} className="card" style={{width: "100%"}}>
         <div className="card-body">
           <div className="row">
             <div className="col-6" style={{textAlign: "center"}}>
-              <h2 className="card-title">{dishy.name}</h2>
+              <h2 className="card-title" style={{textAlign: "left"}}>{dishy.name}</h2>
               <div className="row" style={{paddingTop: "30px"}}>
                 <div className="col-4">
-                  <div style={{fontSize: "3em", lineHeight: "1.3em"}}>{dishy.latest.popPingLatencyMs.toFixed(0)}ms</div>
-                  Ping
+                  <div style={{fontSize: "3em", lineHeight: "1.2em", paddingTop: "10px"}}>{dishy.latest.popPingLatencyMs.toFixed(0)}ms</div>
                 </div>
                 <div className="col-4">
-                  <div style={{fontSize: "3em", lineHeight: "1.3em"}}>{Utilities.mbps(dishy.latest.uplinkThroughputBps, 10)}</div>
-                  current upload
+                  <GaugeChart
+                    percent={dishy.latest.uploadSpeed / 40000000}
+                    colors={["#FF5F6D", "#00ff00"]}
+                    hideText={true}
+                  />
                 </div>
                 <div className="col-4">
-                <div style={{fontSize: "3em", lineHeight: "1.3em"}}>{Utilities.mbps(dishy.latest.downloadThroughputBps, 10)}</div>
-                  current download
+                  <GaugeChart
+                    percent={dishy.latest.downloadSpeed / 300000000}
+                    colors={["#FF5F6D", "#00ff00"]}
+                    hideText={true}
+                  />
+                </div>
+              </div>
+              <div className="row" style={{paddingTop: "30px"}}>
+                <div className="col-4">
+                  ping
+                </div>
+                <div className="col-4">
+                  upload speed<br />
+                  ({Utilities.mbps(dishy.latest.uploadSpeed, 10)})
+                </div>
+                <div className="col-4">
+                  download speed<br />
+                  ({Utilities.mbps(dishy.latest.downloadSpeed, 10)})
                 </div>
               </div>
             </div>
 
-            <div className="col-2" style={{textAlign: "center", paddingTop: "60px"}}>
-              <XYPlot height={100} width={220}>
-                <LineSeries data={latencyData} />
-              </XYPlot><br />
-              Ping
-            </div>
-            <div className="col-2" style={{textAlign: "center", paddingTop: "60px"}}>
-              <XYPlot height={100} width={220}>
-                <LineSeries data={uploadData} />
-              </XYPlot><br />
-              Upload Speed
-            </div>
-            <div className="col-2" style={{textAlign: "center", paddingTop: "60px"}}>
-              <XYPlot height={100} width={220}>
-                <LineSeries data={downloadData} />
-              </XYPlot><br />
-              Download Speed
+            <div className="col-5 offset-1">
+              <div className="row" style={{paddingTop: "60px"}}>
+                <div className="col-12">
+                  <h4>More</h4>
+                </div>
+              </div>
+              <div className="row">
+                <div className="col-12">
+                  <a href={`/dishy/${dishy.id}`}><i className="bi bi-clock-history"></i>{' '}Recent stats from my dishy</a><br />
+                  <a href={`/dishy/${dishy.id}/compare`}><i className="bi bi-people-fill"></i>{' '}How do I compare?</a><br />
+                  <a href={`/dishy/${dishy.id}/troubleshooting`}><i className="bi bi-lightbulb"></i>{' '}Troubleshooting</a><br />
+                  <a href={`/dishy/${dishy.id}/settings`}><i className="bi bi-gear"></i>{' '}Settings</a>
+                </div>
+              </div>
             </div>
           </div>
-
         </div>
       </div>
     )

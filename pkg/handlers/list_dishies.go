@@ -10,13 +10,13 @@ import (
 	"github.com/marc-campbell/nicedishy/pkg/stores"
 )
 
-type GetDishiesResponse struct {
+type ListDishiesResponse struct {
 	Dishies []*dishytypes.DishyWithStats `json:"dishies"`
 	Error   string                       `json:"error,omitempty"`
 }
 
-func GetDishies(w http.ResponseWriter, r *http.Request) {
-	getDishiesResponse := GetDishiesResponse{}
+func ListDishies(w http.ResponseWriter, r *http.Request) {
+	response := ListDishiesResponse{}
 
 	userID := getUserID(r)
 	if userID == "" {
@@ -27,7 +27,7 @@ func GetDishies(w http.ResponseWriter, r *http.Request) {
 	dishies, err := stores.GetStore().ListDishies(context.TODO(), userID)
 	if err != nil {
 		logger.Error(err)
-		getDishiesResponse.Error = err.Error()
+		response.Error = err.Error()
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
@@ -42,24 +42,15 @@ func GetDishies(w http.ResponseWriter, r *http.Request) {
 		latestStats, err := dishy.GetLatestStats(d.ID)
 		if err != nil {
 			logger.Error(err)
-			getDishiesResponse.Error = err.Error()
+			response.Error = err.Error()
 			w.WriteHeader(http.StatusInternalServerError)
 			return
 		}
 		dishyWithStats.Latest = latestStats
 
-		recentStats, err := dishy.GetRecentStats(d.ID)
-		if err != nil {
-			logger.Error(err)
-			getDishiesResponse.Error = err.Error()
-			w.WriteHeader(http.StatusInternalServerError)
-			return
-		}
-		dishyWithStats.RecentStats = recentStats
-
 		dishiesWithStats = append(dishiesWithStats, &dishyWithStats)
 	}
 
-	getDishiesResponse.Dishies = dishiesWithStats
-	JSON(w, http.StatusOK, getDishiesResponse)
+	response.Dishies = dishiesWithStats
+	JSON(w, http.StatusOK, response)
 }
