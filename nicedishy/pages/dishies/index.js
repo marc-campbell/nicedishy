@@ -18,32 +18,6 @@ export default function Page() {
     router.push(`/dishy/${dishyId}/settings`);
   }
 
-  const fetchDishies = async() => {
-    try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/v1/dishies`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": Utilities.getToken(),
-        },
-      });
-
-      if (res.status === 401) {
-        router.push('/login?next=/dishies');
-        return;
-      }
-
-      if (!res.ok) {
-        return;
-      }
-
-      const data = await res.json();
-      return data;
-    } catch (err) {
-      console.error(err);
-    }
-  }
-
   const fetchNonce = async() => {
     try {
       const res = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/v1/nonce`, {
@@ -75,31 +49,10 @@ export default function Page() {
     const nonce = await fetchNonce();
     const source = new EventSource(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/v1/dishies/stream?nonce=${nonce}`);
     source.onmessage = (event) => {
-      console.log(event);
+      setIsLoading(false);
+      setDishies(JSON.parse(event.data));
     }
   }, [])
-
-  useEffect( async () => {
-    const data = await fetchDishies();
-    if (!data) {
-      return;
-    }
-
-    if (data.dishies.length === 0) {
-      router.replace('/dishy/new');
-      return;
-    }
-    setIsLoading(false);
-    setDishies(data.dishies);
-  }, []);
-
-  if (isLoading) {
-    return (
-      <div>
-        loading...
-      </div>
-    );
-  }
 
   const handleDownloadClick = (e) => {
     e.preventDefault();
