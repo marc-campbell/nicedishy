@@ -39,6 +39,8 @@ type Store interface {
 	CreateUser(ctx context.Context, emailAddress string, avatarURL string) (*usertypes.User, error)
 	CreateUserToken(ctx context.Context, userID string) (string, error)
 	GetToken(ctx context.Context, token string) (*tokentypes.Token, error)
+	CreateSessionNonce(ctx context.Context, sessionID string) (string, error)
+	GetSessionNonce(ctx context.Context, id string) (string, error)
 
 	ListDishies(ctx context.Context, userID string) ([]*dishytypes.Dishy, error)
 	CreateDishy(ctx context.Context, userID string, name string) (*dishytypes.Dishy, error)

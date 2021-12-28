@@ -19,6 +19,12 @@ create table session (
   access_token text not null
 );
 
+create table session_nonce (
+  id text not null primary key,
+  expire_at timestamptz not null,
+  session_id text not null
+);
+
 create table oauth_state (
   id text not null primary key,
   created_at timestamptz not null,

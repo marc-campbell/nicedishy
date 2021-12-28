@@ -69,6 +69,8 @@ spec:
                 secretKeyRef:
                   name: nicedishy-google
                   key: clientSecret
+            - name: CORS_ALLOW_ORIGIN
+              value: https://nicedishy-${OKTETO_NAMESPACE}.cloud.okteto.net
             - name: GOOGLE_REDIRECTURI
               value: https://nicedishy-${OKTETO_NAMESPACE}.cloud.okteto.net/login/callback
             - name: METRICS_DB_URI

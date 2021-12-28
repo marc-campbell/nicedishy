@@ -7,7 +7,7 @@ spec:
     spec:
       imagePullSecrets:
         - name: ghcr
-      serviceAccountName: nicedishy          
+      serviceAccountName: nicedishy
       containers:
         - name: nicedishy-api
           image: ghcr.io/marc-campbell/nicedishy-gitops/nicedishy-api
@@ -30,6 +30,8 @@ spec:
                 secretKeyRef:
                   name: nicedishy-google
                   key: clientSecret
+            - name: CORS_ALLOW_ORIGIN
+              value: https://nicedishy.com
             - name: GOOGLE_REDIRECTURI
               value: https://nicedishy.com/login/callback
             - name: METRICS_DB_URI

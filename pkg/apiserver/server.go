@@ -34,10 +34,18 @@ func Start() {
 	**********************************************************************/
 	sessionAuthQuietRouter := r.PathPrefix("").Subrouter()
 	sessionAuthQuietRouter.Use(handlers.RequireValidSessionQuietMiddleware)
+	sessionAuthQuietRouter.Path("/api/v1/nonce").Methods("GET").HandlerFunc(handlers.CreateNonce)
 	sessionAuthQuietRouter.Path("/api/v1/dishy").Methods("POST").HandlerFunc(handlers.CreateDishy)
 	sessionAuthQuietRouter.Path("/api/v1/dishies").Methods("GET").HandlerFunc(handlers.ListDishies)
 	sessionAuthQuietRouter.Path("/api/v1/dishy/{id}/token").Methods("GET").HandlerFunc(handlers.GetDishyToken)
 	sessionAuthQuietRouter.Path("/api/v1/dishy/{id}").Methods("DELETE").HandlerFunc(handlers.DeleteDishy)
+
+	/**********************************************************************
+	* Nonce routes
+	**********************************************************************/
+	nonceAuthQuietRouter := r.PathPrefix("").Subrouter()
+	nonceAuthQuietRouter.Use(handlers.RequireValidNonceMiddleware)
+	nonceAuthQuietRouter.Path("/api/v1/dishies/stream").Methods("GET").HandlerFunc(handlers.StreamDishies)
 
 	tokenAuthQuietRouter := r.PathPrefix("").Subrouter()
 	tokenAuthQuietRouter.Use(handlers.RequireValidTokenQuietMiddleware)

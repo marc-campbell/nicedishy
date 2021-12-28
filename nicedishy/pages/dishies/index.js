@@ -44,6 +44,41 @@ export default function Page() {
     }
   }
 
+  const fetchNonce = async() => {
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/v1/nonce`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": Utilities.getToken(),
+        },
+      });
+
+      if (res.status === 401) {
+        router.push('/login?next=/dishies');
+        return;
+      }
+
+      if (!res.ok) {
+        return;
+      }
+
+      const data = await res.json();
+      return data.nonce;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  useEffect( async () => {
+    // generate a nonce to use for the event source connection
+    const nonce = await fetchNonce();
+    const source = new EventSource(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/v1/dishies/stream?nonce=${nonce}`);
+    source.onmessage = (event) => {
+      console.log(event);
+    }
+  }, [])
+
   useEffect( async () => {
     const data = await fetchDishies();
     if (!data) {

@@ -12,6 +12,40 @@ import (
 	"github.com/segmentio/ksuid"
 )
 
+func (s PGStore) GetSessionNonce(ctx context.Context, id string) (string, error) {
+	pg := persistence.MustGetPGSession()
+
+	query := `delete from session_nonce where id = $1 and expire_at > $2 returning session_id`
+	row := pg.QueryRow(ctx, query, id, time.Now())
+	sessionID := ""
+	if err := row.Scan(&sessionID); err != nil {
+		if err == pgx.ErrNoRows {
+			return "", nil
+		}
+
+		return "", errors.Wrap(err, "failed to scan session nonce")
+	}
+
+	return sessionID, nil
+}
+
+func (s PGStore) CreateSessionNonce(ctx context.Context, sessionID string) (string, error) {
+	pg := persistence.MustGetPGSession()
+
+	id, err := ksuid.NewRandom()
+	if err != nil {
+		return "", errors.Wrap(err, "failed to generate session id")
+	}
+
+	query := `insert into session_nonce (id, expire_at, session_id) values ($1, $2, $3)`
+	_, err = pg.Exec(ctx, query, id.String(), time.Now().Add(time.Minute), sessionID)
+	if err != nil {
+		return "", errors.Wrap(err, "insert session nonce")
+	}
+
+	return id.String(), nil
+}
+
 func (s PGStore) CreateSession(ctx context.Context, user *usertypes.User, accessToken string) (*sessiontypes.Session, error) {
 	pg := persistence.MustGetPGSession()
 
