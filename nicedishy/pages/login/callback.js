@@ -10,7 +10,7 @@ function LoginCallback() {
   const requestSessionToken = async (code, state) => {
     const uri = `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/v1/login/callback`;
     const response = await fetch(uri, {
-      method: "post",
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
       },

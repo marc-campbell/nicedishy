@@ -39,3 +39,13 @@ spec:
                 secretKeyRef:
                   name: nicedishy-timescale
                   key: uri
+            - name: MOOSEND_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: nicedishy-moosend
+                  key: apiKey
+            - name: MOOSEND_LISTID
+              valueFrom:
+                secretKeyRef:
+                  name: nicedishy-moosend
+                  key: listId
