@@ -48,7 +48,7 @@ func Subscribe(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// subscribe to the newsletter in mailchimp
-	req, err := http.NewRequest("POST", fmt.Sprintf("https://api.moosend.com/v3/subscribers/%s/subscribe.Format?apikey=%s", os.Getenv("MOOSEND_LISTID"), os.Getenv("NICEDISHY_MOOSEND_KEY")), ioutil.NopCloser(bytes.NewReader(b)))
+	req, err := http.NewRequest("POST", fmt.Sprintf("https://api.moosend.com/v3/subscribers/%s/subscribe.json?apikey=%s", os.Getenv("MOOSEND_LISTID"), os.Getenv("MOOSEND_API_KEY")), ioutil.NopCloser(bytes.NewReader(b)))
 	if err != nil {
 		logger.Error(err)
 		response.Error = err.Error()
@@ -56,6 +56,7 @@ func Subscribe(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("accept", "application/json")
 
 	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
@@ -68,6 +69,23 @@ func Subscribe(w http.ResponseWriter, r *http.Request) {
 	if resp.StatusCode != http.StatusOK {
 		response.Error = fmt.Sprintf("%d: %s", resp.StatusCode, resp.Status)
 		JSON(w, resp.StatusCode, response)
+		return
+	}
+
+	defer resp.Body.Close()
+	responseBody, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		logger.Error(err)
+		response.Error = err.Error()
+		JSON(w, http.StatusInternalServerError, response)
+		return
+	}
+
+	responseDecoded := map[string]interface{}{}
+	if err := json.Unmarshal(responseBody, &responseDecoded); err != nil {
+		logger.Error(err)
+		response.Error = err.Error()
+		JSON(w, http.StatusInternalServerError, response)
 		return
 	}
 
