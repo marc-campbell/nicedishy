@@ -29,7 +29,7 @@ export default function Footer() {
             <h5>Dishy Owners</h5>
             <ul className="nav flex-column">
               <li className="nav-item mb-2"><a href="#" className="nav-link p-0 text-muted">Join NiceDishy</a></li>
-              <li className="nav-item mb-2"><a href="#" className="nav-link p-0 text-muted">Compare My Dishy</a></li>
+              <li className="nav-item mb-2"><Link href="/compare"><a className="nav-link p-0 text-muted">Compare My Dishy</a></Link></li>
               <li className="nav-item mb-2"><a href="#" className="nav-link p-0 text-muted">Is Everything Ok?</a></li>
             </ul>
           </div>
@@ -37,14 +37,14 @@ export default function Footer() {
           <div className="col-2">
             <h5>Dishy Waitlisters</h5>
             <ul className="nav flex-column">
-              <li className="nav-item mb-2"><Link href="/prepare" className="nav-link p-0 text-muted">Get Prepared</Link></li>
+              <li className="nav-item mb-2"><Link href="/prepare"><a className="nav-link p-0 text-muted">Get Prepared</a></Link></li>
             </ul>
           </div>
 
           <div className="col-2">
             <h5>Everyone Else</h5>
             <ul className="nav flex-column">
-              <li className="nav-item mb-2"><a href="#" className="nav-link p-0 text-muted">See Some Stats</a></li>
+              <li className="nav-item mb-2"><Link href="/stats"><a className="nav-link p-0 text-muted">See Some Stats</a></Link></li>
               <li className="nav-item mb-2"><a href="#" className="nav-link p-0 text-muted">Request Data</a></li>
             </ul>
           </div>

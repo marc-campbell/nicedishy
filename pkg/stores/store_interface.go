@@ -50,4 +50,13 @@ type Store interface {
 	SetDishyLastReceivedStats(ctx context.Context, id string, when time.Time) error
 	DeleteDishy(ctx context.Context, id string) error
 	UpdateDishyGeo(ctx context.Context, id string, when time.Time, geo *dishytypes.GeoCheck) error
+
+	// stats
+	GetConnectedDishyCount(ctx context.Context) (int, error)
+	GetTotalDishyCount(ctx context.Context) (int, error)
+	GetNewDishyCount(ctx context.Context) (int, error)
+	GetHighestDownloadSpeed(ctx context.Context) (float64, error)
+	GetAverageDownloadSpeed(ctx context.Context) (float64, error)
+	GetLowestPingTime(ctx context.Context) (float64, error)
+	GetAveragePingTime(ctx context.Context) (float64, error)
 }

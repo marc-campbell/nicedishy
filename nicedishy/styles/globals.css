@@ -19,3 +19,31 @@
   margin: 3rem;
 }
 
+a.text-muted{
+  color: #fff;
+}
+
+.big-number {
+  font-size: 2.5rem;
+  font-weight: bold;
+  text-align: center;
+}
+
+.dashboard-card {
+  border: 1px solid #666;
+  background-color: #ccc;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  min-height: 160px;
+  border-radius: 10px;
+}
+
+.dashboard-card-blue {
+  border: 1px solid #000011;
+  background-color: #000066;
+  color: #cecece;
+}
+
+.dashboard-row {
+  padding-bottom: 30px;
+}
