@@ -77,7 +77,7 @@ export default function Page() {
           <div className="col-md-6 px-md-5 text-center">
             <div className="dashboard-card">
               <div className="big-number">{Utilities.mbps(stats.highestDownloadSpeed, 10)}</div>
-              The highest download speed we've seen and confirmed in the past week
+              The highest download speed we&apos;ve seen and confirmed in the past week
             </div>
           </div>
           <div className="col-md-6 px-md-5 text-center">
@@ -91,13 +91,13 @@ export default function Page() {
           <div className="col-md-6 px-md-5 text-center">
             <div className="dashboard-card">
               <div className="big-number">{stats.lowestPingTime ? stats.lowestPingTime.toFixed(1) : ""} ms</div>
-              The lowest (best) ping time we've seen in the past week
+              The lowest (best) ping time we&apos;ve seen in the past week
             </div>
           </div>
           <div className="col-md-6 px-md-5 text-center">
             <div className="dashboard-card">
               <div className="big-number">{stats.averagePingTime ? stats.averagePingTime.toFixed(1) : ""} ms</div>
-              The average ping time we've seen in the past week
+              The average ping time we&apos;ve seen in the past week
             </div>
           </div>
         </div>
