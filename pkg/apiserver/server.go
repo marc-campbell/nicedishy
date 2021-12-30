@@ -24,6 +24,7 @@ func Start() {
 	r.HandleFunc("/healthz", handlers.Healthz)
 	r.HandleFunc("/api/v1/login", handlers.Login)
 	r.Path("/api/v1/login/callback").Methods("POST").HandlerFunc(handlers.LoginCallback)
+	r.Path("/api/v1/subscribe").Methods("POST").HandlerFunc(handlers.Subscribe)
 
 	/**********************************************************************
 	* Static routes

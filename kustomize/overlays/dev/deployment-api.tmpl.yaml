@@ -85,3 +85,7 @@ spec:
                   key: uri
             - name: NICEDISHY_ENDPOINT
               value: http://localhost:3000
+            - name: MOOSEND_API_KEY
+              value: ${NICEDISHY_MOOSEND_KEY}
+            - name: MOOSEND_LISTID
+              value: ${NICEDISHY_MOOSEND_LISTID}
