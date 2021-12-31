@@ -14,20 +14,21 @@ import (
 )
 
 // GetLatestStats will query timescale for the current stats
-// for this dishy id
 func GetLatestStats(id string) (*types.DishyStat, error) {
 	metricsDB := persistence.MustGetMetricsDBSession()
+
 	query := `select
 snr, downlink_throughput_bps, uplink_throughput_bps, pop_ping_latency_ms,
-pop_ping_drop_rate, percent_obstructed, seconds_obstructed, download_speed, upload_speed
+pop_ping_drop_rate, percent_obstructed, seconds_obstructed
 from dishy_data
 where dishy_id = $1
+and downlink_throughput_bps is not null
 order by time desc limit 1`
 	row := metricsDB.QueryRow(context.Background(), query, id)
 
 	stats := types.DishyStat{}
 	if err := row.Scan(&stats.SNR, &stats.DownlinkThroughputBps, &stats.UplinkThroughputBps, &stats.PopPingLatencyMs, &stats.PopPingDropRate,
-		&stats.PercentObstructed, &stats.ObstructedSeconds, &stats.DownloadSpeed, &stats.UploadSpeed); err != nil {
+		&stats.PercentObstructed, &stats.ObstructedSeconds); err != nil {
 		if err == pgx.ErrNoRows {
 			return nil, nil
 		}
@@ -38,36 +39,82 @@ order by time desc limit 1`
 	return &stats, nil
 }
 
-func GetRecentStats(id string) (map[time.Time]*types.DishyStat, error) {
+func GetLatestSpeeds(id string) (*types.DishySpeed, error) {
 	metricsDB := persistence.MustGetMetricsDBSession()
-	query := `select
-time, snr, downlink_throughput_bps, uplink_throughput_bps, pop_ping_latency_ms, pop_ping_drop_rate,
-percent_obstructed, seconds_obstructed, download_speed, upload_speed
-from dishy_data
-where dishy_id = $1
-order by time desc limit 10`
-	rows, err := metricsDB.Query(context.Background(), query, id)
-	if err != nil {
+
+	query := `select download_speed, upload_speed from dishy_data where dishy_id = $1 and download_speed is not null
+order by time desc limit 1`
+	row := metricsDB.QueryRow(context.Background(), query, id)
+
+	speeds := types.DishySpeed{}
+	if err := row.Scan(&speeds.DownloadSpeed, &speeds.UploadSpeed); err != nil {
 		if err == pgx.ErrNoRows {
 			return nil, nil
 		}
 
-		return nil, fmt.Errorf("error querying: %w", err)
+		return nil, fmt.Errorf("error scanning speed: %w", err)
 	}
 
-	recent := map[time.Time]*types.DishyStat{}
-	for rows.Next() {
-		stats := types.DishyStat{}
-		when := time.Time{}
-		if err := rows.Scan(&when, &stats.SNR, &stats.DownlinkThroughputBps, &stats.UplinkThroughputBps, &stats.PopPingLatencyMs,
-			&stats.PopPingDropRate, &stats.PercentObstructed, &stats.ObstructedSeconds, &stats.DownloadSpeed, &stats.UploadSpeed); err != nil {
-			return nil, fmt.Errorf("error scanning stats: %w", err)
+	return &speeds, nil
+}
+
+func GetRecentStats(id string) (map[time.Time]*types.DishyStat, map[time.Time]*types.DishySpeed, error) {
+	metricsDB := persistence.MustGetMetricsDBSession()
+	query := `select
+time, snr, downlink_throughput_bps, uplink_throughput_bps, pop_ping_latency_ms, pop_ping_drop_rate,
+percent_obstructed, seconds_obstructed
+from dishy_data
+where dishy_id = $1
+and downlink_throughput_bps is not null
+order by time desc limit 10`
+	rows, err := metricsDB.Query(context.Background(), query, id)
+	if err != nil {
+		if err == pgx.ErrNoRows {
+			return nil, nil, nil
 		}
 
-		recent[when] = &stats
+		return nil, nil, fmt.Errorf("error querying: %w", err)
 	}
 
-	return recent, nil
+	stats := map[time.Time]*types.DishyStat{}
+	for rows.Next() {
+		stat := types.DishyStat{}
+		when := time.Time{}
+		if err := rows.Scan(&when, &stat.SNR, &stat.DownlinkThroughputBps, &stat.UplinkThroughputBps, &stat.PopPingLatencyMs,
+			&stat.PopPingDropRate, &stat.PercentObstructed, &stat.ObstructedSeconds); err != nil {
+			return nil, nil, fmt.Errorf("error scanning stats: %w", err)
+		}
+
+		stats[when] = &stat
+	}
+
+	query = `select
+time, download_speed, upload_speed
+from dishy_data
+where dishy_id = $1
+and download_speed is not null
+order by time desc limit 10`
+	rows, err = metricsDB.Query(context.Background(), query, id)
+	if err != nil {
+		if err == pgx.ErrNoRows {
+			return nil, nil, nil
+		}
+
+		return nil, nil, fmt.Errorf("error querying: %w", err)
+	}
+	speeds := map[time.Time]*types.DishySpeed{}
+	for rows.Next() {
+		speed := types.DishySpeed{}
+		when := time.Time{}
+
+		if err := rows.Scan(&when, &speed.DownloadSpeed, &speed.UploadSpeed); err != nil {
+			return nil, nil, fmt.Errorf("error scanning speed: %w", err)
+		}
+
+		speeds[when] = &speed
+	}
+
+	return stats, speeds, nil
 }
 
 // Geocheck will look up the ip address and make sure it looks to be

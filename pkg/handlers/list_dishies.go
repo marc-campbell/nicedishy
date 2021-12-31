@@ -46,7 +46,16 @@ func ListDishies(w http.ResponseWriter, r *http.Request) {
 			w.WriteHeader(http.StatusInternalServerError)
 			return
 		}
-		dishyWithStats.Latest = latestStats
+		dishyWithStats.LatestStats = latestStats
+
+		latestSpeeds, err := dishy.GetLatestSpeeds(d.ID)
+		if err != nil {
+			logger.Error(err)
+			response.Error = err.Error()
+			w.WriteHeader(http.StatusInternalServerError)
+			return
+		}
+		dishyWithStats.LatestSpeeds = latestSpeeds
 
 		dishiesWithStats = append(dishiesWithStats, &dishyWithStats)
 	}

@@ -58,6 +58,7 @@ func Start() {
 	tokenAuthQuietRouter := r.PathPrefix("").Subrouter()
 	tokenAuthQuietRouter.Use(handlers.RequireValidTokenQuietMiddleware)
 	tokenAuthQuietRouter.Path("/api/v1/stats").Methods("POST").HandlerFunc(handlers.StoreData)
+	tokenAuthQuietRouter.Path("/api/v1/speed").Methods("POST").HandlerFunc(handlers.StoreSpeed)
 
 	srv := &http.Server{
 		Handler: r,

@@ -9,7 +9,8 @@ export default function Page() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
   const [dishy, setDishy] = useState(null);
-  const [recent, setRecent] = useState({});
+  const [stats, setStats] = useState({});
+  const [speeds, setSpeeds] = useState({});
 
   const { id } = router.query
 
@@ -21,7 +22,8 @@ export default function Page() {
     source.onmessage = (event) => {
       const data = JSON.parse(event.data);
       setDishy(data.dishy);
-      setRecent(data.recent);
+      setStats(data.stats);
+      setSpeeds(data.speeds);
 
       if (isLoading) {
         setIsLoading(false);
@@ -34,11 +36,11 @@ export default function Page() {
   }
 
   let downloadSpeedData = [];
-  for (const [when, stats] of Object.entries(recent)) {
+  for (const [when, speed] of Object.entries(speeds)) {
     const x = new Date(when);
     downloadSpeedData.push({
       x: x,
-      y: stats.downloadSpeed,
+      y: speed.downloadSpeed,
     });
   }
 
@@ -55,7 +57,6 @@ export default function Page() {
           return `${dayjs(d).format("MM-DD-YYYY")} @ ${dayjs(d).format("HH:mm:ss a")}`;
         }}/>
         <YAxis tickTotal={4} width={70} tickFormat={(t, i) => {
-          console.log(t, 10);
           return Utilities.mbps(t, 10);
         }}/>
       </XYPlot><br />

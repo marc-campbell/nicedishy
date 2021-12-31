@@ -15,8 +15,9 @@ import (
 )
 
 type StreamDishyResponse struct {
-	Dishy  *dishytypes.Dishy                   `json:"dishy"`
-	Recent map[time.Time]*dishytypes.DishyStat `json:"recent"`
+	Dishy  *dishytypes.Dishy                    `json:"dishy"`
+	Stats  map[time.Time]*dishytypes.DishyStat  `json:"stats"`
+	Speeds map[time.Time]*dishytypes.DishySpeed `json:"speeds"`
 }
 
 func StreamDishy(w http.ResponseWriter, r *http.Request) {
@@ -47,7 +48,7 @@ func StreamDishy(w http.ResponseWriter, r *http.Request) {
 				continue
 			}
 
-			recent, err := dishy.GetRecentStats(d.ID)
+			stats, speeds, err := dishy.GetRecentStats(d.ID)
 			if err != nil {
 				logger.Error(err)
 				continue
@@ -55,7 +56,8 @@ func StreamDishy(w http.ResponseWriter, r *http.Request) {
 
 			message := StreamDishyResponse{
 				Dishy:  d,
-				Recent: recent,
+				Stats:  stats,
+				Speeds: speeds,
 			}
 
 			b, err := json.Marshal(message)

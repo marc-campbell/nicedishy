@@ -103,18 +103,18 @@ export default function Page() {
               <h2 className="card-title" style={{textAlign: "left"}}>{dishy.name}</h2>
               <div className="row" style={{paddingTop: "30px"}}>
                 <div className="col-4">
-                  <div style={{fontSize: "3em", lineHeight: "1.2em", paddingTop: "10px"}}>{dishy.latest.popPingLatencyMs.toFixed(0)}ms</div>
+                  <div style={{fontSize: "3em", lineHeight: "1.2em", paddingTop: "10px"}}>{dishy.latestStats.popPingLatencyMs.toFixed(0)}ms</div>
                 </div>
                 <div className="col-4">
                   <GaugeChart
-                    percent={dishy.latest.uploadSpeed / 40000000}
+                    percent={dishy.latestSpeeds.uploadSpeed / 40000000}
                     colors={["#FF5F6D", "#00ff00"]}
                     hideText={true}
                   />
                 </div>
                 <div className="col-4">
                   <GaugeChart
-                    percent={dishy.latest.downloadSpeed / 300000000}
+                    percent={dishy.latestSpeeds.downloadSpeed / 300000000}
                     colors={["#FF5F6D", "#00ff00"]}
                     hideText={true}
                   />
@@ -126,11 +126,11 @@ export default function Page() {
                 </div>
                 <div className="col-4">
                   upload speed<br />
-                  ({Utilities.mbps(dishy.latest.uploadSpeed, 10)})
+                  ({Utilities.mbps(dishy.latestSpeeds.uploadSpeed, 10)})
                 </div>
                 <div className="col-4">
                   download speed<br />
-                  ({Utilities.mbps(dishy.latest.downloadSpeed, 10)})
+                  ({Utilities.mbps(dishy.latestSpeeds.downloadSpeed, 10)})
                 </div>
               </div>
             </div>

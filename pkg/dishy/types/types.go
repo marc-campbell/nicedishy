@@ -18,13 +18,17 @@ type DishyStat struct {
 	PopPingDropRate       float64 `json:"popPingDropRate"`
 	PercentObstructed     float64 `json:"percentObstructed"`
 	ObstructedSeconds     float64 `json:"obstructedSeconds"`
-	DownloadSpeed         float64 `json:"downloadSpeed"`
-	UploadSpeed           float64 `json:"uploadSpeed"`
+}
+
+type DishySpeed struct {
+	DownloadSpeed float64 `json:"downloadSpeed"`
+	UploadSpeed   float64 `json:"uploadSpeed"`
 }
 
 type DishyWithStats struct {
 	Dishy
-	Latest *DishyStat `json:"latest"`
+	LatestStats  *DishyStat  `json:"latestStats"`
+	LatestSpeeds *DishySpeed `json:"latestSpeeds"`
 }
 
 // https://ipwhois.io/documentation
