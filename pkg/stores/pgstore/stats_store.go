@@ -2,6 +2,7 @@ package pgstore
 
 import (
 	"context"
+	"database/sql"
 	"fmt"
 	"time"
 
@@ -56,12 +57,16 @@ func (s PGStore) GetHighestDownloadSpeed(ctx context.Context) (float64, error) {
 	query := `select max(download_speed) from dishy_data`
 	row := pg.QueryRow(ctx, query)
 
-	speed := 0.0
+	var speed sql.NullFloat64
 	if err := row.Scan(&speed); err != nil {
-		return 0, fmt.Errorf("scan speed: %w", err)
+		return 0, fmt.Errorf("scan download speed: %w", err)
 	}
 
-	return speed, nil
+	if !speed.Valid {
+		return 0.0, nil
+	}
+
+	return speed.Float64, nil
 }
 
 func (s PGStore) GetAverageDownloadSpeed(ctx context.Context) (float64, error) {
@@ -70,12 +75,16 @@ func (s PGStore) GetAverageDownloadSpeed(ctx context.Context) (float64, error) {
 	query := `select avg(download_speed) from dishy_data`
 	row := pg.QueryRow(ctx, query)
 
-	speed := 0.0
+	var speed sql.NullFloat64
 	if err := row.Scan(&speed); err != nil {
-		return 0, fmt.Errorf("scan speed: %w", err)
+		return 0, fmt.Errorf("scan upload speed: %w", err)
 	}
 
-	return speed, nil
+	if !speed.Valid {
+		return 0.0, nil
+	}
+
+	return speed.Float64, nil
 }
 
 func (s PGStore) GetLowestPingTime(ctx context.Context) (float64, error) {
@@ -84,12 +93,16 @@ func (s PGStore) GetLowestPingTime(ctx context.Context) (float64, error) {
 	query := `select min(pop_ping_latency_ms) from dishy_data`
 	row := pg.QueryRow(ctx, query)
 
-	min := 0.0
+	var min sql.NullFloat64
 	if err := row.Scan(&min); err != nil {
 		return 0.0, fmt.Errorf("scan min: %w", err)
 	}
 
-	return min, nil
+	if !min.Valid {
+		return 0.0, nil
+	}
+
+	return min.Float64, nil
 }
 
 func (s PGStore) GetAveragePingTime(ctx context.Context) (float64, error) {
@@ -98,10 +111,14 @@ func (s PGStore) GetAveragePingTime(ctx context.Context) (float64, error) {
 	query := `select avg(pop_ping_latency_ms) from dishy_data`
 	row := pg.QueryRow(ctx, query)
 
-	avg := 0.0
+	var avg sql.NullFloat64
 	if err := row.Scan(&avg); err != nil {
 		return 0.0, fmt.Errorf("scan avg: %w", err)
 	}
 
-	return avg, nil
+	if !avg.Valid {
+		return 0.0, nil
+	}
+
+	return avg.Float64, nil
 }
