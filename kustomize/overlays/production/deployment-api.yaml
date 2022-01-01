@@ -49,3 +49,5 @@ spec:
                 secretKeyRef:
                   name: nicedishy-moosend
                   key: listId
+            - name: NATS_ENDPOINT
+              value: nats://nats.nats.svc.cluster.local:4222

@@ -52,7 +52,7 @@ func StreamPublicStats(w http.ResponseWriter, r *http.Request) {
 			log.Fatalf("Exiting: %v", nc.LastError())
 		}))
 
-		nc, err := nats.Connect("nats://nats:4222", opts...)
+		nc, err := nats.Connect(os.Getenv("NATS_ENDPOINT"), opts...)
 		if err != nil {
 			log.Fatal(err)
 		}
