@@ -40,6 +40,9 @@ export default function Page() {
       });
 
       if (!res.ok) {
+        if (res.status === 401) {
+          router.push(`/login?next=${encodeURIComponent(router.pathname)}`);
+        }
         return;
       }
 

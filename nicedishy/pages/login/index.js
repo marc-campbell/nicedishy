@@ -34,9 +34,25 @@ export default function Page() {
     }
   }
 
-  useEffect( () => {
+  useEffect( async () => {
     if (Utilities.getToken()) {
-      router.push("/dishies");
+      // validate that the token is still valid
+      try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/v1/whoami`);
+        if (!res.ok) {
+          console.error("error");
+          return;
+        }
+
+        const data = await res.json();
+        if (data.user) {
+          router.push("/dishies");
+          return;
+        }
+      } catch(err) {
+        console.log(err);
+      }
+      Utilities.logoutUser();
     }
   })
 
