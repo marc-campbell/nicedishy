@@ -3,6 +3,9 @@
 @import '~bootstrap-icons/font/bootstrap-icons.css';
 @import '~react-vis/dist/style.css';
 
+.navbar-brand-logo {
+  height: 60px;
+}
 .card-hover .read-more:hover {
   font-size: 14px;
 }
