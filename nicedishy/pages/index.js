@@ -139,8 +139,6 @@ export default function Home() {
                             <div className="device-wrapper">
                                 <div className="device" data-device="iPhoneX" data-orientation="portrait" data-color="black">
                                     <div className="screen bg-black">
-
-                                        <video muted="muted" autoplay="" loop="" style={{maxWidth: "100%", height: "100%"}}><source src="assets/img/demo-screen.mp4" type="video/mp4" /></video>
                                     </div>
                                 </div>
                             </div>

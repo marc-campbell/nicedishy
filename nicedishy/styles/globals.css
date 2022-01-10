@@ -50,3 +50,7 @@ a.text-muted{
 .dashboard-row {
   padding-bottom: 30px;
 }
+
+.hidden {
+  display: none;
+}

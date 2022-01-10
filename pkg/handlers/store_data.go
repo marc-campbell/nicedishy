@@ -57,6 +57,8 @@ func StoreData(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	fmt.Printf("UA %s payload: %s\n", r.Header.Get("user-agent"), payload)
+
 	storeDataRequest := StoreDataRequest{}
 	if err := json.Unmarshal(payload, &storeDataRequest); err != nil {
 		logger.Error(err)

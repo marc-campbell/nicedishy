@@ -41,6 +41,8 @@ func StoreSpeed(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	fmt.Printf("UA %s payload: %s\n", r.Header.Get("user-agent"), payload)
+
 	storeSpeedRequest := StoreSpeedRequest{}
 	if err := json.Unmarshal(payload, &storeSpeedRequest); err != nil {
 		logger.Error(err)

@@ -28,7 +28,9 @@ export default function Navbar() {
           </button>
 
           <div className="nav navbar-nav navbar-right">
-            <div className="btn btn-link" style={{textAlign: "right"}} onClick={handleLogout}>Logout</div>
+            {
+              Utilities.isLoggedIn() ? null : <div className="btn btn-link hidden" style={{textAlign: "right"}} onClick={handleLogout}>Logout</div>
+            }
           </div>
         </div>
       </nav>
