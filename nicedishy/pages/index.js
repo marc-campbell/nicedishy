@@ -1,24 +1,7 @@
 import Link from 'next/link'
-import { useRouter } from 'next/router'
 import Footer from '../components/footer';
 
 export default function Home() {
-  const router = useRouter();
-
-  const handleCompareClick = (e) => {
-    e.preventDefault();
-    router.push("/stats");
-  }
-
-  const handleMonitorClick = (e) => {
-    e.preventDefault();
-    router.push("/monitor");
-  }
-
-  const handleLearnClick = (e) => {
-    e.preventDefault();
-    router.push("/learn");
-  }
 
   return (
     <body id="page-top">
@@ -33,7 +16,7 @@ export default function Home() {
                 </button>
                 <div className="collapse navbar-collapse" id="navbarResponsive">
                     <ul className="navbar-nav ms-auto me-4 my-3 my-lg-0">
-                        <li className="nav-item"><a className="nav-link me-lg-3" href="#features">Docs</a></li>
+                        <li className="nav-item"><a className="nav-link me-lg-3" href="/docs">Docs</a></li>
                     </ul>
                     <button className="btn mb-2 mb-lg-0" data-bs-toggle="modal" data-bs-target="#feedbackModal">
                         <span className="d-flex align-items-center">
@@ -56,11 +39,22 @@ export default function Home() {
                               <img src="/images/nicedishy-word.png" />
                             </h1>
                             <p className="lead fw-normal text-muted mb-5">Continuous monitoring for your Starlink Dishy (Flatface or Squarepants), from anywhere.</p>
-                            <p className="lead fw-normal text-muted mb-5">  Compare the performance of your Dishy with everyone else!</p>
-                            <div className="d-flex flex-column flex-lg-row align-items-center">
-                                <a className="me-lg-3 mb-4 mb-lg-0" href="#!"><img className="app-badge" src="assets/img/google-play-badge.svg" alt="..." /></a>
-                                <a href="#!"><img className="app-badge" src="assets/img/app-store-badge.svg" alt="..." /></a>
-                            </div>
+                            <p className="lead fw-normal text-muted mb-5">Compare the performance of your Dishy with everyone else and even get some alerts when something changes!</p>
+                        </div>
+                        <p className="lead fw-normal text-muted mb-5">  Compare the performance of your Dishy with everyone else!</p>
+                        <div className="row">
+                          <div className="col-12">
+                            <Link href="/login">
+                              <a>
+                                <img className="app-badge" src="/images/btn_google_signin_dark_pressed_web@2x.png" alt="Get Started" />
+                              </a>
+                            </Link>
+                          </div>
+                        </div>
+                        <div className="row">
+                          <div className="col-12">
+                            (To get started, click the Google link)
+                          </div>
                         </div>
                     </div>
                     <div className="col-lg-6">
@@ -75,9 +69,8 @@ export default function Home() {
         <aside className="text-center bg-gradient-primary-to-secondary">
             <div className="container px-5">
                 <div className="row gx-5 justify-content-center">
-                    <div className="col-xl-8">
-                        <div className="h2 fs-1 text-white mb-4">Woo. It&apos;s free and it&apos;s exciting.</div>
-                        <img src="assets/img/tnw-logo.svg" alt="..." style={{height: "3rem"}} />
+                    <div className="col-xl-12">
+                        <div className="h2 fs-1 text-white mb-4">Woo. Think of it like the missing bits built by a Starlink fan.</div>
                     </div>
                 </div>
             </div>
@@ -91,32 +84,32 @@ export default function Home() {
                             <div className="row gx-5">
                                 <div className="col-md-6 mb-5">
                                     <div className="text-center">
-                                        <i className="bi-phone icon-feature text-gradient d-block mb-3"></i>
+                                        <img src="/images/7575373_news_events_mars_emoji.png" />
                                         <h3 className="font-alt">Compare</h3>
                                         <p className="text-muted mb-0">Compare the performance of your Dishy to folks around you or anywhere in the world</p>
                                     </div>
                                 </div>
                                 <div className="col-md-6 mb-5">
                                     <div className="text-center">
-                                        <i className="bi-camera icon-feature text-gradient d-block mb-3"></i>
+                                        <img src="/images/7734227_rotation_orbit_planet_mars.png" />
                                         <h3 className="font-alt">Monitor</h3>
-                                        <p className="text-muted mb-0">heck on the status of your Dishy from anywhere.</p>
+                                        <p className="text-muted mb-0">Check on the status of your Dishy from anywhere.</p>
                                     </div>
                                 </div>
                             </div>
                             <div className="row">
                                 <div className="col-md-6 mb-5 mb-md-0">
                                     <div className="text-center">
-                                        <i className="bi-gift icon-feature text-gradient d-block mb-3"></i>
+                                        <img src="/images/7582125_research_explore_planet_exploration_mars_science.png" />
                                         <h3 className="font-alt">Learn</h3>
                                         <p className="text-muted mb-0">Learn what to expect and understand if Starlink is working as expected.</p>
                                     </div>
                                 </div>
                                 <div className="col-md-6">
                                     <div className="text-center">
-                                        <i className="bi-patch-check icon-feature text-gradient d-block mb-3"></i>
-                                        <h3 className="font-alt">?? </h3>
-                                        <p className="text-muted mb-0">?? ??? ?? ? ?</p>
+                                        <img src="/images/7575375_emoji_image_mars_multimedia.png" />
+                                        <h3 className="font-alt">Be Informed</h3>
+                                        <p className="text-muted mb-0">Get an email when something changes (firmware, speed).</p>
                                     </div>
                                 </div>
                             </div>
@@ -124,29 +117,13 @@ export default function Home() {
                     </div>
                     <div className="col-lg-4 order-lg-0">
                         <div className="features-device-mockup">
-                            <svg className="circle" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                                <defs>
-                                    <linearGradient id="circleGradient" gradientTransform="rotate(45)">
-                                        <stop className="gradient-start-color" offset="0%"></stop>
-                                        <stop className="gradient-end-color" offset="100%"></stop>
-                                    </linearGradient>
-                                </defs>
-                                <circle cx="50" cy="50" r="50"></circle></svg
-                            ><svg className="shape-1 d-none d-sm-block" viewBox="0 0 240.83 240.83" xmlns="http://www.w3.org/2000/svg">
-                                <rect x="-32.54" y="78.39" width="305.92" height="84.05" rx="42.03" transform="translate(120.42 -49.88) rotate(45)"></rect>
-                                <rect x="-32.54" y="78.39" width="305.92" height="84.05" rx="42.03" transform="translate(-49.88 120.42) rotate(-45)"></rect></svg
-                            ><svg className="shape-2 d-none d-sm-block" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="50"></circle></svg>
-                            <div className="device-wrapper">
-                                <div className="device" data-device="iPhoneX" data-orientation="portrait" data-color="black">
-                                    <div className="screen bg-black">
-                                    </div>
-                                </div>
-                            </div>
+                          <img src="/images/screenshot-small.png" style={{maxWidth: "550px"}} />
                         </div>
                     </div>
                 </div>
             </div>
         </section>
+
         <section className="bg-light">
             <div className="container px-5">
                 <div className="row gx-5 align-items-center justify-content-center justify-content-lg-between">

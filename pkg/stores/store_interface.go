@@ -59,4 +59,7 @@ type Store interface {
 	GetAverageDownloadSpeed(ctx context.Context) (float64, error)
 	GetLowestPingTime(ctx context.Context) (float64, error)
 	GetAveragePingTime(ctx context.Context) (float64, error)
+
+	// one dishy
+	GetDishyVersions(ctx context.Context, id string) (string, string, error)
 }

@@ -11,6 +11,7 @@ export default function Page() {
   const [dishy, setDishy] = useState(null);
   const [stats, setStats] = useState({});
   const [speeds, setSpeeds] = useState({});
+  const [versions, setVersions] = useState({});
 
   const { id } = router.query
 
@@ -24,6 +25,7 @@ export default function Page() {
       setDishy(data.dishy);
       setStats(data.stats);
       setSpeeds(data.speeds);
+      setVersions(data.versions);
 
       if (isLoading) {
         setIsLoading(false);
@@ -44,22 +46,78 @@ export default function Page() {
     });
   }
 
+  let uploadSpeedData = [];
+  for (const [when, speed] of Object.entries(speeds)) {
+    const x = new Date(when);
+    uploadSpeedData.push({
+      x: x,
+      y: speed.uploadSpeed,
+    });
+  }
+
   return (
     <div>
-      <h1>Dishy</h1>
-      <h4>{dishy.name}</h4>
-      <XYPlot height={200} width={900}>
-        <HorizontalGridLines />
-        <LineSeries data={downloadSpeedData} />
-        <XAxis title="When" tickTotal={4} tickFormat={(t, i) => {
-          var d = new Date(0);
-          d.setUTCMilliseconds(t);
-          return `${dayjs(d).format("MM-DD-YYYY")} @ ${dayjs(d).format("HH:mm:ss a")}`;
-        }}/>
-        <YAxis tickTotal={4} width={70} tickFormat={(t, i) => {
-          return Utilities.mbps(t, 10);
-        }}/>
-      </XYPlot><br />
+      <h1>{dishy.name}</h1>
+
+      <h3>Versions</h3>
+      <div className="container">
+        <div className="row">
+          <div className="col-4">
+            <h4>Current Software Revision{' '}<i class="bi bi-info-circle"></i></h4>
+          </div>
+          <div className="col-8">
+            {versions.software}
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-4">
+            <h4>Current Hardware Revision{' '}<i class="bi bi-info-circle"></i></h4>
+          </div>
+          <div className="col-8">
+            {versions.hardware}
+          </div>
+        </div>
+      </div>
+
+      <h3>Speed</h3>
+      <div className="container">
+        <div className="row">
+          <div className="col-12">
+            <h4>Download Speed</h4>
+            <XYPlot height={200} width={900}>
+              <HorizontalGridLines />
+              <LineSeries data={downloadSpeedData} />
+              <XAxis tickTotal={4} tickFormat={(t, i) => {
+                var d = new Date(0);
+                d.setUTCMilliseconds(t);
+                return `${dayjs(d).format("MM-DD-YYYY")} @ ${dayjs(d).format("HH:mm:ss a")}`;
+              }}/>
+              <YAxis tickTotal={4} width={70} tickFormat={(t, i) => {
+                return Utilities.mbps(t, 10);
+              }}/>
+            </XYPlot>
+          </div>
+        </div>
+
+        <div className="row">
+          <div className="col-12">
+            <h4>Upload Speed</h4>
+            <XYPlot height={200} width={900}>
+              <HorizontalGridLines />
+              <LineSeries data={uploadSpeedData} />
+              <XAxis tickTotal={4} tickFormat={(t, i) => {
+                var d = new Date(0);
+                d.setUTCMilliseconds(t);
+                return `${dayjs(d).format("MM-DD-YYYY")} @ ${dayjs(d).format("HH:mm:ss a")}`;
+              }}/>
+              <YAxis tickTotal={4} width={70} tickFormat={(t, i) => {
+                return Utilities.mbps(t, 10);
+              }}/>
+            </XYPlot>
+          </div>
+        </div>
+      </div>
+
     </div>
   );
 }

@@ -57,8 +57,6 @@ func StoreData(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	fmt.Printf("UA %s payload: %s\n", r.Header.Get("user-agent"), payload)
-
 	storeDataRequest := StoreDataRequest{}
 	if err := json.Unmarshal(payload, &storeDataRequest); err != nil {
 		logger.Error(err)
@@ -132,13 +130,15 @@ func StoreData(w http.ResponseWriter, r *http.Request) {
 	metricsDB := persistence.MustGetMetricsDBSession()
 	query := `insert into dishy_data (
 time, dishy_id, ip_address, snr, downlink_throughput_bps, uplink_throughput_bps,
-pop_ping_latency_ms, pop_ping_drop_rate, percent_obstructed, seconds_obstructed)
+pop_ping_latency_ms, pop_ping_drop_rate, percent_obstructed, seconds_obstructed,
+software_version, hardware_version)
 values
-($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`
+($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)`
 	_, err = metricsDB.Exec(context.Background(), query, when, d.ID, ipAddress, storeDataRequest.Status.SNR,
 		storeDataRequest.Status.DownlinkThroughputBps, storeDataRequest.Status.UplinkThroughputBps,
 		storeDataRequest.Status.PopPingLatencyMs, storeDataRequest.Status.PopPingDropRate,
-		storeDataRequest.Status.PercentObstructed, storeDataRequest.Status.SecondsObstructed)
+		storeDataRequest.Status.PercentObstructed, storeDataRequest.Status.SecondsObstructed,
+		storeDataRequest.Status.DeviceInfo.SoftwareVersion, storeDataRequest.Status.DeviceInfo.HardwareVersion)
 	if err != nil {
 		logger.Error(err)
 		storeDataResponse.Error = err.Error()
