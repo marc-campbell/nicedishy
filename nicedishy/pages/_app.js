@@ -1,5 +1,5 @@
 import '../styles/globals.css'
-import frontStyles from '../styles/front.css'
+import '../styles/home.css'
 
 function MyApp({ Component, pageProps }) {
   const getLayout = Component.getLayout || ((page) => page);

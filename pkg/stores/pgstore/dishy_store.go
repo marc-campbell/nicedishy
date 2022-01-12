@@ -7,10 +7,33 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/jackc/pgx/v4"
 	dishytypes "github.com/marc-campbell/nicedishy/pkg/dishy/types"
 	"github.com/marc-campbell/nicedishy/pkg/persistence"
 	"github.com/segmentio/ksuid"
 )
+
+func (s PGStore) GetDishyVersions(ctx context.Context, id string) (string, string, error) {
+	pg := persistence.MustGetMetricsDBSession()
+
+	query := `select software_version, hardware_version from dishy_data where dishy_id = $1
+and software_version is not null and hardware_version is not null
+order by time desc limit 1`
+	row := pg.QueryRow(ctx, query, id)
+
+	softwareVersion := ""
+	hardwareVersion := ""
+
+	if err := row.Scan(&softwareVersion, &hardwareVersion); err != nil {
+		if err == pgx.ErrNoRows {
+			return "", "", nil
+		}
+
+		return "", "", fmt.Errorf("error getting versions: %v", err)
+	}
+
+	return softwareVersion, hardwareVersion, nil
+}
 
 func (s PGStore) ListDishies(ctx context.Context, userID string) ([]*dishytypes.Dishy, error) {
 	pg := persistence.MustGetPGSession()

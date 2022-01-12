@@ -3,6 +3,16 @@
 @import '~bootstrap-icons/font/bootstrap-icons.css';
 @import '~react-vis/dist/style.css';
 
+body {
+  font-family: var(--bs-body-font-family);
+  font-size: var(--bs-body-font-size);
+  font-weight: var(--bs-body-font-weight);
+  line-height: var(--bs-body-line-height);
+}
+
+.navbar-brand-logo {
+  height: 60px;
+}
 .card-hover .read-more:hover {
   font-size: 14px;
 }
@@ -46,4 +56,8 @@ a.text-muted{
 
 .dashboard-row {
   padding-bottom: 30px;
+}
+
+.hidden {
+  display: none;
 }

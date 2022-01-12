@@ -15,9 +15,10 @@ import (
 )
 
 type StreamDishyResponse struct {
-	Dishy  *dishytypes.Dishy                    `json:"dishy"`
-	Stats  map[time.Time]*dishytypes.DishyStat  `json:"stats"`
-	Speeds map[time.Time]*dishytypes.DishySpeed `json:"speeds"`
+	Dishy    *dishytypes.Dishy                    `json:"dishy"`
+	Stats    map[time.Time]*dishytypes.DishyStat  `json:"stats"`
+	Speeds   map[time.Time]*dishytypes.DishySpeed `json:"speeds"`
+	Versions map[string]string                    `json:"versions"`
 }
 
 func StreamDishy(w http.ResponseWriter, r *http.Request) {
@@ -54,10 +55,20 @@ func StreamDishy(w http.ResponseWriter, r *http.Request) {
 				continue
 			}
 
+			softwareVersion, hardwareVersion, err := stores.GetStore().GetDishyVersions(context.TODO(), d.ID)
+			if err != nil {
+				logger.Error(err)
+				continue
+			}
+
 			message := StreamDishyResponse{
 				Dishy:  d,
 				Stats:  stats,
 				Speeds: speeds,
+				Versions: map[string]string{
+					"hardware": hardwareVersion,
+					"software": softwareVersion,
+				},
 			}
 
 			b, err := json.Marshal(message)

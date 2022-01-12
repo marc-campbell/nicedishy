@@ -7,6 +7,7 @@ require (
 	github.com/gorilla/mux v1.8.0
 	github.com/gorilla/websocket v1.4.2
 	github.com/jackc/pgx/v4 v4.14.1
+	github.com/keighl/postmark v0.0.0-20190821160221-28358b1a94e3 // indirect
 	github.com/kr/pretty v0.3.0 // indirect
 	github.com/mailru/easyjson v0.7.7 // indirect
 	github.com/nats-io/nats-server/v2 v2.6.6 // indirect

@@ -1,213 +1,145 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import styles from '../styles/Home.module.css'
 import Link from 'next/link'
-import { useRouter } from 'next/router'
 import Footer from '../components/footer';
 
 export default function Home() {
-  const router = useRouter();
-
-  const handleCompareClick = (e) => {
-    e.preventDefault();
-    router.push("/stats");
-  }
-
-  const handleMonitorClick = (e) => {
-    e.preventDefault();
-    router.push("/monitor");
-  }
-
-  const handleLearnClick = (e) => {
-    e.preventDefault();
-    router.push("/learn");
-  }
 
   return (
-    <div>
-      <header id="header" className="navbar navbar-expand-lg navbar-end navbar-absolute-top navbar-light navbar-show-hide">
-        <div className="container navbar-topbar">
-          <nav className="js-mega-menu navbar-nav-wrap">
-            <button className="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#topbarNavDropdown" aria-controls="topbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-              <span className="d-flex justify-content-between align-items-center small">
-                <span className="navbar-toggler-text">Topbar</span>
-
-                <span className="navbar-toggler-default">
-                  <i className="bi-chevron-down ms-2"></i>
-                </span>
-                <span className="navbar-toggler-toggled">
-                  <i className="bi-chevron-up ms-2"></i>
-                </span>
-              </span>
-            </button>
-
-            <div id="topbarNavDropdown" className="navbar-nav-wrap-collapse collapse navbar-collapse navbar-topbar-collapse">
-              <div className="navbar-toggler-wrapper">
-                <div className="navbar-topbar-toggler d-flex justify-content-between align-items-center">
-                  <span className="navbar-toggler-text small">Topbar</span>
-
-                  <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#topbarNavDropdown" aria-controls="topbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-                    <i className="bi-x"></i>
-                  </button>
+    <body id="page-top">
+        <nav className="navbar navbar-expand-lg navbar-light fixed-top shadow-sm" id="mainNav">
+            <div className="container px-5">
+                <a className="navbar-brand fw-bold" href="#page-top">
+                  <img className="navbar-brand-logo" src="/images/nicedishy-logo.png" alt="NiceDishy" />
+                </a>
+                <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                    Menu
+                    <i className="bi-list"></i>
+                </button>
+                <div className="collapse navbar-collapse" id="navbarResponsive">
+                    <ul className="navbar-nav ms-auto me-4 my-3 my-lg-0">
+                        <li className="nav-item"><a className="nav-link me-lg-3" href="/docs">Docs</a></li>
+                    </ul>
+                    <button className="btn mb-2 mb-lg-0" data-bs-toggle="modal" data-bs-target="#feedbackModal">
+                        <span className="d-flex align-items-center">
+                            <i className="me-2"></i>
+                            <Link href="/login">
+                              <a><img src="/images/btn_google_signin_dark_pressed_web@2x.png" alt="Sign in with Google" style={{width: "200px"}} /></a>
+                            </Link>
+                        </span>
+                    </button>
                 </div>
-              </div>
-
             </div>
-          </nav>
-        </div>
-
-        <div className="container">
-          <nav className="js-mega-menu navbar-nav-wrap navbar-custom">
-            <a className="navbar-brand" href="./index.html" aria-label="Front">
-              <img className="navbar-brand-logo" src="/images/nicedishy-icon.png" alt="NiceDishy" />
-            </a>
-
-            <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-              <span className="navbar-toggler-default">
-                <i className="bi-list"></i>
-              </span>
-              <span className="navbar-toggler-toggled">
-                <i className="bi-x"></i>
-              </span>
-            </button>
-
-            <div className="collapse navbar-collapse" id="navbarNavDropdown">
-              <div className="navbar-absolute-top-scroller">
-                <ul className="navbar-nav">
-
-                <li className="nav-item">
-                  <Link href="/signup"><div className="btn btn-transition btn-outline-primary">Sign Up</div></Link>
-                </li>
-                <li className="nav-item">
-                  <Link href="/login"><div className="btn btn-transition">Log In</div></Link>
-                </li>
-              </ul>
-            </div>
-          </div>
         </nav>
-      </div>
-    </header>
 
-
-      <main id="content" role="main">
-        <div className="d-lg-flex position-relative">
-          <div className="container d-lg-flex align-items-lg-center content-space-t-3 content-space-lg-0 min-vh-lg-100">
-            <div className="w-100">
-              <div className="row">
-                <div className="col-lg-5">
-                  <div className="mb-5">
-                    <h1 className="display-4 mb-3">
-                      <img src="/images/nicedishy-word.png" />
-                    </h1>
-
-                    <p className="lead">Continuous monitoring for your Starlink Dishy (Flatface or Squarepants), from anywhere.
-  <br /><br />
-  Compare the performance of your Dishy with everyone else!</p>
-                  </div>
-
-                  <div className="d-grid d-sm-flex gap-3">
-                    <Link href="/login"><div className="btn btn-primary btn-transition px-6">Get started</div></Link>
-                    <Link href="/stats"><div className="btn btn-outline-secondary btn-transition px-6">See the stats</div></Link>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="col-lg-7 col-xl-6 d-none d-lg-block position-absolute top-0 end-0 pe-0" style={{"marginTop": "6.75rem"}}>
-
-            </div>
-          </div>
-        </div>
-
-        <div className="container content-space-2 content-space-t-xl-3 content-space-b-lg-3">
-          <div className="w-md-150 w-lg-100 text-center mx-md-auto mb-5">
-            <h2>Why join the amazing NiceDishy network?</h2>
-          </div>
-
-          <div className="row mb-5 mb-md-0">
-            <div className="col-sm-6 col-lg-4 mb-4 mb-lg-0">
-              <div className="card card-sm h-100">
-                <div className="p-2" style={{textAlign: "center", marginTop: "10px"}}>
-                  <img className="card-img" style={{width: "60px"}} src="/images/performance.png" alt="Compare Performance"/ >
-                </div>
-
-                <div className="card-body">
-                  <h4 className="card-title">Compare</h4>
-                  <p className="card-text">Compare the performance of your Dishy to folks around you or anywhere in the world.</p>
-                  <p className="card-text">Compare your download, upload, latency, reliability and more to others near you or far away from you.</p>
-                </div>
-
-                <a className="card-footer card-link border-top" href="#" onClick={handleCompareClick}>Learn more <i className="bi-chevron-right small ms-1"></i></a>
-              </div>
-            </div>
-
-            <div className="col-sm-6 col-lg-4 mb-4 mb-lg-0">
-              <div className="card card-sm h-100">
-                <div className="p-2" style={{textAlign: "center", marginTop: "10px"}}>
-                  <img className="card-img" style={{width: "60px"}} src="/images/performance.png" alt="Compare Performance"/ >
-                </div>
-
-                <div className="card-body">
-                  <h4 className="card-title">Monitor</h4>
-                  <p className="card-text">Check on the status of your Dishy from anywhere.</p>
-
-                </div>
-
-                <a className="card-footer card-link border-top" href="#" onClick={handleMonitorClick}>Learn more <i className="bi-chevron-right small ms-1"></i></a>
-              </div>
-            </div>
-
-            <div className="col-sm-6 col-lg-4">
-              <div className="card card-sm h-100">
-                <div className="p-2" style={{textAlign: "center", marginTop: "10px"}}>
-                  <img className="card-img" style={{width: "60px"}} src="/images/performance.png" alt="Compare Performance"/ >
-                </div>
-
-                <div className="card-body">
-                  <h4 className="card-title">Learn</h4>
-                  <p className="card-text">Learn what to expect and understand if Starlink is working as expected.</p>
-
-                </div>
-
-                <a className="card-footer card-link border-top" href="#" onClick={handleLearnClick}>Learn more <i className="bi-chevron-right small ms-1"></i></a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="position-relative bg-light rounded-2 mx-3 mx-lg-10">
-          <div className="container content-space-2 content-space-lg-3">
-            <div className="w-md-75 w-lg-50 text-center mx-md-auto mb-5">
-              <h2>Global Stats</h2>
-              <p>A quick look at the stats powering NiceDishy</p>
-            </div>
-
-            <div className="row">
-              <div className="col-lg-12 mb-12 mb-lg-12">
-                <div className="pe-lg-12">
-                  <figure className="device-browser">
-                    <div className="device-browser-header">
-                      <div className="device-browser-header-btn-list">
-                        <span className="device-browser-header-btn-list-btn"></span>
-                        <span className="device-browser-header-btn-list-btn"></span>
-                        <span className="device-browser-header-btn-list-btn"></span>
-                      </div>
-                      <div className="device-browser-header-browser-bar">nicedishy.com/stats/</div>
+        <header className="masthead">
+            <div className="container px-5">
+                <div className="row gx-5 align-items-center">
+                    <div className="col-lg-6">
+                        <div className="mb-5 mb-lg-0 text-center text-lg-start">
+                            <h1 className="display-1 lh-1 mb-3">
+                              <img src="/images/nicedishy-word.png" />
+                            </h1>
+                            <p className="lead fw-normal text-muted mb-5">Continuous monitoring for your Starlink Dishy (Flatface or Squarepants), from anywhere.</p>
+                            <p className="lead fw-normal text-muted mb-5">Compare the performance of your Dishy with everyone else and even get some alerts when something changes!</p>
+                        </div>
+                        <p className="lead fw-normal text-muted mb-5">  Compare the performance of your Dishy with everyone else!</p>
+                        <div className="row">
+                          <div className="col-12">
+                            <Link href="/login">
+                              <a>
+                                <img className="app-badge" src="/images/btn_google_signin_dark_pressed_web@2x.png" alt="Get Started" />
+                              </a>
+                            </Link>
+                          </div>
+                        </div>
+                        <div className="row">
+                          <div className="col-12">
+                            (To get started, click the Google link)
+                          </div>
+                        </div>
                     </div>
-
-                    <div className="device-browser-frame">
-                      <img className="device-browser-img" src="/images/stats-screen.png" alt="Stats" />
+                    <div className="col-lg-6">
+                        <div className="masthead-device-mockup">
+                            <img src="/images/nicedishy-icon.png" />
+                        </div>
                     </div>
-                  </figure>
                 </div>
-              </div>
-
             </div>
-          </div>
-        </div>
+        </header>
 
-      </main>
-      <Footer />
-    </div>
+        <aside className="text-center bg-gradient-primary-to-secondary">
+            <div className="container px-5">
+                <div className="row gx-5 justify-content-center">
+                    <div className="col-xl-12">
+                        <div className="h2 fs-1 text-white mb-4">Woo. Think of it like the missing bits built by a Starlink fan.</div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <section id="features">
+            <div className="container px-5">
+                <div className="row gx-5 align-items-center">
+                    <div className="col-lg-8 order-lg-1 mb-5 mb-lg-0">
+                        <div className="container-fluid px-5">
+                            <div className="row gx-5">
+                                <div className="col-md-6 mb-5">
+                                    <div className="text-center">
+                                        <img src="/images/7575373_news_events_mars_emoji.png" />
+                                        <h3 className="font-alt">Compare</h3>
+                                        <p className="text-muted mb-0">Compare the performance of your Dishy to folks around you or anywhere in the world</p>
+                                    </div>
+                                </div>
+                                <div className="col-md-6 mb-5">
+                                    <div className="text-center">
+                                        <img src="/images/7734227_rotation_orbit_planet_mars.png" />
+                                        <h3 className="font-alt">Monitor</h3>
+                                        <p className="text-muted mb-0">Check on the status of your Dishy from anywhere.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="row">
+                                <div className="col-md-6 mb-5 mb-md-0">
+                                    <div className="text-center">
+                                        <img src="/images/7582125_research_explore_planet_exploration_mars_science.png" />
+                                        <h3 className="font-alt">Learn</h3>
+                                        <p className="text-muted mb-0">Learn what to expect and understand if Starlink is working as expected.</p>
+                                    </div>
+                                </div>
+                                <div className="col-md-6">
+                                    <div className="text-center">
+                                        <img src="/images/7575375_emoji_image_mars_multimedia.png" />
+                                        <h3 className="font-alt">Be Informed</h3>
+                                        <p className="text-muted mb-0">Get an email when something changes (firmware, speed).</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="col-lg-4 order-lg-0">
+                        <div className="features-device-mockup">
+                          <img src="/images/screenshot-small.png" style={{maxWidth: "550px"}} />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section className="bg-light">
+            <div className="container px-5">
+                <div className="row gx-5 align-items-center justify-content-center justify-content-lg-between">
+                    <div className="col-12 col-lg-5">
+                        <h2 className="display-4 lh-1 mb-4">Let&apos;s build the most complete dataset of dishy stats!</h2>
+                        <p className="lead fw-normal text-muted mb-5 mb-lg-0">This section is perfect for featuring some information about your application, why it was built, the problem it solves, or anything else! There&apos;s plenty of space for text here, so don&apos;t worry about writing too much.</p>
+                    </div>
+                    <div className="col-sm-8 col-md-6">
+                        <div className="px-5 px-sm-0"><img className="img-fluid rounded-circle" src="https://source.unsplash.com/u8Jn2rzYIps/900x900" alt="..." /></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <Footer />
+
+    </body>
   )
 }
