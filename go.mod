@@ -7,7 +7,7 @@ require (
 	github.com/gorilla/mux v1.8.0
 	github.com/gorilla/websocket v1.4.2
 	github.com/jackc/pgx/v4 v4.14.1
-	github.com/keighl/postmark v0.0.0-20190821160221-28358b1a94e3 // indirect
+	github.com/keighl/postmark v0.0.0-20190821160221-28358b1a94e3
 	github.com/kr/pretty v0.3.0 // indirect
 	github.com/mailru/easyjson v0.7.7 // indirect
 	github.com/nats-io/nats-server/v2 v2.6.6 // indirect
@@ -18,7 +18,8 @@ require (
 	github.com/spf13/cobra v1.3.0
 	github.com/spf13/viper v1.10.1
 	github.com/swaggo/swag v1.7.8
-	go.uber.org/zap v1.19.1
+	go.uber.org/zap v1.20.0
+	goji.io v2.0.2+incompatible // indirect
 	golang.org/x/crypto v0.0.0-20211117183948-ae814b36b871 // indirect
 	golang.org/x/net v0.0.0-20211118161319-6a13c67c3ce4 // indirect
 	golang.org/x/oauth2 v0.0.0-20211104180415-d3ed0bb246c8
