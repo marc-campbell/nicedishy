@@ -63,7 +63,7 @@ export default function Page() {
       <div className="container">
         <div className="row">
           <div className="col-4">
-            <h4>Current Software Revision{' '}<i class="bi bi-info-circle"></i></h4>
+            <h4>Current Software Revision{' '}<i className="bi bi-info-circle"></i></h4>
           </div>
           <div className="col-8">
             {versions.software}
@@ -71,7 +71,7 @@ export default function Page() {
         </div>
         <div className="row">
           <div className="col-4">
-            <h4>Current Hardware Revision{' '}<i class="bi bi-info-circle"></i></h4>
+            <h4>Current Hardware Revision{' '}<i className="bi bi-info-circle"></i></h4>
           </div>
           <div className="col-8">
             {versions.hardware}
