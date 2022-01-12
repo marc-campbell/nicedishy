@@ -16,6 +16,9 @@ func GetOrCreate(ctx context.Context, email string, avatarURL string) (*types.Us
 			return nil, errors.Wrap(err, "failed to create user")
 		}
 
+		// Send a welcome email
+		//  TODO
+
 		return createdUser, nil
 	} else if err != nil {
 		return nil, errors.Wrap(err, "failed to get user by email")

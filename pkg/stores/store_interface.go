@@ -41,6 +41,7 @@ type Store interface {
 	GetToken(ctx context.Context, token string) (*tokentypes.Token, error)
 	CreateSessionNonce(ctx context.Context, sessionID string) (string, error)
 	GetSessionNonce(ctx context.Context, id string) (string, error)
+	GetUserByDishy(ctx context.Context, id string) (*usertypes.User, error)
 
 	ListDishies(ctx context.Context, userID string) ([]*dishytypes.Dishy, error)
 	CreateDishy(ctx context.Context, userID string, name string) (*dishytypes.Dishy, error)

@@ -125,3 +125,16 @@ func (s PGStore) GetOAuthState(ctx context.Context, id string) (bool, string, er
 
 	return true, next, nil
 }
+
+func (s PGStore) GetUserByDishy(ctx context.Context, id string) (*usertypes.User, error) {
+	pg := persistence.MustGetPGSession()
+
+	query := `select user_id from dishy where id = $1`
+	row := pg.QueryRow(ctx, query, id)
+	userID := ""
+	if err := row.Scan(&userID); err != nil {
+		return nil, errors.Wrap(err, "failed to scan user id")
+	}
+
+	return s.GetUserByID(ctx, userID)
+}

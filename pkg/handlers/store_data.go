@@ -12,6 +12,7 @@ import (
 
 	"github.com/marc-campbell/nicedishy/pkg/dishy"
 	"github.com/marc-campbell/nicedishy/pkg/logger"
+	"github.com/marc-campbell/nicedishy/pkg/mailer"
 	"github.com/marc-campbell/nicedishy/pkg/persistence"
 	"github.com/marc-campbell/nicedishy/pkg/stores"
 	"go.uber.org/zap"
@@ -127,6 +128,14 @@ func StoreData(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
+	previousSoftwareVersion, _, err := stores.GetStore().GetDishyVersions(context.TODO(), d.ID)
+	if err != nil {
+		logger.Error(err)
+		storeDataResponse.Error = err.Error()
+		JSON(w, http.StatusInternalServerError, storeDataResponse)
+		return
+	}
+
 	metricsDB := persistence.MustGetMetricsDBSession()
 	query := `insert into dishy_data (
 time, dishy_id, ip_address, snr, downlink_throughput_bps, uplink_throughput_bps,
@@ -151,6 +160,24 @@ values
 		storeDataResponse.Error = err.Error()
 		JSON(w, http.StatusInternalServerError, storeDataResponse)
 		return
+	}
+
+	if previousSoftwareVersion != "" && previousSoftwareVersion != storeDataRequest.Status.DeviceInfo.SoftwareVersion {
+		user, err := stores.GetStore().GetUserByDishy(context.TODO(), d.ID)
+		if err != nil {
+			logger.Error(err)
+			storeDataResponse.Error = err.Error()
+			JSON(w, http.StatusInternalServerError, storeDataResponse)
+			return
+		}
+
+		// send an email that the version changes
+		if err := mailer.SendSoftwareVersionChanged(context.TODO(), user.EmailAddress, storeDataRequest.Status.DeviceInfo.SoftwareVersion); err != nil {
+			logger.Error(err)
+			storeDataResponse.Error = err.Error()
+			JSON(w, http.StatusInternalServerError, storeDataResponse)
+			return
+		}
 	}
 
 	w.WriteHeader(http.StatusCreated)
