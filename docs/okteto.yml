@@ -1,6 +1,6 @@
 name: nicedishy-docs
 image: okteto.dev/nicedishy-docs:dev
-command: mkdocs serve -a localhost:3000
+command: mkdocs serve -a 0.0.0.0:3000
 workdir: /docs
 sync:
   - .:/docs
