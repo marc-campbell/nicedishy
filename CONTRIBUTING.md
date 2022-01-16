@@ -56,7 +56,8 @@ create table google_user (
   email_address text not null,
   avatar_url text not null,
   created_at timestamptz not null,
-  last_login_at timestamptz not null
+  last_login_at timestamptz not null,
+  is_waitlisted boolean not null
 );
 
 create table dishy (

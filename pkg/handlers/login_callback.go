@@ -55,7 +55,7 @@ func LoginCallback(w http.ResponseWriter, r *http.Request) {
 	if next == "undefined" {
 		next = ""
 	}
-	
+
 	loginCallbackResponse.RedirectURI = next
 
 	conf := &oauth2.Config{
@@ -119,6 +119,10 @@ func LoginCallback(w http.ResponseWriter, r *http.Request) {
 		loginCallbackResponse.Error = err.Error()
 		JSON(w, http.StatusInternalServerError, loginCallbackResponse)
 		return
+	}
+
+	if user.IsWaitlisted {
+		loginCallbackResponse.RedirectURI = "/waitlist"
 	}
 
 	sess, err := session.CreateSessionForUser(context.TODO(), user, tok.AccessToken)

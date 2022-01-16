@@ -3,6 +3,7 @@ package user
 import (
 	"context"
 
+	"github.com/marc-campbell/nicedishy/pkg/mailer"
 	"github.com/marc-campbell/nicedishy/pkg/stores"
 	"github.com/marc-campbell/nicedishy/pkg/user/types"
 	"github.com/pkg/errors"
@@ -16,6 +17,15 @@ func GetOrCreate(ctx context.Context, email string, avatarURL string) (*types.Us
 			return nil, errors.Wrap(err, "failed to create user")
 		}
 
+		if createdUser.IsWaitlisted {
+			if err := mailer.SendInternalWaitlistSignup(ctx, createdUser.EmailAddress); err != nil {
+				return nil, errors.Wrap(err, "failed to send waitlist signup email")
+			}
+
+			if err := mailer.SendWelcomeWaitlist(ctx, createdUser.EmailAddress); err != nil {
+				return nil, errors.Wrap(err, "failed to send welcome waitlist email")
+			}
+		}
 		// Send a welcome email
 		//  TODO
 

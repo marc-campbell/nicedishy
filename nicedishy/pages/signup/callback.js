@@ -58,7 +58,7 @@ function LoginCallback() {
     setNextUrl(nextUrl);
 
     router.push(nextUrl);
-  })
+  }, []);
 
   return (
     <>
