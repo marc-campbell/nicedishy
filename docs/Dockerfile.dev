@@ -3,4 +3,3 @@ FROM squidfunk/mkdocs-material:8.1.6 as builder
 ADD mkdocs.yml /docs
 ADD docs/ docs
 
-RUN mkdocs serve
