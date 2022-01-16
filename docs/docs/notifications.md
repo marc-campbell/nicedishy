@@ -19,3 +19,7 @@ When we see a sustained change in the performance characteristics of your device
 #### Weekly Stats
 
 We also send you a weekly summary of your device performance. This just includes the fastest (and slowest) speeds, averages, and some data to help you understand how your device is comparing to others.
+
+#### Suspected Outage In Your Area
+
+When devices in a geographic area all starts reporting high latency or drop offline, we can assume that the area is experiencing a service outage. We'll email you and let you know when this is detected, and when it's resolved.
