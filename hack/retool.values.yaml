@@ -16,7 +16,7 @@ config:
       clientSecretSecretName: retoolsecrets
       # clientSecretSecretKey is the key in the k8s secret, default: google-client-secret
       clientSecretSecretKey: google_client_secret
-      domain: nicedishy.com
+      # domain:
   encryptionKey: not-a-key
   # encryptionKeySecretName is the name of the secret where the encryption key is stored (can be used instead of encryptionKey)
   # encryptionKeySecretName:
@@ -59,9 +59,7 @@ externalSecrets:
 files: {}
 
 deployment:
-  annotations:
-    dev.okteto.com/auto-ingress: "true"
-
+  annotations: {}
 service:
   type: ClusterIP
   externalPort: 3000
@@ -71,7 +69,9 @@ service:
   #
   ## LoadBalancer IP if service.type is LoadBalancer
   # loadBalancerIP: 10.2.2.2
-  annotations: {}
+  annotations:
+    dev.okteto.com/auto-ingress: "true"
+
   labels: {}
   ## Limit load balancer source ips to list of CIDRs (where available)
   # loadBalancerSourceRanges: []
