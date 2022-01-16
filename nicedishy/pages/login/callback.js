@@ -45,6 +45,11 @@ function LoginCallback() {
       }
 
       window.localStorage.setItem("token", response.token);
+      if (response.isWaitlisted) {
+        window.localStorage.setItem("isWaitlisted", response.isWaitlisted);
+      } else {
+        window.localStorage.removeItem("isWaitlisted");
+      }
 
       if (window.sessionStorage.getItem('next')) {
         nextUrl = window.sessionStorage.getItem('next');

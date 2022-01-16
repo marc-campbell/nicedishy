@@ -35,9 +35,36 @@ export default function Page() {
     }
   }
 
-  useEffect( () => {
+  useEffect( async () => {
     if (Utilities.getToken()) {
-      router.push("/dishies");
+      // validate that the token is still valid
+      try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/v1/whoami`, {
+         method: 'GET',
+         headers: {
+          "Content-Type": "application/json",
+          "Authorization": Utilities.getToken(),
+          },
+        });
+
+        if (!res.ok) {
+          console.error("error");
+          return;
+        }
+
+        const data = await res.json();
+        if (data.user) {
+          if (data.user.isWaitlisted) {
+            router.push("/waitlist");
+          } else {
+            router.push("/dishies");
+          }
+          return;
+        }
+      } catch(err) {
+        console.log(err);
+      }
+      Utilities.logoutUser();
     }
   })
 
