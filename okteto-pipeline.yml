@@ -1,6 +1,6 @@
 icon: https://github.com/okteto/polling/raw/master/icon.png
 deploy:
-  - envsubst < kustomize/retool/retool-secrets.tmpl.yaml > kustomize/retool/retool-secrets.yaml
+  - envsubst < kustomize/overlays/okteto/retool-secrets.tmpl.yaml > kustomize/overlays/okteto/retool-secrets.yaml
   - envsubst < kustomize/overlays/okteto/google-secret-tmpl.yaml > kustomize/overlays/okteto/google-secret.yaml
   - envsubst < kustomize/overlays/okteto/deployment-api.tmpl.yaml > kustomize/overlays/okteto/deployment-api.yaml
   - envsubst < nicedishy/.env.tmpl > nicedishy/.env

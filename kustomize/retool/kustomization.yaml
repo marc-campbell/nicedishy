@@ -1,5 +1,0 @@
-bases:
-  - ../retool/retool-secrets.yaml
-  - ../retool/retool-postgres.yaml
-  - ../retool/retool-jobs-runner.yaml
-  - ../retool/retool-container.yaml
