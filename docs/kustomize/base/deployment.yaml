@@ -1,0 +1,17 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nicedishy-docs
+spec:
+  selector:
+    matchLabels:
+      app: nicedishy-docs
+  template:
+    metadata:
+      labels:
+        app: nicedishy-docs
+    spec:
+      containers:
+        - name: nicedishy-docs
+          image: nicedishy-docs
+

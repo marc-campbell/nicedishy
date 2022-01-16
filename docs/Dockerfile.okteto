@@ -1,0 +1,12 @@
+FROM squidfunk/mkdocs-material:8.1.6 as builder
+
+ADD mkdocs.yml /docs
+ADD docs/ docs
+
+RUN mkdocs build --clean
+
+## nginx
+FROM nginx:1.21.4-alpine
+COPY --from=builder /docs/site /usr/share/nginx/html
+COPY deploy/nginx.conf.dev /etc/nginx/conf.d/default.conf
+EXPOSE 3000
