@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nicedishy-mailer
+spec:
+  template:
+    spec:
+      containers:
+        - name: nicedishy-mailer
+          args: ["mailer", "--log-level", "debug"]
+          env:
+            - name: POSTGRES_URI
+              valueFrom:
+                secretKeyRef:
+                  name: nicedishy-timescale # we use the same database in dev
+                  key: uri
+            - name: POSTMARK_SERVER_TOKEN
+              value: "$POSTMARK_SERVER_TOKEN"
+            - name: POSTMARK_ACCOUNT_TOKEN
+              value: "$POSTMARK_ACCOUNT_TOKEN"

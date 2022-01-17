@@ -13,6 +13,30 @@ export default function Page() {
   const [isSaved, setIsSaved] = useState(false);
   const [saveError, setSaveError] = useState("");
 
+  useEffect( async () => {
+    if (!Utilities.getToken()) {
+      router.push('/signup');
+      return;
+    }
+    // validate that the token is still valid
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/v1/whoami`, {
+        method: 'GET',
+        headers: {
+        "Content-Type": "application/json",
+        "Authorization": Utilities.getToken(),
+        },
+      });
+
+      if (res.status === 401) {
+        router.put("/signup");
+        return;
+      }
+    } catch(err) {
+      console.log(err);
+    }
+  }, []);
+
   const handleSaveClick = async (ev) => {
     ev.preventDefault();
 

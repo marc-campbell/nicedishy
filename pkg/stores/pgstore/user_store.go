@@ -98,5 +98,13 @@ func (s PGStore) CreateUser(ctx context.Context, emailAddress string, avatarURL 
 		return nil, errors.Wrap(err, "insert user")
 	}
 
+	// because uses are hard coded to be on the waitlist, we also insert this
+	query = `insert into google_user_waitlist (id, created_at, already_have_dishy, how_long_with_dishy, primary_or_backup, operating_systems, why_access)
+		values ($1, $2, $3, $4, $5, $6, $7)`
+	_, err = pg.Exec(ctx, query, user.ID, user.CreatedAt, "", "", "", []string{}, []string{})
+	if err != nil {
+		return nil, errors.Wrap(err, "insert user waitlist")
+	}
+
 	return &user, nil
 }

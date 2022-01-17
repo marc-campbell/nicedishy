@@ -115,6 +115,22 @@ create table google_user_waitlist (
   operating_systems text[] not null,
   why_access text[] not null
 );
+
+create table waitlist_approved (
+  id text not null primary key,
+  approved_at timestamptz
+);
+
+create table email_notification (
+  id text not null primary key,
+  queued_at timestamptz not null,
+  sent_at timestamptz,
+  error_at timestamptz,
+  from_address text not null,
+  to_address text not null,
+  template_id text not null,
+  marshalled_context text not null
+);
 ```
 
 
