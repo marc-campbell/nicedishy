@@ -1,0 +1,9 @@
+name: nicedishy-mailer
+command: bash
+workdir: /go/src/github.com/marc-campbell/nicedishy
+sync:
+  - .:/go/src/github.com/marc-campbell/nicedishy
+resources:
+  limits:
+    cpu: "2"
+    memory: 4Gi

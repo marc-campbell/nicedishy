@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/keighl/postmark"
+	"github.com/marc-campbell/nicedishy/pkg/logger"
 	"github.com/marc-campbell/nicedishy/pkg/stores"
 )
 
@@ -31,6 +32,8 @@ func StartDaemon() {
 					fmt.Printf("failed to mark queued email as error: %v\n", err)
 				}
 			}
+
+			logger.Debugf("sending email from %s to %s", queuedEmail.FromAddress, queuedEmail.ToAddress)
 
 			postmarkTemplatedEmail := postmark.TemplatedEmail{
 				TemplateId:    templateID,
