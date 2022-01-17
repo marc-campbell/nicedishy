@@ -95,3 +95,5 @@ spec:
               value: "$POSTMARK_SERVER_TOKEN"
             - name: POSTMARK_ACCOUNT_TOKEN
               value: "$POSTMARK_ACCOUNT_TOKEN"
+            - name: MAILCHIMP_API_KEY
+              value: "$MAILCHIMP_API_KEY"
