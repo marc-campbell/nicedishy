@@ -105,6 +105,16 @@ create table dishy_data (
   hardware_version text not null
 );
 SELECT create_hypertable('dishy_data', 'time'); 
+
+create table google_user_waitlist (
+  id text not null primary key,
+  created_at timestamptz,
+  already_have_dishy text not null,
+  how_long_with_dishy text not null,
+  primary_or_backup text not null,
+  operating_systems text[] not null,
+  why_access text[] not null
+);
 ```
 
 

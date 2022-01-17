@@ -43,6 +43,9 @@ type Store interface {
 	GetSessionNonce(ctx context.Context, id string) (string, error)
 	GetUserByDishy(ctx context.Context, id string) (*usertypes.User, error)
 
+	// waitlist
+	UpdateUserWaitlistData(ctx context.Context, id string, alreadyHaveDishy string, howLongWithDishy string, primaryOrBackup string, operatingSystems []string, whyAccess []string) error
+
 	ListDishies(ctx context.Context, userID string) ([]*dishytypes.Dishy, error)
 	CreateDishy(ctx context.Context, userID string, name string) (*dishytypes.Dishy, error)
 	GetDishyForUser(ctx context.Context, id string, userID string) (*dishytypes.Dishy, error)

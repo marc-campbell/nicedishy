@@ -124,16 +124,16 @@ export default function Page() {
                   <div className="form-group">
                     <label htmlFor="operatingSystems"><strong>Which of the following operating systems are you running at home and would be willing to install the NiceDishy agent on?</strong></label>
                     <div className="form-check">
-                      <input className="form-check-input" type="checkbox" id="operatingSystems" value="windows" onChange={handleChangeOperatingSystem.bind(this, "windows")} />
-                      <label className="form-check-label" htmlFor="inlineCheckbox1">Windows</label>
+                      <input className="form-check-input" type="checkbox" id="operatingSystemsWindows" value="windows" onChange={handleChangeOperatingSystem.bind(this, "windows")} />
+                      <label className="form-check-label" htmlFor="operatingSystemsWindows">Windows</label>
                     </div>
                     <div className="form-check">
-                      <input className="form-check-input" type="checkbox" id="inlineCheckbox2" value="macos" onChange={handleChangeOperatingSystem.bind(this, "macos")} />
-                      <label className="form-check-label" htmlFor="inlineCheckbox2">MacOS</label>
+                      <input className="form-check-input" type="checkbox" id="opeatingSystemsMacos" value="macos" onChange={handleChangeOperatingSystem.bind(this, "macos")} />
+                      <label className="form-check-label" htmlFor="inlineCopeatingSystemsMacosheckbox2">MacOS</label>
                     </div>
                     <div className="form-check">
-                      <input className="form-check-input" type="checkbox" id="inlineCheckbox3" value="linux" onChange={handleChangeOperatingSystem.bind(this, "linux")} />
-                      <label className="form-check-label" htmlFor="inlineCheckbox3">Linux</label>
+                      <input className="form-check-input" type="checkbox" id="operatingSystemsLinux" value="linux" onChange={handleChangeOperatingSystem.bind(this, "linux")} />
+                      <label className="form-check-label" htmlFor="operatingSystemsLinux">Linux</label>
                     </div>
                   </div>
                 </div>
@@ -143,16 +143,16 @@ export default function Page() {
                   <div className="form-group">
                     <label htmlFor="whyAccess"><strong>Why do you want access to NiceDishy?</strong></label>
                     <div className="form-check">
-                      <input className="form-check-input" type="checkbox" id="inlineCheckbox1" value="monitoring" onChange={handleChangeWhyAccess.bind(this, "monitoring")}  />
-                      <label className="form-check-label" htmlFor="inlineCheckbox1">Monitoring my own dish</label>
+                      <input className="form-check-input" type="checkbox" id="whyMonitoring" value="monitoring" onChange={handleChangeWhyAccess.bind(this, "monitoring")}  />
+                      <label className="form-check-label" htmlFor="whyMonitoring">Monitoring my own dish</label>
                     </div>
                     <div className="form-check">
-                      <input className="form-check-input" type="checkbox" id="inlineCheckbox2" value="compare" onChange={handleChangeWhyAccess.bind(this, "compare")} />
-                      <label className="form-check-label" htmlFor="inlineCheckbox2">Compare my dish performance with others</label>
+                      <input className="form-check-input" type="checkbox" id="whyCompare" value="compare" onChange={handleChangeWhyAccess.bind(this, "compare")} />
+                      <label className="form-check-label" htmlFor="whyCompare">Compare my dish performance with others</label>
                     </div>
                     <div className="form-check">
-                      <input className="form-check-input" type="checkbox" id="inlineCheckbox3" value="community" onChange={handleChangeWhyAccess.bind(this, "community")} />
-                      <label className="form-check-label" htmlFor="inlineCheckbox3">Be a part of the Starlink community</label>
+                      <input className="form-check-input" type="checkbox" id="whyCommunity" value="community" onChange={handleChangeWhyAccess.bind(this, "community")} />
+                      <label className="form-check-label" htmlFor="whyCommunity">Be a part of the Starlink community</label>
                     </div>
                   </div>
                 </div>
