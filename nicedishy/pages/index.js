@@ -44,7 +44,7 @@ export default function Home() {
                         <p className="lead fw-normal text-muted mb-5">  Compare the performance of your Dishy with everyone else!</p>
                         <div className="row">
                           <div className="col-12">
-                            <Link href="/login">
+                            <Link href="/signup">
                               <a>
                                 <img className="app-badge" src="/images/btn_google_signin_dark_pressed_web@2x.png" alt="Get Started" />
                               </a>

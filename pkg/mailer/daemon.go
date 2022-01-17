@@ -16,6 +16,7 @@ import (
 func StartDaemon() {
 	ctx := context.Background()
 
+	logger.Info("starting email daemon")
 	for {
 		queuedEmails, err := stores.GetStore().GetQueuedEmails(context.Background())
 		if err != nil {
@@ -42,12 +43,18 @@ func StartDaemon() {
 				To:            queuedEmail.ToAddress,
 			}
 
-			if err := sendTemplatedEmail(ctx, postmarkTemplatedEmail); err != nil {
+			postmarkResponse, err := sendTemplatedEmail(ctx, postmarkTemplatedEmail)
+			fmt.Printf("%#v\n", postmarkResponse)
+			if err != nil {
 				fmt.Printf("failed to send templated email: %v\n", err)
 
 				// mark as error
 				if err := stores.GetStore().MarkQueuedEmailError(ctx, queuedEmail.ID); err != nil {
 					fmt.Printf("failed to mark queued email as error: %v\n", err)
+				}
+			} else {
+				if err := stores.GetStore().MarkQueuedEmailSent(ctx, queuedEmail.ID); err != nil {
+					fmt.Printf("failed to mark queued email as sent: %v\n", err)
 				}
 			}
 		}

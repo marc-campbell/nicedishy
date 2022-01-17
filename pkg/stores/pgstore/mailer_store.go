@@ -90,7 +90,7 @@ func (s PGStore) QueueEmail(ctx context.Context, fromAddress string, toAddress s
 values
 ($1, $2, null, null, $3, $4, $5, $6)`
 
-	if _, err := pg.Exec(ctx, query, queuedAt, id.String(), fromAddress, toAddress, templateID, marshalledContext); err != nil {
+	if _, err := pg.Exec(ctx, query, id.String(), queuedAt, fromAddress, toAddress, templateID, marshalledContext); err != nil {
 		return nil, fmt.Errorf("queuing email: %w", err)
 	}
 

@@ -18,13 +18,20 @@ func sendEmail(ctx context.Context, email postmark.Email) error {
 	return nil
 }
 
-func sendTemplatedEmail(ctx context.Context, email postmark.TemplatedEmail) error {
+func sendTemplatedEmail(ctx context.Context, email postmark.TemplatedEmail) (*postmark.EmailResponse, error) {
 	client := postmark.NewClient(os.Getenv("POSTMARK_SERVER_TOKEN"), os.Getenv("POSTMARK_ACCOUNT_TOKEN"))
 
-	_, err := client.SendTemplatedEmail(email)
-	if err != nil {
-		return err
+	// postmark doesn't accept empty (but valid) model context
+	if len(email.TemplateModel) == 0 {
+		email.TemplateModel = map[string]interface{}{
+			"placedolder": "something",
+		}
 	}
 
-	return nil
+	resp, err := client.SendTemplatedEmail(email)
+	if err != nil {
+		return nil, err
+	}
+
+	return &resp, nil
 }
