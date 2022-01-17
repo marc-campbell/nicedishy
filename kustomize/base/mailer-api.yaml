@@ -14,7 +14,7 @@ spec:
       restartPolicy: Always
       containers:
         - name: nicedishy-mailer
-          image: nicedishy-mailer
+          image: nicedishy-api
           imagePullPolicy: IfNotPresent
           resources:
             limits:
