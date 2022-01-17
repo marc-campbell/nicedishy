@@ -24,7 +24,8 @@ func GetOrCreate(ctx context.Context, email string, avatarURL string) (*types.Us
 				return nil, errors.Wrap(err, "failed to queue email")
 			}
 
-			_,, err := mailer.SignUpForNewsletter(ctx, createdUser.EmailAddress); err != nil {
+			err = mailer.SignUpForNewsletter(ctx, createdUser.EmailAddress)
+			if err != nil {
 				return nil, errors.Wrap(err, "failed to sign up for newsletter")
 			}
 
