@@ -9,9 +9,14 @@ export default function Navbar() {
     Utilities.logoutUser();
   }
 
-  const handleLogoClick = () => {
+  const handleLogoClick = (ev) => {
+    ev.preventDefault();
     if (Utilities.isLoggedIn()) {
-      router.push('/dishies');
+      if (Utilities.isWaitlisted()) {
+        router.push('/waitlist');
+      } else {
+        router.push('/dishies');
+      }
       return;
     }
     router.push("/");

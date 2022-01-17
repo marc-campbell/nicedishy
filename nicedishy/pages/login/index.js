@@ -38,7 +38,14 @@ export default function Page() {
     if (Utilities.getToken()) {
       // validate that the token is still valid
       try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/v1/whoami`);
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/v1/whoami`, {
+         method: 'GET',
+         headers: {
+          "Content-Type": "application/json",
+          "Authorization": Utilities.getToken(),
+          },
+        });
+
         if (!res.ok) {
           console.error("error");
           return;
@@ -46,7 +53,11 @@ export default function Page() {
 
         const data = await res.json();
         if (data.user) {
-          router.push("/dishies");
+          if (data.user.isWaitlisted) {
+            router.push("/waitlist");
+          } else {
+            router.push("/dishies");
+          }
           return;
         }
       } catch(err) {

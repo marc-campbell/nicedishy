@@ -1,19 +1,24 @@
 icon: https://github.com/okteto/polling/raw/master/icon.png
 deploy:
-  - envsubst < kustomize/retool/retool-secrets.tmpl.yaml > kustomize/retool/retool-secrets.yaml
-  - envsubst < kustomize/overlays/dev/google-secret-tmpl.yaml > kustomize/overlays/dev/google-secret.yaml
-  - envsubst < kustomize/overlays/dev/deployment-api.tmpl.yaml > kustomize/overlays/dev/deployment-api.yaml
+  - envsubst < kustomize/overlays/okteto/retool-secrets.tmpl.yaml > kustomize/overlays/okteto/retool-secrets.yaml
+  - envsubst < kustomize/overlays/okteto/google-secret-tmpl.yaml > kustomize/overlays/okteto/google-secret.yaml
+  - envsubst < kustomize/overlays/okteto/deployment-api.tmpl.yaml > kustomize/overlays/okteto/deployment-api.yaml
+  - envsubst < kustomize/overlays/okteto/mailer-api.tmpl.yaml > kustomize/overlays/okteto/mailer-api.yaml
   - envsubst < nicedishy/.env.tmpl > nicedishy/.env
 
   - okteto build -f ./nicedishy/Dockerfile.okteto -t okteto.dev/nicedishy-frontend:${OKTETO_GIT_COMMIT} nicedishy
   - okteto build -f ./Dockerfile.okteto -t okteto.dev/nicedishy-api:${OKTETO_GIT_COMMIT} .
   - okteto build -f ./migrations/Dockerfile.okteto -t okteto.dev/nicedishy-migrations:${OKTETO_GIT_COMMIT} migrations
+  - okteto build -f ./docs/Dockerfile.okteto -t okteto.dev/nicedishy-docs:${OKTETO_GIT_COMMIT} docs
+  - okteto build -f ./docs/Dockerfile.dev -t okteto.dev/nicedishy-docs:dev docs
 
-  - cd kustomize/overlays/dev && kustomize edit set image nicedishy-frontend=okteto.dev/nicedishy-frontend:${OKTETO_GIT_COMMIT}
-  - cd kustomize/overlays/dev && kustomize edit set image nicedishy-api=okteto.dev/nicedishy-api:${OKTETO_GIT_COMMIT}
-  - cd kustomize/overlays/dev && kustomize edit set image nicedishy-migrations=okteto.dev/nicedishy-migrations:${OKTETO_GIT_COMMIT}
+  - cd kustomize/overlays/okteto && kustomize edit set image nicedishy-frontend=okteto.dev/nicedishy-frontend:${OKTETO_GIT_COMMIT}
+  - cd kustomize/overlays/okteto && kustomize edit set image nicedishy-api=okteto.dev/nicedishy-api:${OKTETO_GIT_COMMIT}
+  - cd kustomize/overlays/okteto && kustomize edit set image nicedishy-migrations=okteto.dev/nicedishy-migrations:${OKTETO_GIT_COMMIT}
+  - cd kustomize/overlays/okteto && kustomize edit set image nicedishy-docs=okteto.dev/nicedishy-docs:${OKTETO_GIT_COMMIT}
 
-  - kubectl apply -k kustomize/overlays/dev
+  - kubectl apply -k kustomize/overlays/okteto
 devs:
   - nicedishy/okteto.yml
+  - docs/okteto.yml
   - okteto.yml

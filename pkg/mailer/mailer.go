@@ -18,14 +18,20 @@ func sendEmail(ctx context.Context, email postmark.Email) error {
 	return nil
 }
 
-func SendSoftwareVersionChanged(ctx context.Context, emailAddress string, version string) error {
-	email := postmark.Email{
-		From:     "no-reply@nicedishy.com",
-		To:       emailAddress,
-		Subject:  "Woot. You have some new bits on your dishy to try out",
-		HtmlBody: "...",
-		TextBody: "There is a new version of firmware on your dishy",
+func sendTemplatedEmail(ctx context.Context, email postmark.TemplatedEmail) (*postmark.EmailResponse, error) {
+	client := postmark.NewClient(os.Getenv("POSTMARK_SERVER_TOKEN"), os.Getenv("POSTMARK_ACCOUNT_TOKEN"))
+
+	// postmark doesn't accept empty (but valid) model context
+	if len(email.TemplateModel) == 0 {
+		email.TemplateModel = map[string]interface{}{
+			"placedolder": "something",
+		}
 	}
 
-	return sendEmail(ctx, email)
+	resp, err := client.SendTemplatedEmail(email)
+	if err != nil {
+		return nil, err
+	}
+
+	return &resp, nil
 }

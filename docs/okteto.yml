@@ -1,0 +1,10 @@
+name: nicedishy-docs
+image: okteto.dev/nicedishy-docs:dev
+command: mkdocs serve -a 0.0.0.0:3000
+workdir: /docs
+sync:
+  - .:/docs
+resources:
+  limits:
+    cpu: "2"
+    memory: 4Gi

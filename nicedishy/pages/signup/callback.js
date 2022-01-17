@@ -45,6 +45,11 @@ function LoginCallback() {
       }
 
       window.localStorage.setItem("token", response.token);
+      if (response.isWaitlisted) {
+        window.localStorage.setItem("isWaitlisted", response.isWaitlisted);
+      } else {
+        window.localStorage.removeItem("isWaitlisted");
+      }
 
       nextUrl = window.sessionStorage.getItem('next') ? window.sessionStorage.getItem('next') : '/dishies';
       window.sessionStorage.removeItem('next');
@@ -58,7 +63,7 @@ function LoginCallback() {
     setNextUrl(nextUrl);
 
     router.push(nextUrl);
-  })
+  }, []);
 
   return (
     <>

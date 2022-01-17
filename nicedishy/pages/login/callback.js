@@ -45,9 +45,20 @@ function LoginCallback() {
       }
 
       window.localStorage.setItem("token", response.token);
+      if (response.isWaitlisted) {
+        window.localStorage.setItem("isWaitlisted", response.isWaitlisted);
+      } else {
+        window.localStorage.removeItem("isWaitlisted");
+      }
 
-      nextUrl = window.sessionStorage.getItem('next') ? window.sessionStorage.getItem('next') : '/dishies';
-      window.sessionStorage.removeItem('next');
+      if (window.sessionStorage.getItem('next')) {
+        nextUrl = window.sessionStorage.getItem('next');
+        window.sessionStorage.removeItem('next');
+      } else if (response.redirectUri) {
+        nextUrl = response.redirectUri;
+      } else {
+        nextUrl = '/dishy/new';
+      }
     } catch (err) {
       console.log(err);
       router.replace("/error");
@@ -58,7 +69,7 @@ function LoginCallback() {
     setNextUrl(nextUrl);
 
     router.push(nextUrl);
-  })
+  }, []);
 
   return (
     <>

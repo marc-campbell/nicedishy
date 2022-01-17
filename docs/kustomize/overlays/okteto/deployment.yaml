@@ -1,0 +1,13 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nicedishy-docs
+spec:
+  template:
+    spec:
+      containers:
+        - name: nicedishy-docs
+          image: nicedishy-docs
+          ports:
+            - name: nicedishy-docs
+              containerPort: 3000

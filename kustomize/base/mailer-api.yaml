@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nicedishy-mailer
+spec:
+  selector:
+    matchLabels:
+      app: nicedishy-mailer
+  template:
+    metadata:
+      labels:
+        app: nicedishy-mailer
+    spec:
+      restartPolicy: Always
+      containers:
+        - name: nicedishy-mailer
+          image: nicedishy-api
+          imagePullPolicy: IfNotPresent
+          resources:
+            limits:
+              cpu: 200m
+              memory: 1000Mi
+            requests:
+              cpu: 100m
+              memory: 500Mi
+          args: ["mailer"]
+          env:
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.namespace
+            - name: POSTGRES_URI
+              valueFrom:
+                secretKeyRef:
+                  name: nicedishy-timescale
+                  key: uri
+

@@ -47,6 +47,7 @@ func Start() {
 	sessionAuthQuietRouter.Path("/api/v1/dishies").Methods("GET").HandlerFunc(handlers.ListDishies)
 	sessionAuthQuietRouter.Path("/api/v1/dishy/{id}/token").Methods("GET").HandlerFunc(handlers.GetDishyToken)
 	sessionAuthQuietRouter.Path("/api/v1/dishy/{id}").Methods("DELETE").HandlerFunc(handlers.DeleteDishy)
+	sessionAuthQuietRouter.Path("/api/v1/waitlist").Methods("PUT").HandlerFunc(handlers.UpdateWaitlist)
 
 	/**********************************************************************
 	* Nonce routes

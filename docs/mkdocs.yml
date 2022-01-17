@@ -1,0 +1,15 @@
+site_name: NiceDishy
+theme:
+  name: material
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+nav:
+  - 'What is NiceDishy': index.md
+  - 'Getting Started': getting-started.md
+  - 'How NiceDishy Works': how-nicedishy-works.md
+  - 'Notifications': notifications.md
+  - 'Troubleshooting': troubleshooting.md
+  - 'FAQ': faq.md
+  - 'Firmwares': firmwares/index.md

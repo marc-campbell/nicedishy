@@ -5,6 +5,7 @@ import (
 	"time"
 
 	dishytypes "github.com/marc-campbell/nicedishy/pkg/dishy/types"
+	mailertypes "github.com/marc-campbell/nicedishy/pkg/mailer/types"
 	sessiontypes "github.com/marc-campbell/nicedishy/pkg/session/types"
 	"github.com/marc-campbell/nicedishy/pkg/stores/pgstore"
 	tokentypes "github.com/marc-campbell/nicedishy/pkg/token/types"
@@ -43,6 +44,9 @@ type Store interface {
 	GetSessionNonce(ctx context.Context, id string) (string, error)
 	GetUserByDishy(ctx context.Context, id string) (*usertypes.User, error)
 
+	// waitlist
+	UpdateUserWaitlistData(ctx context.Context, id string, alreadyHaveDishy string, howLongWithDishy string, primaryOrBackup string, operatingSystems []string, whyAccess []string) error
+
 	ListDishies(ctx context.Context, userID string) ([]*dishytypes.Dishy, error)
 	CreateDishy(ctx context.Context, userID string, name string) (*dishytypes.Dishy, error)
 	GetDishyForUser(ctx context.Context, id string, userID string) (*dishytypes.Dishy, error)
@@ -63,4 +67,10 @@ type Store interface {
 
 	// one dishy
 	GetDishyVersions(ctx context.Context, id string) (string, string, error)
+
+	// mailer
+	GetQueuedEmails(ctx context.Context) ([]*mailertypes.Email, error)
+	MarkQueuedEmailSent(ctx context.Context, id string) error
+	MarkQueuedEmailError(ctx context.Context, id string) error
+	QueueEmail(ctx context.Context, fromAddress string, toAddress string, templateID string, templateContext map[string]interface{}) (*mailertypes.Email, error)
 }

@@ -22,9 +22,10 @@ type LoginCallbackRequest struct {
 }
 
 type LoginCallbackResponse struct {
-	Error       string `json:"error,omitempty"`
-	Token       string `json:"token,omitempty"`
-	RedirectURI string `json:"redirectUri,omitempty"`
+	Error        string `json:"error,omitempty"`
+	Token        string `json:"token,omitempty"`
+	RedirectURI  string `json:"redirectUri,omitempty"`
+	IsWaitlisted bool   `json:"isWaitlisted"`
 }
 
 func LoginCallback(w http.ResponseWriter, r *http.Request) {
@@ -55,7 +56,7 @@ func LoginCallback(w http.ResponseWriter, r *http.Request) {
 	if next == "undefined" {
 		next = ""
 	}
-	
+
 	loginCallbackResponse.RedirectURI = next
 
 	conf := &oauth2.Config{
@@ -119,6 +120,11 @@ func LoginCallback(w http.ResponseWriter, r *http.Request) {
 		loginCallbackResponse.Error = err.Error()
 		JSON(w, http.StatusInternalServerError, loginCallbackResponse)
 		return
+	}
+
+	if user.IsWaitlisted {
+		loginCallbackResponse.RedirectURI = "/waitlist"
+		loginCallbackResponse.IsWaitlisted = true
 	}
 
 	sess, err := session.CreateSessionForUser(context.TODO(), user, tok.AccessToken)
