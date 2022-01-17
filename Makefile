@@ -63,4 +63,3 @@ sealedsecrets:
 	kubeseal --cert ./sealedsecret.pem --format yaml < ./kustomize/overlays/production/google-secret-raw.yaml > ./kustomize/overlays/production/google-secret.yaml
 	kubeseal --cert ./sealedsecret.pem --format yaml < ./kustomize/overlays/production/imagepullsecret-raw.yaml > ./kustomize/overlays/production/imagepullsecret.yaml
 	kubeseal --cert ./sealedsecret.pem --format yaml < ./migrations/kustomize/overlays/production/timescale-secret-raw.yaml > ./migrations/kustomize/overlays/production/timescale-secret.yaml
-	kubeseal --cert ./sealedsecret.pem --format yaml < ./kustomize/overlays/production/moosend-secret-raw.yaml > ./kustomize/overlays/production/moosend-secret.yaml

@@ -9,7 +9,6 @@ resources:
   - ../../../migrations/kustomize/overlays/production
   - ./loadbalancer.yaml
   - ./clusterrole.yaml
-  - ./moosend-secret.yaml
 
 patches:
   - ./deployment-api.yaml

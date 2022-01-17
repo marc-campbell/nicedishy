@@ -46,7 +46,7 @@ export default function Page() {
       <div className={`alert alert-danger ${wasConnected && !isConnected ? "" : "d-none"}`} role="alert">
         Disconnected from server at {dayjs(disconnctedAt).format("HH:mm:ss a on MMM DD, YYYY")}. These stats are no longer automatically updating.
       </div>
-      <div className="container">
+      {/* <div className="container">
         <h5>Numbers</h5>
         <div className="row dashboard-row">
           <div className="col-md-4 px-md-5 text-center">
@@ -69,7 +69,7 @@ export default function Page() {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
 
       <div className="container">
         <h5>Speed</h5>
@@ -103,7 +103,7 @@ export default function Page() {
         </div>
       </div>
 
-      <div className="container">
+      {/* <div className="container">
         <h5>Where</h5>
         <div className="row dashboard-row">
           <div className="col-md-4 px-md-5 text-center">
@@ -122,7 +122,7 @@ export default function Page() {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }
