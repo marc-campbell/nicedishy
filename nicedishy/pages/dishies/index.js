@@ -27,7 +27,7 @@ export default function Page() {
 
   let cards = [];
   if (isLoading) {
-    cards = [<DishyPlaceholderCard />];
+    cards = [<DishyPlaceholderCard key="loading" />];
   } else {
     cards = dishies.map((dishy) => {
       return <DishyCard key={dishy.id} dishy={dishy} />
