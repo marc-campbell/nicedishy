@@ -61,3 +61,12 @@ a.text-muted{
 .hidden {
   display: none;
 }
+
+.loading-placeholder {
+  color: #bbb;
+}
+
+
+.loading-placeholder-transparent {
+  color: rgba(0, 0, 0, 0);
+}

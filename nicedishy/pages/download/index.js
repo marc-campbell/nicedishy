@@ -32,10 +32,10 @@ export default function Page() {
             <div className="card" style={{width: "100%"}}>
               <div className="card-body">
                 <h3><i className="bi bi-apple"></i> MacOS</h3>
-                <a className="btn btn-outline-secondary" href="https://github.com/marc-campbell/nicedishy-macos/releases/download/v0.1.0/NiceDishy.dmg"><i className="bi bi-cloud-download"></i> Download</a>
+                <a className="btn btn-outline-secondary" href="https://github.com/marc-campbell/nicedishy-macos/releases/download/v0.3.0/NiceDishy.dmg"><i className="bi bi-cloud-download"></i> Download</a>
                 {' '}
                 <a className="btn btn-outline-secondary" href="https://github.com/marc-campbell/nicedishy-macos"><i className="bi bi-github"></i> View Source Code</a>
-                <br /><br /><strong>Current Version:</strong> 0.1.0
+                <br /><br /><strong>Current Version:</strong> 0.3.0
               </div>
             </div>
             <div className="card" style={{width: "100%"}}>
