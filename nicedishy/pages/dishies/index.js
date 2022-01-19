@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Utilities, secondsAgo } from "../../utils/utilities";
+import { Utilities } from "../../utils/utilities";
 import { useRouter } from 'next/router'
 import Layout from "../../components/layout";
 import DishyCard from '../../components/dishy-card';

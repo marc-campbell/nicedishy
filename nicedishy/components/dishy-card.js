@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useRouter } from 'next/router'
 import GaugeChart from 'react-gauge-chart';
-import { Utilities } from "../utils/utilities";
+import { Utilities, secondsAgo } from "../utils/utilities";
 
 export default function DishyCard({dishy}) {
   const router = useRouter();
