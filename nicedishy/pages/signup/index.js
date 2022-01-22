@@ -4,6 +4,7 @@ import { Utilities } from "../../utils/utilities";
 import Layout from "../../components/layout";
 import { useRouter } from 'next/router'
 import Link from 'next/link'
+import Image from 'next/image';
 
 export default function Page() {
   const router = useRouter();
@@ -91,7 +92,7 @@ export default function Page() {
     <div className="row">
       <div className="col-12 text-center">
         <a href="#" width="80%" onClick={onClickSignup}>
-          <img src="/images/btn_google_signin_dark_pressed_web@2x.png" alt="Sign in with Google" style={{width: "200px"}} />
+          <Image src="/images/btn_google_signin_dark_pressed_web@2x.png" alt="Sign in with Google" width="200px" height="50px" />
         </a>
       </div>
     </div>

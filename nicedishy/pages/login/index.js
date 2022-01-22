@@ -3,6 +3,7 @@ import * as url from "url";
 import { Utilities } from "../../utils/utilities";
 import Layout from "../../components/layout";
 import { useRouter } from 'next/router'
+import Image from 'next/image';
 
 export default function Page() {
   const router = useRouter();
@@ -34,36 +35,39 @@ export default function Page() {
     }
   }
 
-  useEffect( async () => {
+  useEffect( () => {
     if (Utilities.getToken()) {
-      // validate that the token is still valid
-      try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/v1/whoami`, {
-         method: 'GET',
-         headers: {
-          "Content-Type": "application/json",
-          "Authorization": Utilities.getToken(),
-          },
-        });
+      async function fetchData() {
+        // validate that the token is still valid
+        try {
+          const res = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/v1/whoami`, {
+          method: 'GET',
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": Utilities.getToken(),
+            },
+          });
 
-        if (!res.ok) {
-          console.error("error");
-          return;
-        }
-
-        const data = await res.json();
-        if (data.user) {
-          if (data.user.isWaitlisted) {
-            router.push("/waitlist");
-          } else {
-            router.push("/dishies");
+          if (!res.ok) {
+            console.error("error");
+            return;
           }
-          return;
+
+          const data = await res.json();
+          if (data.user) {
+            if (data.user.isWaitlisted) {
+              router.push("/waitlist");
+            } else {
+              router.push("/dishies");
+            }
+            return;
+          }
+        } catch(err) {
+          console.log(err);
         }
-      } catch(err) {
-        console.log(err);
+        Utilities.logoutUser();
       }
-      Utilities.logoutUser();
+      fetchData();
     }
   })
 
@@ -77,7 +81,7 @@ export default function Page() {
         here. We don&apos;t ask for permissions to change anything in your Google account.
       </p>
       <a href="#" width="80%" onClick={onClickLogin}>
-        <img src="/images/btn_google_signin_dark_pressed_web@2x.png" alt="Sign in with Google" style={{width: "200px"}} />
+        <Image src="/images/btn_google_signin_dark_pressed_web@2x.png" alt="Sign in with Google" width="200px" height="50px" />
       </a>
     </>
   );

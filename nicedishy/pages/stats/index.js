@@ -9,19 +9,22 @@ export default function Page() {
   const [isConnected, setIsConnected] = useState(false);
   const [disconnctedAt, setDisconnectedAt] = useState("");
 
-  useEffect( async() => {
-    const source = new EventSource(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/v1/stats/public/stream`);
-    source.onmessage = (event) => {
-      setStats(JSON.parse(event.data));
+  useEffect( () => {
+    async function fetchData() {
+      const source = new EventSource(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/v1/stats/public/stream`);
+      source.onmessage = (event) => {
+        setStats(JSON.parse(event.data));
+      }
+      source.onopen = () => {
+        setIsConnected(true);
+        setWasConnected(true);
+      }
+      source.onerror = () => {
+        setDisconnectedAt(new Date().toISOString());
+        setIsConnected(false);
+      }
     }
-    source.onopen = () => {
-      setIsConnected(true);
-      setWasConnected(true);
-    }
-    source.onerror = () => {
-      setDisconnectedAt(new Date().toISOString());
-      setIsConnected(false);
-    }
+    fetchData();
   }, []);
 
   return (

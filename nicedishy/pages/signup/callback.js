@@ -28,41 +28,44 @@ function LoginCallback() {
     return body;
   }
 
-  useEffect( async () => {
+  useEffect( () => {
     if (window.localStorage.getItem("token")) {
       setAuthComplete(true);
       router.push("/dishies");
       return;
     }
 
-    let nextUrl = "";
-    try {
-      const query = url.parse(window.location.href, true).query;
-      const response = await requestSessionToken(query.code, query.state);
-      if (!response ) {
-        router.replace("/");
+    async function fetchData() {
+      let nextUrl = "";
+      try {
+        const query = url.parse(window.location.href, true).query;
+        const response = await requestSessionToken(query.code, query.state);
+        if (!response ) {
+          router.replace("/");
+          return;
+        }
+
+        window.localStorage.setItem("token", response.token);
+        if (response.isWaitlisted) {
+          window.localStorage.setItem("isWaitlisted", response.isWaitlisted);
+        } else {
+          window.localStorage.removeItem("isWaitlisted");
+        }
+
+        nextUrl = window.sessionStorage.getItem('next') ? window.sessionStorage.getItem('next') : '/dishies';
+        window.sessionStorage.removeItem('next');
+      } catch (err) {
+        console.log(err);
+        router.replace("/error");
         return;
       }
 
-      window.localStorage.setItem("token", response.token);
-      if (response.isWaitlisted) {
-        window.localStorage.setItem("isWaitlisted", response.isWaitlisted);
-      } else {
-        window.localStorage.removeItem("isWaitlisted");
-      }
+      setAuthComplete(true);
+      setNextUrl(nextUrl);
 
-      nextUrl = window.sessionStorage.getItem('next') ? window.sessionStorage.getItem('next') : '/dishies';
-      window.sessionStorage.removeItem('next');
-    } catch (err) {
-      console.log(err);
-      router.replace("/error");
-      return;
+      router.push(nextUrl);
     }
-
-    setAuthComplete(true);
-    setNextUrl(nextUrl);
-
-    router.push(nextUrl);
+    fetchData();
   }, []);
 
   return (
