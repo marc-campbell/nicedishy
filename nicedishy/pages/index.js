@@ -17,7 +17,7 @@ export default function Home() {
                 </button>
                 <div className="collapse navbar-collapse" id="navbarResponsive">
                     <ul className="navbar-nav ms-auto me-4 my-3 my-lg-0">
-                        <li className="nav-item"><Link href="/docs"><a className="nav-link me-lg-3">Docs</a></Link></li>
+                        <li className="nav-item"><Link href="https://docs.nicedishy.com"><a className="nav-link me-lg-3">Docs</a></Link></li>
                     </ul>
                     <button className="btn mb-2 mb-lg-0" data-bs-toggle="modal" data-bs-target="#feedbackModal">
                         <span className="d-flex align-items-center">
