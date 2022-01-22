@@ -91,7 +91,7 @@ export default function Page() {
   if (hasRedirected) {
     return (
       <div>
-        Ok! You're connected and data should start coming in.<br />
+        Ok! You&apos;re connected and data should start coming in.<br />
         <a href="#" className="btn btn-primary" onClick={handleGoView}>
             <i className="bi bi-plus-circle"></i>
             {' '}
