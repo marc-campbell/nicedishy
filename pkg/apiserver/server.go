@@ -6,6 +6,8 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"net/http/httputil"
+	"net/url"
 	"os"
 	"time"
 
@@ -56,6 +58,22 @@ func Start() {
 	nonceAuthQuietRouter.Use(handlers.RequireValidNonceMiddleware)
 	nonceAuthQuietRouter.Path("/api/v1/dishies/stream").Methods("GET").HandlerFunc(handlers.StreamDishies)
 	nonceAuthQuietRouter.Path("/api/v1/dishy/stream").Methods("GET").HandlerFunc(handlers.StreamDishy)
+
+	/**********************************************************************
+	* Grafana
+	**********************************************************************/
+	u, err := url.Parse("http://grafana:3000")
+	if err != nil {
+		panic(err)
+	}
+	upstream := httputil.NewSingleHostReverseProxy(u)
+	grafanaProxy := func(upstream *httputil.ReverseProxy) func(http.ResponseWriter, *http.Request) {
+		return func(w http.ResponseWriter, r *http.Request) {
+			r.Header.Set("X-Forwarded-Host", r.Header.Get("Host"))
+			upstream.ServeHTTP(w, r)
+		}
+	}(upstream)
+	r.PathPrefix("/proxy/grafana").HandlerFunc(grafanaProxy)
 
 	tokenAuthQuietRouter := r.PathPrefix("").Subrouter()
 	tokenAuthQuietRouter.Use(handlers.RequireValidTokenQuietMiddleware)

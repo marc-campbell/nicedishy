@@ -62,6 +62,11 @@ spec:
           volumeMounts:
             - mountPath: /var/lib/grafana
               name: grafana-pv
+          env:
+            - name: GF_AUTH_PROXY_AUTO_SIGN_UP
+              value: "false"
+            - name: GF_AUTH_PROXY_ENABLED
+              value: "false"
       volumes:
         - name: grafana-pv
           persistentVolumeClaim:
