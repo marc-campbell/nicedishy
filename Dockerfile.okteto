@@ -1,25 +1,17 @@
-FROM golang:1.16 as deps
+FROM golang:1.17 as deps
 
-RUN wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - \
-  && echo "deb http://apt.postgresql.org/pub/repos/apt/ buster-pgdg main" > /etc/apt/sources.list.d/PostgreSQL.list \
-  && apt-get update && apt-get install -y --no-install-recommends \
-    postgresql-client-10 \
-  && rm -rf /var/lib/apt/lists/*
+EXPOSE 3000
+EXPOSE 6060
 
-ENV PROJECTPATH=/go/src/github.com/marc-campbell/nicedishy
-WORKDIR $PROJECTPATH
+ENV PROJECT_PATH=/go/src/github.com/marc-campbell/nicedishy
+WORKDIR $PROJECT_PATH
 
-ADD go.mod .
-ADD go.sum .
-ADD Makefile .
+## Get deps
+ADD go.mod go.sum $PROJECT_PATH
+RUN --mount=type=cache,target=/root/.cache go mod download
 
-RUN --mount=type=cache,target=/go/pkg/mod go mod download
-
-ADD cmd/ cmd
-ADD pkg/ pkg
-
-RUN --mount=type=cache,target=/go/pkg/mod --mount=type=cache,target=/go/bin make build
-
-RUN make bin/nicedishy-api
+## Now add the project and compile
+COPY . /go/src/github.com/marc-campbell/nicedishy
+RUN --mount=type=cache,target=/root/.cache make build
 
 ENTRYPOINT ["./bin/nicedishy-api"]

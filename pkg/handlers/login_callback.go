@@ -127,6 +127,22 @@ func LoginCallback(w http.ResponseWriter, r *http.Request) {
 		loginCallbackResponse.IsWaitlisted = true
 	}
 
+	if loginCallbackResponse.RedirectURI == "" {
+		dishies, err := stores.GetStore().ListDishies(context.TODO(), user.ID)
+		if err != nil {
+			logger.Error(err)
+			loginCallbackResponse.Error = err.Error()
+			JSON(w, http.StatusInternalServerError, loginCallbackResponse)
+			return
+		}
+
+		if len(dishies) == 0 {
+			loginCallbackResponse.RedirectURI = "/dishies/new"
+		} else {
+			loginCallbackResponse.RedirectURI = "/dishies"
+		}
+	}
+
 	sess, err := session.CreateSessionForUser(context.TODO(), user, tok.AccessToken)
 	if err != nil {
 		logger.Error(err)

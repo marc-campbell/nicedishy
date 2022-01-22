@@ -73,16 +73,21 @@ export default function Page() {
 
   return (
     <>
-      <h1>Log in to NiceDishy</h1>
-      <strong>You will be taken to Google to authenticate.</strong>
-      <p>
-        By logging in, you are agreeing to our Terms of Service and Privacy Policy. We ask
-        for read access to your Google profile in order to provide a complete experience
-        here. We don&apos;t ask for permissions to change anything in your Google account.
-      </p>
-      <a href="#" width="80%" onClick={onClickLogin}>
-        <Image src="/images/btn_google_signin_dark_pressed_web@2x.png" alt="Sign in with Google" width="200px" height="50px" />
-      </a>
+      <div className="row">
+        <div className="col-6 offset-3">
+          <h1>Log in to NiceDishy</h1>
+          <p>
+            Click the button below to log in to your NiceDishy account with Google.
+          </p>
+        </div>
+      </div>
+      <div className="row">
+        <div className="col-12 text-center">
+          <a href="#" width="80%" onClick={onClickLogin}>
+            <Image src="/images/btn_google_signin_dark_pressed_web@2x.png" alt="Sign in with Google" width="200px" height="50px" />
+          </a>
+        </div>
+      </div>
     </>
   );
 }

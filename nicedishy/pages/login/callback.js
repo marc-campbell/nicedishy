@@ -51,6 +51,8 @@ function LoginCallback() {
         window.localStorage.removeItem("isWaitlisted");
       }
 
+      console.log(response);
+
       if (window.sessionStorage.getItem('next')) {
         nextUrl = window.sessionStorage.getItem('next');
         window.sessionStorage.removeItem('next');
