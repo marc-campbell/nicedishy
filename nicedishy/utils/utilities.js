@@ -1,13 +1,6 @@
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import utc from "dayjs/plugin/utc";
-import queryString from "query-string";
-import sortBy from "lodash/sortBy";
-import cronstrue from "cronstrue";
-import size from "lodash/size";
-import each from "lodash/each";
-import find from "lodash/find";
-import * as jsdiff from "diff";
 
 dayjs.extend(utc);
 dayjs.extend(relativeTime);
@@ -241,7 +234,7 @@ export const Utilities = {
     return Math.max(speed, 0.1).toFixed(0) + units[unitNum]
   },
 
-  async fetchNonce() {
+  async fetchNonce(router, next) {
     try {
       const res = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/v1/nonce`, {
         method: "GET",
@@ -252,7 +245,7 @@ export const Utilities = {
       });
 
       if (res.status === 401) {
-        router.push('/login?next=/dishies');
+        router.push(`/login?next=${next}`);
         return;
       }
 

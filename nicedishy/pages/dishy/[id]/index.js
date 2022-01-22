@@ -18,7 +18,7 @@ export default function Page() {
   useEffect( async () => {
     // hmm wait for the id
     // generate a nonce to use for the event source connection
-    const nonce = await Utilities.fetchNonce();
+    const nonce = await Utilities.fetchNonce(router, `/dishy/${id}`);
     const source = new EventSource(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/v1/dishy/stream?id=${id}&nonce=${nonce}`);
     source.onmessage = (event) => {
       const data = JSON.parse(event.data);
