@@ -103,6 +103,13 @@ func StoreData(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	logger.Info("received a store data request",
+		zap.Time("when", when),
+		zap.String("ip", ipAddress),
+		zap.String("dishyName", d.Name),
+		zap.String("userAgent", r.Header.Get("User-Agent")),
+		zap.String("storeDataRequest", string(payload)))
+
 	// if it's been over 30 days, lets do a new geocheck of this source
 	if d.LastGeocheckAt == nil || time.Since(*d.LastGeocheckAt) > 30*24*time.Hour {
 		logger.Info("geochecking",

@@ -38,7 +38,7 @@ func (s PGStore) CreateSessionNonce(ctx context.Context, sessionID string) (stri
 	}
 
 	query := `insert into session_nonce (id, expire_at, session_id) values ($1, $2, $3)`
-	_, err = pg.Exec(ctx, query, id.String(), time.Now().Add(time.Minute), sessionID)
+	_, err = pg.Exec(ctx, query, id.String(), time.Now().Add(time.Hour*24*14), sessionID)
 	if err != nil {
 		return "", errors.Wrap(err, "insert session nonce")
 	}

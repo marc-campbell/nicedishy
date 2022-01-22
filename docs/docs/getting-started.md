@@ -8,11 +8,11 @@ Visit https://nicedishy.com/signup and create your account.
 
 ### 2. Wait for a notification that you are off the waitlist
 
-Sorry for the delay here. We are working fast and you'll have a brief wait to get removed from the waitlist. If you want quicker access, ask in the r/starlink subreddit! 
+Sorry for the delay here. I am working fast and you'll have a brief wait to get removed from the waitlist. If you want quicker access, ask in the r/starlink subreddit! 
 
 ### 3. Name your device. 
 
-We recommend just using a city name, but feel free to use whatever you want here.
+I recommend just using a city name, but feel free to use whatever you want here.
 
 ### 4. Download and install our agent software
 

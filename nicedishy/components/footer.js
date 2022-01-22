@@ -39,7 +39,7 @@ export default function Footer() {
                   <div className="col-2">
                     <h5>Dishy Waitlisters</h5>
                     <ul className="nav flex-column">
-                      <li className="nav-item mb-2"><Link href="/prepare"><a className="nav-link p-0 text-muted">Get Prepared</a></Link></li>
+                      <li className="nav-item mb-2"><Link href="https://docs.nicedishy.com/prepare"><a className="nav-link p-0 text-muted">Get Prepared</a></Link></li>
                     </ul>
                   </div>
 

@@ -4,3 +4,4 @@ resources:
   - ./deployment-api.yaml
   - ./mailer-api.yaml
   - ./service-api.yaml
+  - ./grafana.yaml

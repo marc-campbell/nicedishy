@@ -23,8 +23,10 @@ type StoreSpeedSpeedRequest struct {
 }
 
 type StoreSpeedRequest struct {
-	When  string                 `json:"when"`
-	Speed StoreSpeedSpeedRequest `json:"speed"`
+	When            string                 `json:"when"`
+	Speed           StoreSpeedSpeedRequest `json:"speed"`
+	SoftwareVersion string                 `json:"softwareVersion"`
+	HardwareVersion string                 `json:"hardwareVersion"`
 }
 
 type StoreSpeedResponse struct {
@@ -40,8 +42,6 @@ func StoreSpeed(w http.ResponseWriter, r *http.Request) {
 		JSON(w, http.StatusInternalServerError, err)
 		return
 	}
-
-	fmt.Printf("UA %s payload: %s\n", r.Header.Get("user-agent"), payload)
 
 	storeSpeedRequest := StoreSpeedRequest{}
 	if err := json.Unmarshal(payload, &storeSpeedRequest); err != nil {
@@ -114,13 +114,14 @@ func StoreSpeed(w http.ResponseWriter, r *http.Request) {
 	}
 
 	metricsDB := persistence.MustGetMetricsDBSession()
-	query := `insert into dishy_data (
+	query := `insert into dishy_speed (
 time, dishy_id, ip_address,
-download_speed, upload_speed)
+download_speed, upload_speed, software_version, hardware_version)
 values
-($1, $2, $3, $4, $5)`
+($1, $2, $3, $4, $5, $6, $7)`
 	_, err = metricsDB.Exec(context.Background(), query, when, d.ID, ipAddress,
-		storeSpeedRequest.Speed.Download, &storeSpeedRequest.Speed.Upload)
+		storeSpeedRequest.Speed.Download, storeSpeedRequest.Speed.Upload,
+		storeSpeedRequest.SoftwareVersion, storeSpeedRequest.HardwareVersion)
 	if err != nil {
 		logger.Error(err)
 		response.Error = err.Error()
