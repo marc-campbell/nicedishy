@@ -148,7 +148,7 @@ export default function DishyCard({dishy}) {
             </div>
             <div className="row">
               <div className="col-12">
-                <a href={`/dishy/${dishy.id}`}><i className="bi bi-clock-history"></i>{' '}Recent stats from my dishy</a><br />
+                <a href={`${NEXT_PUBLIC_DASHBOARD_ENDPOINT}/${dishy.id}`}><i className="bi bi-clock-history"></i>{' '}Dashboard</a><br />
                 <a href={`/dishy/${dishy.id}/compare`}><i className="bi bi-people-fill"></i>{' '}How do I compare?</a><br />
                 <a href={`/dishy/${dishy.id}/troubleshooting`}><i className="bi bi-lightbulb"></i>{' '}Troubleshooting</a><br />
                 <a href={`/dishy/${dishy.id}/settings`}><i className="bi bi-gear"></i>{' '}Settings</a>

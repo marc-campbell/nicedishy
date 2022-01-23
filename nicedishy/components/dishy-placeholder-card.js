@@ -57,7 +57,7 @@ export default function DishyPlaceholderCard() {
             </div>
             <div className="row">
               <div className="col-12 loading-placeholder">
-                <i className="bi bi-clock-history"></i>{' '}Recent stats from my dishy<br />
+                <i className="bi bi-clock-history"></i>{' '}Dashoard<br />
                 <i className="bi bi-people-fill"></i>{' '}How do I compare?<br />
                 <i className="bi bi-lightbulb"></i>{' '}Troubleshooting<br />
                 <i className="bi bi-gear"></i>{' '}Settings
