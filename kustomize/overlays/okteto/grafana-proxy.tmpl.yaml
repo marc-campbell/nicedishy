@@ -7,7 +7,7 @@ spec:
     spec:
       containers:
         - name: grafana-proxy
-          command: ["/go/src/github.com/marc-campbell/nicedishy/bin/dashboard"]
+          command: ["/go/src/github.com/marc-campbell/nicedishy/bin/grafana-proxy"]
           args: ["run", "--log-level", "debug"]
           env:
             - name: POSTGRES_URI
