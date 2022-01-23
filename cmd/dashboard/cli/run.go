@@ -1,6 +1,8 @@
 package cli
 
 import (
+	"context"
+
 	"github.com/marc-campbell/nicedishy/pkg/logger"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -21,6 +23,10 @@ func RunCmd() *cobra.Command {
 				logger.Info("setting log level to debug")
 				logger.SetDebug()
 			}
+
+			ctx := context.Background()
+			grafanaproxy.Start(ctx)
+			<-ctx.Done()
 
 			return nil
 		},
