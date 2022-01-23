@@ -105,3 +105,6 @@ data:
 
     [server]
     domain = grafana-proxy-marccampbell.cloud.okteto.net
+
+    [live]
+    max_connections = 0

@@ -14,6 +14,7 @@ import (
 
 func Start(ctx context.Context) {
 	logger.Info("starting grafana proxy on port 3000")
+
 	http.HandleFunc("/", handleRequestAndRedirect)
 
 	if err := http.ListenAndServe(":3000", nil); err != nil {
@@ -40,7 +41,7 @@ func handleRequestAndRedirect(w http.ResponseWriter, r *http.Request) {
 
 	logger.Info("proxying request",
 		zap.String("upstreamEndpoint", url.Host),
-		zap.String("path", "/"),
+		zap.String("path", r.URL.Path),
 		zap.String("scheme", url.Scheme),
 		zap.String("x-forwarded-host", r.Header.Get("Host")))
 
@@ -53,7 +54,7 @@ func handleRequestAndRedirect(w http.ResponseWriter, r *http.Request) {
 	r.URL.Scheme = url.Scheme
 	r.Header.Set("X-Forwarded-Host", r.Header.Get("Host"))
 	r.Host = url.Host
-	r.URL.Path = "/"
+	// r.URL.Path = r.URL.RawPath
 
 	proxy.ServeHTTP(w, r)
 
