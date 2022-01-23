@@ -3,6 +3,7 @@ package cli
 import (
 	"context"
 
+	"github.com/marc-campbell/nicedishy/pkg/grafanaproxy"
 	"github.com/marc-campbell/nicedishy/pkg/logger"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"

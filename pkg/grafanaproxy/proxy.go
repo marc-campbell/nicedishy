@@ -3,16 +3,11 @@ package clusterproxy
 import (
 	"context"
 	"crypto/tls"
-	"fmt"
 	"net/http"
 	"net/http/httputil"
 	"net/url"
-	"path"
-	"strings"
 
-	contexttypes "github.com/centralcontext/centralcontext/pkg/context/types"
-	"github.com/centralcontext/centralcontext/pkg/logger"
-	"github.com/centralcontext/centralcontext/pkg/stores"
+	"github.com/marc-campbell/nicedishy/pkg/logger"
 	"github.com/pkg/errors"
 	"go.uber.org/zap"
 )
@@ -45,7 +40,7 @@ func handleRequestAndRedirect(w http.ResponseWriter, r *http.Request) {
 
 	logger.Info("proxying request",
 		zap.String("upstreamEndpoint", url.Host),
-		zap.String("path", upstreamPath),
+		zap.String("path", "/"),
 		zap.String("scheme", url.Scheme),
 		zap.String("x-forwarded-host", r.Header.Get("Host")))
 
@@ -58,12 +53,12 @@ func handleRequestAndRedirect(w http.ResponseWriter, r *http.Request) {
 	r.URL.Scheme = url.Scheme
 	r.Header.Set("X-Forwarded-Host", r.Header.Get("Host"))
 	r.Host = url.Host
-	r.URL.Path = upstreamPath
+	r.URL.Path = "/"
 
 	proxy.ServeHTTP(w, r)
 
 }
 
-func grafanaEndpointForRequest(r *http.Request, c *contexttypes.Context) (string, error) {
-	return fmt.Sprintf("https://grafana:3000/d/apzwaMb7z/sample?orgId=1&from=now-6h&to=now",  nil
+func grafanaEndpointForRequest(r *http.Request) (string, error) {
+	return "https://grafana:3000/d/apzwaMb7z/sample?orgId=1&from=now-6h&to=now", nil
 }
