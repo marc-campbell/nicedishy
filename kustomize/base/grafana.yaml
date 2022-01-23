@@ -102,3 +102,6 @@ data:
     [auth.anonymous]
     enabled = true
     org_role = Admin
+
+    [server]
+    domain = grafana-proxy-marccampbell.cloud.okteto.net
