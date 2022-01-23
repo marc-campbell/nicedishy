@@ -13,3 +13,4 @@ patches:
   - mailer-api.yaml
   - grafana-proxy.yaml
   - service-api.yaml
+  - service-grafana-proxy.yaml

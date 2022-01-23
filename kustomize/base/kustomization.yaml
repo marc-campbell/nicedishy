@@ -6,3 +6,4 @@ resources:
   - ./grafana-proxy.yaml
   - ./service-api.yaml
   - ./grafana.yaml
+  - ./service-grafana-proxy.yaml
