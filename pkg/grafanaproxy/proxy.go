@@ -60,5 +60,5 @@ func handleRequestAndRedirect(w http.ResponseWriter, r *http.Request) {
 }
 
 func grafanaEndpointForRequest(r *http.Request) (string, error) {
-	return "https://grafana:3000/d/apzwaMb7z/sample?orgId=1&from=now-6h&to=now", nil
+	return "http://grafana:3000/d/apzwaMb7z/sample?orgId=1&from=now-6h&to=now", nil
 }

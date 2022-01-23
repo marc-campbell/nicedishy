@@ -38,6 +38,10 @@ build: bin/nicedishy-api bin/generate-data bin/grafana-proxy
 run: bin/nicedishy-api
 	./bin/nicedishy-api api
 
+.PHONY: run-grafana-proxy
+run-grafana-proxy: bin/grafana-proxy
+	./bin/grafana-proxy run
+
 .PHONY: bin/nicedishy-api
 bin/nicedishy-api:
 	go build -o bin/nicedishy-api ./cmd/api

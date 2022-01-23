@@ -62,6 +62,8 @@ spec:
           volumeMounts:
             - mountPath: /var/lib/grafana
               name: grafana-pv
+            - mountPath: /etc/grafana
+              name: grafana-config
           env:
             - name: GF_AUTH_PROXY_AUTO_SIGN_UP
               value: "false"
@@ -71,6 +73,9 @@ spec:
         - name: grafana-pv
           persistentVolumeClaim:
             claimName: grafana-pvc
+        - name: grafana-config
+          configMap:
+            name: grafana-config
 ---
 apiVersion: v1
 kind: Service
@@ -87,3 +92,13 @@ spec:
     app: grafana
   sessionAffinity: None
   type: ClusterIP
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-config
+data:
+  config.ini: |
+    [auth.anonymous]
+    enabled = true
+    org_role = Admin
