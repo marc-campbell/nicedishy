@@ -1,4 +1,4 @@
-package clusterproxy
+package grafanaproxy
 
 import (
 	"context"
