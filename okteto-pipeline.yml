@@ -4,6 +4,7 @@ deploy:
   - envsubst < kustomize/overlays/okteto/google-secret-tmpl.yaml > kustomize/overlays/okteto/google-secret.yaml
   - envsubst < kustomize/overlays/okteto/deployment-api.tmpl.yaml > kustomize/overlays/okteto/deployment-api.yaml
   - envsubst < kustomize/overlays/okteto/mailer-api.tmpl.yaml > kustomize/overlays/okteto/mailer-api.yaml
+  - envsubst < kustomize/overlays/okteto/grafana-proxy.tmpl.yaml > kustomize/overlays/okteto/grafana-proxy.yaml
   - envsubst < nicedishy/.env.tmpl > nicedishy/.env
 
   - okteto build -f ./nicedishy/Dockerfile.okteto -t okteto.dev/nicedishy-frontend:${OKTETO_GIT_COMMIT} nicedishy

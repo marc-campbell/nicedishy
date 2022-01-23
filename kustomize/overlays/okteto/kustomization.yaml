@@ -11,4 +11,5 @@ resources:
 patches:
   - deployment-api.yaml
   - mailer-api.yaml
+  - grafana-proxy.yaml
   - service-api.yaml
