@@ -7,6 +7,7 @@ export default function Page() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [dishies, setDishies] = useState([]);
+  const [hasRedirected, setHasRedirected] = useState(false);
 
   const fetchToken = async(dishyId) => {
     try {
@@ -53,10 +54,15 @@ export default function Page() {
     }
   }
 
+  const handleGoView = () => {
+    router.push("/dishies");
+  }
+
   const handleCardClick = async (dishyId) => {
     // TODO get token
     const token = await fetchToken(dishyId);
     window.location.href = `nicedishy://connected?token=${token}`;
+    setHasRedirected(true);
   }
 
   useEffect( async () => {
@@ -80,6 +86,19 @@ export default function Page() {
         loading...
       </div>
     );
+  }
+
+  if (hasRedirected) {
+    return (
+      <div>
+        Ok! You&apos;re connected and data should start coming in.<br />
+        <a href="#" className="btn btn-primary" onClick={handleGoView}>
+            <i className="bi bi-plus-circle"></i>
+            {' '}
+            Go view the stats
+          </a>
+      </div>
+    )
   }
 
   const cards = dishies.map((dishy) => {

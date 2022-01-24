@@ -186,7 +186,7 @@ export default function Page() {
               </div>
               <div className="row">
                 <div className={`alert alert-success fade ${isSaved ? "show" : "hide"}`} role="alert">
-                  We got it! Your responses have been saved. Stay tuned for the next steps.
+                  Got it! Your responses have been saved. Stay tuned for the next steps.
                 </div>
                 <div className={`alert alert-danger fade ${saveError ? "show" : "hide"}`} role="alert">
                   {saveError}

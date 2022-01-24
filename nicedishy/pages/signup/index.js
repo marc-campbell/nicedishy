@@ -76,16 +76,16 @@ export default function Page() {
           <h1>Create a NiceDishy account</h1>
           <p>
             By signing up, you are agreeing to our <Link href="/tos">Terms of Service</Link> and <Link href="/privacy">Privacy Policy</Link>.
-            We ask for read access to your Google profile in order to provide a complete experience
-            here. We don&apos;t ask for permissions to change anything in your Google account.
+            I ask for read access to your Google profile in order to provide a complete experience
+            here. I don&apos;t ask for permissions to change anything in your Google account.
           </p>
           <p>
-            Note: you are signing up for the waitlist. We will be opening the service to additional
+            Note: you are signing up for the waitlist. I will be opening the service to additional
             folks as soon as possible, but right now, signing up will add you to the waitlist.
           </p>
           <p>
             The best way to get to the top of the waitlist is to sign up and answer the quick questions
-            that follow. We promise that it&apos;s quick, and will be picking the best use cases next.
+            that follow. I promise that it&apos;s quick, and will be picking the best use cases next.
           </p>
         </div>
       </div>

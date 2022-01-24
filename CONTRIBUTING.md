@@ -2,12 +2,6 @@ NiceDishy is the Web and API side of the nicedishy.com service.
 This runs in Kubernetes.
 
 
-## Generating some data
-
-```
-./bin/generate-data --token <token>
-```
-
 ## install nats in production
 
 ```
@@ -99,12 +93,21 @@ create table dishy_data (
   pop_ping_drop_rate double precision,
   percent_obstructed double precision,
   seconds_obstructed double precision,
+  software_version text not null,
+  hardware_version text not null
+);
+SELECT create_hypertable('dishy_data', 'time'); 
+
+create table dishy_speed (
+  time timestamptz not null,
+  dishy_id text not null,
+  ip_address text not null,
   download_speed double precision,
   upload_speed double precision,
   software_version text not null,
   hardware_version text not null
 );
-SELECT create_hypertable('dishy_data', 'time'); 
+SELECT create_hypertable('dishy_speed', 'time'); 
 
 create table google_user_waitlist (
   id text not null primary key,

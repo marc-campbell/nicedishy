@@ -1,0 +1,18 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: grafana-proxy
+spec:
+  template:
+    spec:
+      containers:
+        - name: grafana-proxy
+          command: ["/go/src/github.com/marc-campbell/nicedishy/bin/grafana-proxy"]
+          args: ["run", "--log-level", "debug"]
+          env:
+            - name: POSTGRES_URI
+              valueFrom:
+                secretKeyRef:
+                  name: nicedishy-timescale # we use the same database in dev
+                  key: uri
+

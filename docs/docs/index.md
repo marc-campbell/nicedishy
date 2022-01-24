@@ -3,28 +3,28 @@
 NiceDishy is a service that can receive metrics and data rom your [Starlink](https://starlink.com) dish to help you monitor and manage your dish.
 
 !!! Beta
-    We are current in private beta. We'd love to roll out and invite you to join NiceDishy, but we want to make 
-    sure that our service will scale. Please sign up and join the waitlist if you are interested. We are working
+    The service is currently in private beta. I'd love to roll out and invite you to join NiceDishy, but I want to make 
+    sure that our service will scale. Please sign up and join the waitlist if you are interested. I'm working
     quickly through that list and will keep you updated on timing for the brief time you are in the queue.
 
 ## Features
 
 NiceDishy is a *free* hosted service and installable agent (see "[How NiceDishy Works](/how-nicedishy-workds)") that ships your Starlink performance data
-to a remote server. Using this data, we can provide a lot more insights into how your dish is performing, what changes have been rolled out recently, 
+to a remote server. Using this data, the service can provide a lot more insights into how your dish is performing, what changes have been rolled out recently, 
 and just help you stay better connected to what's happening with the technology you have installed.
 
 ### Monitoring Stats
 
-We collect anonymized stats from your dish that never can include any personally indentifying information such as browsing history or chracteristics of your local network.
-We collect what's available on the Starlink app's "Stats" page and send that to our servers.
+The service collects anonymized stats from your dish that never can include any personally indentifying information such as browsing history or chracteristics of your local network.
+The service collects what's available on the Starlink app's "Stats" page and send that to our servers.
 
 ### Monitoring Speed
 
-We also run period fast.com speed tests on your network and send the download and upload results to our servers.
+The service also runs periodic fast.com speed tests on your network and send the download and upload results to our servers.
 
 ### The Dataset
 
-To start, we make all of your data available to you. All of it. We don't keep anything secret or hold anything back. This is valuable right here, you can 
+To start, I make all of your data available to you. All of it. I don't keep anything secret or hold anything back. This is valuable right here, you can 
 build a history of your Starlink device performance.
 
 But NiceDishy goes a little further and triggers events such as email notifications when certain things happen. For example, when you get a new firmware version, 

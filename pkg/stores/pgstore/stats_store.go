@@ -54,7 +54,7 @@ func (s PGStore) GetNewDishyCount(ctx context.Context) (int, error) {
 func (s PGStore) GetHighestDownloadSpeed(ctx context.Context) (float64, error) {
 	pg := persistence.MustGetPGSession()
 
-	query := `select max(download_speed) from dishy_data`
+	query := `select max(download_speed) from dishy_speed`
 	row := pg.QueryRow(ctx, query)
 
 	var speed sql.NullFloat64
@@ -72,7 +72,7 @@ func (s PGStore) GetHighestDownloadSpeed(ctx context.Context) (float64, error) {
 func (s PGStore) GetAverageDownloadSpeed(ctx context.Context) (float64, error) {
 	pg := persistence.MustGetPGSession()
 
-	query := `select avg(download_speed) from dishy_data`
+	query := `select avg(download_speed) from dishy_speed`
 	row := pg.QueryRow(ctx, query)
 
 	var speed sql.NullFloat64

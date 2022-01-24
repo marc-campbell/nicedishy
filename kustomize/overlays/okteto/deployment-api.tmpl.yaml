@@ -5,46 +5,6 @@ metadata:
 spec:
   template:
     spec:
-      # volumes:
-      #   - name: migrations
-      #     emptyDir:
-      #       medium: Memory
-      # initContainers:
-      #   - image: nicedishy-migrations
-      #     name: migrations-plan
-      #     volumeMounts:
-      #       - name: migrations
-      #         mountPath: /migrations
-      #     args: ["plan"]
-      #     env:
-      #       - name: SCHEMAHERO_DRIVER
-      #         value: postgres
-      #       - name: SCHEMAHERO_SPEC_FILE
-      #         value: /tables
-      #       - name: SCHEMAHERO_OUT
-      #         value: /migrations/plan.yaml
-      #       - name: SCHEMAHERO_URI
-      #         valueFrom:
-      #           secretKeyRef:
-      #             name: nicedishy-timescale
-      #             key: uri
-      #   - image: nicedishy-migrations
-      #     name: migrations-apply
-      #     volumeMounts:
-      #       - name: migrations
-      #         mountPath: /migrations
-      #     args: ["apply"]
-      #     env:
-      #       - name: SCHEMAHERO_DRIVER
-      #         value: postgres
-      #       - name: SCHEMAHERO_DDL
-      #         value: /migrations/plan.yaml
-      #       - name: SCHEMAHERO_URI
-      #         valueFrom:
-      #           secretKeyRef:
-      #             name: nicedishy-timescale
-      #             key: uri
-
       containers:
         - name: nicedishy-api
           args: ["api", "--log-level", "debug"]
@@ -93,3 +53,5 @@ spec:
               value: "$POSTMARK_ACCOUNT_TOKEN"
             - name: MAILCHIMP_API_KEY
               value: "$MAILCHIMP_API_KEY"
+            - name: GRAFANA_API_KEY
+              value: "$NICEDISHY_GRAFANA_API_KEY"

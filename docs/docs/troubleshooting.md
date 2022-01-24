@@ -14,5 +14,5 @@ If you still have trouble, let us know! Reach out at [help@nicedishy.com](mailto
 
 #### My performance (download/upload) numbers don't match what I see on fast.com
 
-This is a known issue today. We are continuing to tune and adjust the algorithm to minimize the bandwidth used while providing results 
+This is a known issue today. I am continuing to tune and adjust the algorithm to minimize the bandwidth used while providing results 
 that reflect what you'll see on fast.com. Stay tuned, this will continue to impove.

@@ -3,4 +3,7 @@ kind: Kustomization
 resources:
   - ./deployment-api.yaml
   - ./mailer-api.yaml
+  - ./grafana-proxy.yaml
   - ./service-api.yaml
+  - ./grafana.yaml
+  - ./service-grafana-proxy.yaml

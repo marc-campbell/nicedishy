@@ -38,7 +38,7 @@ func (s PGStore) CreateSessionNonce(ctx context.Context, sessionID string) (stri
 	}
 
 	query := `insert into session_nonce (id, expire_at, session_id) values ($1, $2, $3)`
-	_, err = pg.Exec(ctx, query, id.String(), time.Now().Add(time.Minute), sessionID)
+	_, err = pg.Exec(ctx, query, id.String(), time.Now().Add(time.Hour*24*14), sessionID)
 	if err != nil {
 		return "", errors.Wrap(err, "insert session nonce")
 	}
@@ -57,7 +57,7 @@ func (s PGStore) CreateSession(ctx context.Context, user *usertypes.User, access
 	sess := sessiontypes.Session{
 		ID:        id.String(),
 		UserID:    user.ID,
-		ExpiresAt: time.Now().Add(time.Minute),
+		ExpiresAt: time.Now().Add(time.Hour * 24 * 14),
 	}
 
 	query := `insert into session (id, user_id, expire_at, access_token) values ($1, $2, $3, $4)`

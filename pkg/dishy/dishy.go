@@ -42,7 +42,7 @@ order by time desc limit 1`
 func GetLatestSpeeds(id string) (*types.DishySpeed, error) {
 	metricsDB := persistence.MustGetMetricsDBSession()
 
-	query := `select download_speed, upload_speed from dishy_data where dishy_id = $1 and download_speed is not null
+	query := `select download_speed, upload_speed from dishy_speed where dishy_id = $1 and download_speed is not null
 order by time desc limit 1`
 	row := metricsDB.QueryRow(context.Background(), query, id)
 
@@ -90,7 +90,7 @@ order by time desc limit 10`
 
 	query = `select
 time, download_speed, upload_speed
-from dishy_data
+from dishy_speed
 where dishy_id = $1
 and download_speed is not null
 order by time desc limit 10`

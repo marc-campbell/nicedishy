@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"net/http"
 
+	"github.com/marc-campbell/nicedishy/pkg/dishy"
 	dishytypes "github.com/marc-campbell/nicedishy/pkg/dishy/types"
 	"github.com/marc-campbell/nicedishy/pkg/logger"
 	"github.com/marc-campbell/nicedishy/pkg/stores"
@@ -36,7 +37,7 @@ func CreateDishy(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	dishy, err := stores.GetStore().CreateDishy(context.TODO(), userID, createDishyRequest.Name)
+	d, err := stores.GetStore().CreateDishy(context.TODO(), userID, createDishyRequest.Name)
 	if err != nil {
 		logger.Error(err)
 		createDishyResponse.Error = err.Error()
@@ -44,6 +45,14 @@ func CreateDishy(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	createDishyResponse.Dishy = dishy
+	err = dishy.CreateGrafanaDashboard(context.TODO(), d.ID, createDishyRequest.Name)
+	if err != nil {
+		logger.Error(err)
+		createDishyResponse.Error = err.Error()
+		JSON(w, http.StatusInternalServerError, createDishyResponse)
+		return
+	}
+
+	createDishyResponse.Dishy = d
 	JSON(w, http.StatusCreated, createDishyResponse)
 }
