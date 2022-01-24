@@ -2,12 +2,6 @@ NiceDishy is the Web and API side of the nicedishy.com service.
 This runs in Kubernetes.
 
 
-## Generating some data
-
-```
-./bin/generate-data --token <token>
-```
-
 ## install nats in production
 
 ```
