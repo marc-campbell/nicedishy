@@ -53,3 +53,5 @@ spec:
               value: "$POSTMARK_ACCOUNT_TOKEN"
             - name: MAILCHIMP_API_KEY
               value: "$MAILCHIMP_API_KEY"
+            - name: GRAFANA_API_KEY
+              value: "$NICEDISHY_GRAFANA_API_KEY"
