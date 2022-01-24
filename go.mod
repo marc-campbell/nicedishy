@@ -3,9 +3,12 @@ module github.com/marc-campbell/nicedishy
 go 1.16
 
 require (
+	github.com/K-Phoen/grabana v0.20.11 // indirect
+	github.com/K-Phoen/sdk v0.8.4 // indirect
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/gorilla/mux v1.8.0
 	github.com/gorilla/websocket v1.4.2
+	github.com/grafana-tools/sdk v0.0.0-20211220201350-966b3088eec9 // indirect
 	github.com/hanzoai/gochimp3 v0.0.0-20210305004051-da66ea724147 // indirect
 	github.com/jackc/pgx/v4 v4.14.1
 	github.com/keighl/postmark v0.0.0-20190821160221-28358b1a94e3

@@ -2,7 +2,7 @@ package grafanaproxy
 
 import (
 	"context"
-	"crypto/tls"
+	"fmt"
 	"net/http"
 	"net/http/httputil"
 	"net/url"
@@ -39,27 +39,32 @@ func handleRequestAndRedirect(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	logger.Info("proxying request",
-		zap.String("upstreamEndpoint", url.Host),
-		zap.String("path", r.URL.Path),
-		zap.String("scheme", url.Scheme),
-		zap.String("x-forwarded-host", r.Header.Get("Host")))
-
 	proxy := httputil.NewSingleHostReverseProxy(url)
-	proxy.Transport = &http.Transport{
-		TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
-	}
 
+	fmt.Printf("r.url.path = %s, url.path = %s\n", r.URL.Path, url.Path)
 	r.URL.Host = url.Host
 	r.URL.Scheme = url.Scheme
 	r.Header.Set("X-Forwarded-Host", r.Header.Get("Host"))
 	r.Host = url.Host
-	// r.URL.Path = r.URL.RawPath
+
+	logger.Info("proxying request",
+		zap.String("upstreamEndpoint", url.Host),
+		zap.String("requestedPath", r.URL.Path),
+		zap.String("scheme", url.Scheme),
+		zap.String("x-forwarded-host", r.Header.Get("Host")))
 
 	proxy.ServeHTTP(w, r)
 
 }
 
 func grafanaEndpointForRequest(r *http.Request) (string, error) {
+	// if the path is a root dashboard path, we'll rewrite it
+	// for all other internal grafana paths (CSS, images, etc)
+	// we keep them the same
+
+	// if r.URL.Path == "/23txAzw1aH0rlpXYhOoleMHC2Fe" {
+	// 	return "http://grafana:3000/d/apzwaMb7z/sample?orgId=1", nil
+	// }
+
 	return "http://grafana:3000", nil
 }

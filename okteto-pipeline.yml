@@ -23,5 +23,5 @@ devs:
   - nicedishy/okteto.yml
   - docs/okteto.yml
   - okteto.yml
-  - okteto-mailer.yml
-  - okteto-grafana-proxy.yml
+  # - okteto-mailer.yml
+  # - okteto-grafana-proxy.yml

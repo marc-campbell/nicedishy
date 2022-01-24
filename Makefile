@@ -32,7 +32,7 @@ export GO111MODULE=on
 export GOPROXY=https://proxy.golang.org
 
 .PHONY: build
-build: bin/nicedishy-api bin/generate-data bin/grafana-proxy
+build: bin/nicedishy-api bin/generate-data bin/grafana-proxy bin/nicedishy-dev
 
 .PHONY: run
 run: bin/nicedishy-api
@@ -45,6 +45,10 @@ run-grafana-proxy: bin/grafana-proxy
 .PHONY: bin/nicedishy-api
 bin/nicedishy-api:
 	go build -o bin/nicedishy-api ./cmd/api
+
+.PHONY: bin/nicedishy-dev
+bin/nicedishy-dev:
+	go build -o bin/nicedishy-dev ./cmd/dev
 
 .PHONY: bin/grafana-proxy
 bin/grafana-proxy:

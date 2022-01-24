@@ -66,8 +66,7 @@ create table dishy (
   created_at timestamptz not null,
   name text not null,
   last_metric_at timestamptz,
-  last_geocheck_at timestamptz,
-  grafana_dashboard_id text not null
+  last_geocheck_at timestamptz
 );
 
 create table dishy_geo (
