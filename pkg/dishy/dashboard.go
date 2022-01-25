@@ -14,7 +14,8 @@ import (
 func CreateGrafanaDashboard(ctx context.Context, id string, name string) error {
 	marshaledDashboard := fmt.Sprintf(defaultDashboard,
 		id,
-		name)
+		name,
+		os.Getenv("GRAFANA_DATASOURCE_UID"))
 
 	fmt.Printf("marhsaledDashboard: %s\n", marshaledDashboard)
 	req, err := http.NewRequest("POST", "http://grafana:3000/api/dashboards/db", bytes.NewBuffer([]byte(marshaledDashboard)))

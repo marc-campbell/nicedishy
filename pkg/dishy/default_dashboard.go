@@ -79,7 +79,7 @@ const defaultDashboard = `{
 			{
 			  "datasource": {
 				"type": "postgres",
-				"uid": "ybmyTGxnz"
+				"uid": "%s"
 			  },
 			  "format": "time_series",
 			  "group": [],
