@@ -16,4 +16,24 @@ spec:
     - name: http
       port: 80
       targetPort: http
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nicedishy-dashboard-lb
+  namespace: nicedishy
+  annotations:
+    service.beta.kubernetes.io/do-loadbalancer-name: "dashboard.nicedishy.com"
+    service.beta.kubernetes.io/do-loadbalancer-protocol: "http"
+  labels:
+    app: nicedishy-grafana-proxy
+spec:
+  type: LoadBalancer
+  selector:
+    app: nicedishy-grafana-proxy
+  ports:
+    - name: http
+      port: 80
+      targetPort: http
+
 

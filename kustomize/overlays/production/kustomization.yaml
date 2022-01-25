@@ -12,9 +12,8 @@ resources:
 
 patches:
   - ./deployment-api.yaml
+  - ./deployment-grafana-proxy.yaml
 
 images:
   - name: ghcr.io/marc-campbell/nicedishy-gitops/nicedishy-api
-    newTag: "NEW_TAG"
-  - name: ghcr.io/marc-campbell/nicedishy-gitops/nicedishy-frontend
     newTag: "NEW_TAG"

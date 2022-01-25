@@ -325,6 +325,7 @@ const defaultDashboard = `{
 		  "type": "timeseries"
 		}
 	  ],
+	  "refresh": "5s",
 	  "schemaVersion": 6,
 	  "version": 0
 	},

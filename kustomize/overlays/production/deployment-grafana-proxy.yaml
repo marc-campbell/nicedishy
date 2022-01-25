@@ -1,0 +1,16 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: grafana-proxy
+spec:
+  template:
+    spec:
+      imagePullSecrets:
+        - name: ghcr
+      serviceAccountName: nicedishy
+      containers:
+        - name: grafana-proxy
+          image: ghcr.io/marc-campbell/nicedishy-gitops/nicedishy-api
+          command: ["/go/src/github.com/marc-campbell/nicedishy/bin/grafana-proxy"]
+          args: ["run"]
+          env:
