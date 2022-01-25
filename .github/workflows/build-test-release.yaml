@@ -42,6 +42,10 @@ jobs:
         with:
           name: nicedishy-api
           path: ./bin/nicedishy-api
+      - uses: actions/upload-artifact@v2.3.1
+        with:
+          name: grafana-proxy
+          path: ./bin/grafana-proxy
 
   release:
     runs-on: ubuntu-18.04
@@ -60,6 +64,11 @@ jobs:
           name: nicedishy-api
           path: ./bin
       - run: chmod a+x ./bin/nicedishy-api
+      - uses: actions/download-artifact@v2.1.0
+        with:
+          name: grafana-proxy
+          path: ./bin
+      - run: chmod a+x ./bin/grafana-proxy
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
