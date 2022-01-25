@@ -137,7 +137,7 @@ func LoginCallback(w http.ResponseWriter, r *http.Request) {
 		}
 
 		if len(dishies) == 0 {
-			loginCallbackResponse.RedirectURI = "/dishies/new"
+			loginCallbackResponse.RedirectURI = "/dishy/new"
 		} else {
 			loginCallbackResponse.RedirectURI = "/dishies"
 		}
