@@ -26,11 +26,11 @@ metadata:
     service.beta.kubernetes.io/do-loadbalancer-name: "dashboard.nicedishy.com"
     service.beta.kubernetes.io/do-loadbalancer-protocol: "http"
   labels:
-    app: nicedishy-grafana-proxy
+    app: grafana-proxy
 spec:
   type: LoadBalancer
   selector:
-    app: nicedishy-grafana-proxy
+    app: grafana-proxy
   ports:
     - name: http
       port: 80
