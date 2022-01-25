@@ -12,6 +12,7 @@ resources:
 
 patches:
   - ./deployment-api.yaml
+  - ./deployment-mailer.yaml
   - ./deployment-grafana-proxy.yaml
 
 images:

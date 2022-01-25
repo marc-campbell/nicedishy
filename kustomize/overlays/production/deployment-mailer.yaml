@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: grafana-proxy
+spec:
+  template:
+    spec:
+      imagePullSecrets:
+        - name: ghcr
+      serviceAccountName: nicedishy
+      containers:
+        - name: nicedishy-mailer
+          image: ghcr.io/marc-campbell/nicedishy-gitops/nicedishy-api
+          args: ["mailer"]
+          env:
+            - name: POSTGRES_URI
+              valueFrom:
+                secretKeyRef:
+                  name: nicedishy-timescale # we use the same database in dev
+                  key: uri
+            - name: POSTMARK_SERVER_TOKEN
+              value: "$POSTMARK_SERVER_TOKEN"
+            - name: POSTMARK_ACCOUNT_TOKEN
+              value: "$POSTMARK_ACCOUNT_TOKEN"
