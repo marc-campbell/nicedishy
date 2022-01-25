@@ -1,2 +1,3 @@
 imagepullsecret-raw.yaml
-google-secret-raw.yaml
+*-raw.yaml
+*.raw.yaml

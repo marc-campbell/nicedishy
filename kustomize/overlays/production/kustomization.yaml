@@ -5,6 +5,7 @@ resources:
   - ./namespace.yaml
   - ./imagepullsecret.yaml
   - ./google-secret.yaml
+  - ./grafana-secret.yaml
   - ../../base
   - ../../../migrations/kustomize/overlays/production
   - ./loadbalancer.yaml
@@ -14,6 +15,7 @@ patches:
   - ./deployment-api.yaml
   - ./deployment-mailer.yaml
   - ./deployment-grafana-proxy.yaml
+
 
 images:
   - name: ghcr.io/marc-campbell/nicedishy-gitops/nicedishy-api

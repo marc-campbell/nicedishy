@@ -41,3 +41,8 @@ spec:
                   key: uri
             - name: NATS_ENDPOINT
               value: nats://nats.nats.svc.cluster.local:4222
+            - name: GRAFANA_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: nicedishy-grafana
+                  key: apiKey
