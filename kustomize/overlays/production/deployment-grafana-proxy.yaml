@@ -11,6 +11,6 @@ spec:
       containers:
         - name: grafana-proxy
           image: ghcr.io/marc-campbell/nicedishy-gitops/nicedishy-api
-          command: ["/go/src/github.com/marc-campbell/nicedishy/bin/grafana-proxy"]
+          command: ["/grafana-proxy"]
           args: ["run"]
           env:
