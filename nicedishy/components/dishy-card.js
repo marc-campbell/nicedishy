@@ -12,7 +12,8 @@ export default function DishyCard({dishy}) {
     router.push('/download');
   }
 
-  const handleSettingsClick = (dishyId) => {
+  const handleSettingsClick = (dishyId, ev) => {
+    ev.preventDefault();
     router.push(`/dishy/${dishyId}/settings`);
   }
 
@@ -89,9 +90,11 @@ export default function DishyCard({dishy}) {
                   {' '}
                   <a href="#" className="btn btn-outline-primary">Docs</a>
                   <br /><br />
-                  <a href="#" onClick={handleSettingsClick.bind(this, dishy.id)}>
-                    Settings <i className="bi bi-gear"></i>
-                  </a>
+                  <Link href="#" passHref>
+                    <a onClick={handleSettingsClick.bind(this, dishy.id)}>
+                      <i className="bi bi-gear"></i> Settings
+                    </a>
+                  </Link><br />
                   <Link href={`${process.env.NEXT_PUBLIC_DASHBOARD_ENDPOINT}/d/${dishy.id}/default-dashboard`} passHref><a target="_blank"><i className="bi bi-clock-history"></i>{' '}Dashboard</a></Link><br />
                 </div>
               </div>
