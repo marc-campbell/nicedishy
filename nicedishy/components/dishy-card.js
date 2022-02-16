@@ -92,6 +92,7 @@ export default function DishyCard({dishy}) {
                   <a href="#" onClick={handleSettingsClick.bind(this, dishy.id)}>
                     Settings <i className="bi bi-gear"></i>
                   </a>
+                  <Link href={`${process.env.NEXT_PUBLIC_DASHBOARD_ENDPOINT}/d/${dishy.id}`} passHref><a target="_blank"><i className="bi bi-clock-history"></i>{' '}Dashboard</a></Link><br />
                 </div>
               </div>
             </div>

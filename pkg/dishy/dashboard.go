@@ -17,7 +17,6 @@ func CreateGrafanaDashboard(ctx context.Context, id string, name string) error {
 		name,
 		os.Getenv("GRAFANA_DATASOURCE_UID"))
 
-	fmt.Printf("marhsaledDashboard: %s\n", marshaledDashboard)
 	req, err := http.NewRequest("POST", "http://grafana:3000/api/dashboards/db", bytes.NewBuffer([]byte(marshaledDashboard)))
 	if err != nil {
 		return fmt.Errorf("create request: %w", err)
