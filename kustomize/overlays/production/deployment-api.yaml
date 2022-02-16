@@ -46,3 +46,5 @@ spec:
                 secretKeyRef:
                   name: nicedishy-grafana
                   key: apiKey
+            - name: GRAFANA_DATASOURCE_UID
+              value: X3auJcxnk

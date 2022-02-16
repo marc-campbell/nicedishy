@@ -1,7 +1,6 @@
 package dishy
 
 const defaultDashboard = `{
-	"dashboard": {
 	  "uid": "%s",
 	  "title": "%s",
 	  "tags": [ "templated" ],
@@ -328,6 +327,4 @@ const defaultDashboard = `{
 	  "refresh": "5s",
 	  "schemaVersion": 6,
 	  "version": 0
-	},
-	"overwrite": false
-  }`
+	}`

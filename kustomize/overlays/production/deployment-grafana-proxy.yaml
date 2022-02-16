@@ -13,6 +13,3 @@ spec:
           image: ghcr.io/marc-campbell/nicedishy-gitops/nicedishy-api
           command: ["/grafana-proxy"]
           args: ["run"]
-          env:
-            - name: GRAFANA_DATASOURCE_UID
-              value: X3auJcxnk
