@@ -23,6 +23,8 @@ func CreateGrafanaDashboard(ctx context.Context, id string, name string) error {
 	marshaledDashboard := fmt.Sprintf(defaultDashboard,
 		id,
 		"Default Dashboard",
+		os.Getenv("GRAFANA_DATASOURCE_UID"),
+		os.Getenv("GRAFANA_DATASOURCE_UID"),
 		os.Getenv("GRAFANA_DATASOURCE_UID"))
 
 	createDashboardRequest := map[string]interface{}{
