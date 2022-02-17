@@ -1,11 +1,16 @@
 package grafanaproxy
 
 import (
+	"bytes"
 	"context"
+	"encoding/json"
+	"fmt"
+	"io/ioutil"
 	"net/http"
 	"net/http/httputil"
 	"net/url"
 	"regexp"
+	"strings"
 
 	"github.com/marc-campbell/nicedishy/pkg/logger"
 	"github.com/marc-campbell/nicedishy/pkg/stores"
@@ -42,7 +47,7 @@ func handleRequestAndRedirect(w http.ResponseWriter, r *http.Request) {
 
 	proxy := httputil.NewSingleHostReverseProxy(url)
 
-	isAllowed, err := isUpstreamURLAllowed(r.URL.Path)
+	isAllowed, err := isUpstreamURLAllowed(r)
 	if err != nil {
 		logger.Error(errors.Wrap(err, "check if upstream url is allowed"))
 		w.WriteHeader(http.StatusInternalServerError)
@@ -70,19 +75,91 @@ func handleRequestAndRedirect(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func isUpstreamURLAllowed(path string) (bool, error) {
+func isUpstreamURLAllowed(r *http.Request) (bool, error) {
 	// some static paths we need to allow
 	alwaysAllowed := []string{
-		"/api/ds/query",
 		"/api/annotations",
 		"/api/prometheus/grafana/api/v1/rules",
 	}
 	for _, aa := range alwaysAllowed {
-		if path == aa {
+		if r.URL.Path == aa {
 			return true, nil
 		}
 	}
 
+	alwaysAllowedPrefixes := []string{
+		"/public/fonts/",
+	}
+	for _, aa := range alwaysAllowedPrefixes {
+		if strings.HasPrefix(r.URL.Path, aa) {
+			return true, nil
+		}
+	}
+	// queries, we need to make sure not any query is allowed
+	if r.URL.Path == "/api/ds/query" {
+		body, err := ioutil.ReadAll(r.Body)
+		if err != nil {
+			return false, errors.Wrap(err, "read request body")
+		}
+
+		type queryDatasourceReqeust struct {
+			UID  string `json:"uid"`
+			Type string `json:"type"`
+		}
+
+		type queryRequest struct {
+			RefID         string                 `json:"refId"`
+			Datasource    queryDatasourceReqeust `json:"datasource"`
+			RawSQL        string                 `json:"rawSql"`
+			Format        string                 `json:"format"`
+			DatasourceID  int                    `json:"datasourceId"`
+			IntervalMS    int64                  `json:"intervalMs"`
+			MaxDataPoints int                    `json:"maxDataPoints"`
+		}
+
+		type queriesRequest struct {
+			Queries []queryRequest `json:"queries"`
+		}
+
+		query := queriesRequest{}
+		if err := json.Unmarshal(body, &query); err != nil {
+			return false, errors.Wrap(err, "unmarshal query request")
+		}
+
+		unknownQuery := false
+		for _, q := range query.Queries {
+			/*
+				SELECT
+					"time" AS "time",
+					pop_ping_latency_ms
+					FROM dishy_data
+					WHERE
+					$__timeFilter("time")
+					ORDER BY 1
+			*/
+
+			// first, make sure we have only a single statement
+			if strings.Count(q.RawSQL, ";") > 1 {
+				unknownQuery = true
+			}
+
+			// now, make sure we are only selecting from our table
+			if !strings.Contains(q.RawSQL, "FROM dishy_data") && !strings.Contains(q.RawSQL, "FROM dishy_speed") {
+				unknownQuery = true
+			}
+
+			if unknownQuery {
+				fmt.Printf("unknown query: %s\n", q.RawSQL)
+			}
+		}
+
+		if unknownQuery {
+			return false, nil
+		}
+
+		r.Body = ioutil.NopCloser(bytes.NewBuffer(body))
+		return true, nil
+	}
 	// dashboards: /d/<id>/default-dashboard
 	// dashboards api: /api/dashboards/uid/<id>
 
@@ -92,8 +169,8 @@ func isUpstreamURLAllowed(path string) (bool, error) {
 	}
 
 	for _, dashdashboardRegex := range dashboardRegexes {
-		r := regexp.MustCompile(dashdashboardRegex)
-		regexMatch := r.FindAllStringSubmatch(path, -1)
+		rg := regexp.MustCompile(dashdashboardRegex)
+		regexMatch := rg.FindAllStringSubmatch(r.URL.Path, -1)
 		for _, result := range regexMatch {
 			maybeDishyID := result[1]
 			maybeDishy, err := stores.GetStore().GetDishy(context.TODO(), maybeDishyID)

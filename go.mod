@@ -5,6 +5,7 @@ go 1.16
 require (
 	github.com/K-Phoen/grabana v0.20.11 // indirect
 	github.com/K-Phoen/sdk v0.8.4 // indirect
+	github.com/blastrain/vitess-sqlparser v0.0.0-20201030050434-a139afbb1aba // indirect
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/gorilla/mux v1.8.0
 	github.com/gorilla/websocket v1.4.2
