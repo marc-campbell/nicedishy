@@ -88,7 +88,7 @@ func isUpstreamURLAllowed(r *http.Request) (bool, error) {
 	}
 
 	alwaysAllowedPrefixes := []string{
-		"/public/fonts/",
+		"/public/",
 	}
 	for _, aa := range alwaysAllowedPrefixes {
 		if strings.HasPrefix(r.URL.Path, aa) {
