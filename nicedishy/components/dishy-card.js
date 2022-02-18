@@ -115,16 +115,16 @@ export default function DishyCard({dishy}) {
               <div className="col-4">
                 <div style={{fontSize: "3em", lineHeight: "1.2em", paddingTop: "10px"}}>{dishy.latestStats.popPingLatencyMs.toFixed(0)}ms</div>
               </div>
-              <div className="col-4">
+              <div className={`col-4 ${dishy.latestSpeeds ? '' : 'hidden'}`}>
                 <GaugeChart
-                  percent={dishy.latestSpeeds.uploadSpeed / 40000000}
+                  percent={dishy.latestSpeeds ? dishy.latestSpeeds.uploadSpeed / 40000000 : 0}
                   colors={["#FF5F6D", "#00ff00"]}
                   hideText={true}
                 />
               </div>
-              <div className="col-4">
+              <div className={`col-4 ${dishy.latestSpeeds ? '' : 'hidden'}`}>
                 <GaugeChart
-                  percent={dishy.latestSpeeds.downloadSpeed / 300000000}
+                  percent={dishy.latestSpeeds ? dishy.latestSpeeds.downloadSpeed / 300000000 : 0}
                   colors={["#FF5F6D", "#00ff00"]}
                   hideText={true}
                 />
@@ -134,13 +134,13 @@ export default function DishyCard({dishy}) {
               <div className="col-4">
                 ping
               </div>
-              <div className="col-4">
+              <div className={`col-4 ${dishy.latestSpeeds ? '' : 'hidden'}`}>
                 upload speed<br />
-                ({Utilities.mbps(dishy.latestSpeeds.uploadSpeed, 10)})
+                ({dishy.latestSpeeds ? Utilities.mbps(dishy.latestSpeeds.uploadSpeed, 10) : 0})
               </div>
-              <div className="col-4">
+              <div className={`col-4 ${dishy.latestSpeeds ? '' : 'hidden'}`}>
                 download speed<br />
-                ({Utilities.mbps(dishy.latestSpeeds.downloadSpeed, 10)})
+                ({dishy.latestSpeeds ? Utilities.mbps(dishy.latestSpeeds.downloadSpeed, 10) : 0})
               </div>
             </div>
           </div>
@@ -153,7 +153,13 @@ export default function DishyCard({dishy}) {
             </div>
             <div className="row">
               <div className="col-12">
-                <Link href={`${process.env.NEXT_PUBLIC_DASHBOARD_ENDPOINT}/d/${dishy.id}/default-dashboard?kiosk`} passHref><a target="_blank"><i className="bi bi-clock-history"></i>{' '}Dashboard</a></Link><br />
+                <Link href={`${process.env.NEXT_PUBLIC_DASHBOARD_ENDPOINT}/d/${dishy.id}/default-dashboard?kiosk`} passHref><a target="_blank"><i className="bi bi-clock-history"></i>{' '}Dashboard</a></Link>
+                  {' '}(
+                    <Link href={`${process.env.NEXT_PUBLIC_DASHBOARD_ENDPOINT}/d/${dishy.id}/default-dashboard?kiosk&refresh=5s&from=now-6h&to=now`} passHref><a target="_blank">6h</a></Link>
+                  {' '}/{' '}<Link href={`${process.env.NEXT_PUBLIC_DASHBOARD_ENDPOINT}/d/${dishy.id}/default-dashboard?kiosk&refresh=5s&from=now-24h&to=now`} passHref><a target="_blank">1d</a></Link>
+                  {' '}/{' '}<Link href={`${process.env.NEXT_PUBLIC_DASHBOARD_ENDPOINT}/d/${dishy.id}/default-dashboard?kiosk&refresh=5s&from=now-7d&to=now`} passHref><a target="_blank">1w</a></Link>
+                  {' '}/{' '}<Link href={`${process.env.NEXT_PUBLIC_DASHBOARD_ENDPOINT}/d/${dishy.id}/default-dashboard?kiosk&refresh=5s&from=now-30d&to=now`} passHref><a target="_blank">1m</a></Link>)
+                <br />
                 <a href={`/dishy/${dishy.id}/compare`}><i className="bi bi-people-fill"></i>{' '}How do I compare?</a><br />
                 <a href={`/dishy/${dishy.id}/troubleshooting`}><i className="bi bi-lightbulb"></i>{' '}Troubleshooting</a><br />
                 <a href={`/dishy/${dishy.id}/settings`}><i className="bi bi-gear"></i>{' '}Settings</a>

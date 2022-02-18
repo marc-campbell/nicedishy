@@ -165,6 +165,7 @@ func isUpstreamURLAllowed(r *http.Request) (bool, error) {
 
 	dashboardRegexes := []string{
 		`(?:\/d\/)(?P<DishyID>.*)(?:\/default-dashboard)`,
+		`(?:\/d\/)(?P<DishyID>.*)(?:\/the-data)`,
 		`(?:\/api\/dashboards\/uid\/)(?P<DishyID>.*)`,
 	}
 

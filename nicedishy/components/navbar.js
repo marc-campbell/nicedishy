@@ -1,10 +1,17 @@
 import * as React from "react";
+import {useState, useEffect} from 'react'
 import { Utilities } from "../utils/utilities";
 import { useRouter } from 'next/router'
 import Image from 'next/image'
 
 export default function Navbar() {
   const router = useRouter();
+
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    setIsLoggedIn(Utilities.getToken() !== null);
+  }, []);
 
   const handleLogout = () => {
     Utilities.logoutUser();
@@ -35,7 +42,7 @@ export default function Navbar() {
 
           <div className="nav navbar-nav navbar-right">
             {
-              Utilities.isLoggedIn() ? <div className="btn btn-link hidden" style={{textAlign: "right"}} onClick={handleLogout}>Logout</div> : null
+              isLoggedIn ? <span className="btn btn-link hidden" style={{textAlign: "right"}} onClick={handleLogout}>Logout</span> : null
             }
           </div>
         </div>

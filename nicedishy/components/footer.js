@@ -46,7 +46,7 @@ export default function Footer() {
                   <div className="col-2">
                     <h5>Everyone Else</h5>
                     <ul className="nav flex-column">
-                      <li className="nav-item mb-2"><Link href="/stats"><a className="nav-link p-0 text-muted">See Some Stats</a></Link></li>
+                      <li className="nav-item mb-2"><Link href={`${process.env.NEXT_PUBLIC_DASHBOARD_ENDPOINT}/d/${process.env.NEXT_PUBLIC_GRAFANA_PUBLIC_FOLDER}/the-data`}><a className="nav-link p-0 text-muted">See Some Stats</a></Link></li>
                       <li className="nav-item mb-2"><a href="#" className="nav-link p-0 text-muted">Request Data</a></li>
                     </ul>
                   </div>

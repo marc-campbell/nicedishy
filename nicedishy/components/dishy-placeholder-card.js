@@ -3,6 +3,7 @@ import GaugeChart from 'react-gauge-chart';
 import { Utilities } from "../utils/utilities";
 
 export default function DishyPlaceholderCard() {
+
   return (
     <div className="card" style={{width: "100%", height: "300px"}}>
       <div className="card-body">

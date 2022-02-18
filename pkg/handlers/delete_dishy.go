@@ -42,7 +42,9 @@ func DeleteDishy(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// TODO delete the stats÷
+	w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS, DELETE, PUT")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Headers", "content-type, origin, accept, authorization")
 
 	w.WriteHeader(http.StatusNoContent)
 }

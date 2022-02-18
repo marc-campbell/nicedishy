@@ -27,7 +27,6 @@ export default function Page() {
       const res = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/v1/dishy/${id}`, {
         method: 'DELETE',
         headers: {
-          'Content-Type': 'application/json',
           'Authorization': Utilities.getToken(),
         },
       });

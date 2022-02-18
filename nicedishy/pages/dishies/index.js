@@ -20,7 +20,14 @@ export default function Page() {
     const source = new EventSource(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/v1/dishies/stream?nonce=${nonce}`);
     source.onmessage = (event) => {
       setIsLoading(false);
-      setDishies(JSON.parse(event.data));
+
+      const dishies = JSON.parse(event.data);
+      if (dishies.length === 0) {
+        router.replace('/dishy/new');
+        return;
+      }
+
+      setDishies(dishies);
     }
   }, [])
 
