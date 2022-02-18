@@ -3,18 +3,15 @@ module github.com/marc-campbell/nicedishy
 go 1.16
 
 require (
-	github.com/K-Phoen/grabana v0.20.11 // indirect
-	github.com/K-Phoen/sdk v0.8.4 // indirect
-	github.com/blastrain/vitess-sqlparser v0.0.0-20201030050434-a139afbb1aba // indirect
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/gorilla/mux v1.8.0
 	github.com/gorilla/websocket v1.4.2
-	github.com/grafana-tools/sdk v0.0.0-20211220201350-966b3088eec9 // indirect
-	github.com/hanzoai/gochimp3 v0.0.0-20210305004051-da66ea724147 // indirect
-	github.com/jackc/pgx/v4 v4.14.1
+	github.com/gosimple/slug v1.12.0 // indirect
+	github.com/grafana-tools/sdk v0.0.0-20211220201350-966b3088eec9
+	github.com/hanzoai/gochimp3 v0.0.0-20210305004051-da66ea724147
+	github.com/jackc/pgx/v4 v4.15.0
 	github.com/keighl/postmark v0.0.0-20190821160221-28358b1a94e3
 	github.com/kr/pretty v0.3.0 // indirect
-	github.com/mailru/easyjson v0.7.7 // indirect
 	github.com/nats-io/nats-server/v2 v2.6.6 // indirect
 	github.com/nats-io/nats.go v1.13.1-0.20211122170419-d7c1d78a50fc
 	github.com/pkg/errors v0.9.1
