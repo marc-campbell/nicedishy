@@ -5,7 +5,7 @@ go 1.16
 require (
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/gorilla/mux v1.8.0
-	github.com/gorilla/websocket v1.4.2
+	github.com/gorilla/websocket v1.5.0
 	github.com/gosimple/slug v1.12.0 // indirect
 	github.com/grafana-tools/sdk v0.0.0-20211220201350-966b3088eec9
 	github.com/hanzoai/gochimp3 v0.0.0-20210305004051-da66ea724147
