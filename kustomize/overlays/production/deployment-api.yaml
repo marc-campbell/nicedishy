@@ -48,3 +48,8 @@ spec:
                   key: apiKey
             - name: GRAFANA_DATASOURCE_UID
               value: X3auJcxnk
+            - name: NICEDISHY_RETOOL_API_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: retool-secrets
+                  key: internalApiPassword
