@@ -60,6 +60,13 @@ func Start() {
 	nonceAuthQuietRouter.Path("/api/v1/dishy/stream").Methods("GET").HandlerFunc(handlers.StreamDishy)
 
 	/**********************************************************************
+	* Internal API
+	**********************************************************************/
+	internalQuietRouter := r.PathPrefix("/api/internal").Subrouter()
+	internalQuietRouter.Use(handlers.RequireValidInternalAuthQuietMiddleware)
+	// internalQuietRouter.Path("/dishy/{id}/dashboard").Methods("PUT").HandlerFunc(handlers.DeployLatestDishyDashboard)
+
+	/**********************************************************************
 	* Grafana
 	**********************************************************************/
 	u, err := url.Parse("http://grafana:3000")

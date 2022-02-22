@@ -27,6 +27,18 @@ func RequireValidNonceMiddleware(next http.Handler) http.Handler {
 	})
 }
 
+func RequireValidInternalAuthQuietMiddleware(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		username, err := requireValidInternalAuth(w, r)
+		if err != nil {
+			return
+		}
+
+		r = setInternalUser(r, username)
+		next.ServeHTTP(w, r)
+	})
+}
+
 func RequireValidSessionQuietMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		s, err := requireValidSession(w, r)

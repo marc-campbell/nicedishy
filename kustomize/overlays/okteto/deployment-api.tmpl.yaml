@@ -57,3 +57,5 @@ spec:
               value: "$NICEDISHY_GRAFANA_API_KEY"
             - name: GRAFANA_DATASOURCE_UID
               value: ybmyTGxnz
+            - name: NICEDISHY_RETOOL_API_PASSWORD
+              value: "$NICEDISHY_RETOOL_API_PASSWORD"

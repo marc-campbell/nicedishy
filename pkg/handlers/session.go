@@ -2,7 +2,9 @@ package handlers
 
 import (
 	"context"
+	"encoding/base64"
 	"net/http"
+	"os"
 	"strings"
 
 	"github.com/marc-campbell/nicedishy/pkg/session"
@@ -18,6 +20,7 @@ type ErrorResponse struct {
 
 type tokenKey struct{}
 type sessionKey struct{}
+type internalUsernameKey struct{}
 
 // getUserID will return the user id, regardless if it's a token or a session
 func getUserID(r *http.Request) string {
@@ -26,6 +29,10 @@ func getUserID(r *http.Request) string {
 	}
 
 	return ""
+}
+
+func setInternalUser(r *http.Request, username string) *http.Request {
+	return r.WithContext(context.WithValue(r.Context(), internalUsernameKey{}, username))
 }
 
 func setSession(r *http.Request, sess *sessiontypes.Session) *http.Request {
@@ -70,6 +77,42 @@ func optionalValidToken(w http.ResponseWriter, r *http.Request) (*tokentypes.Tok
 	}
 
 	return t, nil
+}
+
+func requireValidInternalAuth(w http.ResponseWriter, r *http.Request) (string, error) {
+	auth := r.Header.Get("authorization")
+
+	if auth == "" {
+		return "", errors.New("authorization header empty")
+	}
+
+	parts := strings.Fields(auth)
+	if len(parts) != 2 {
+		return "", errors.New("expected 2 parts in auth header")
+	}
+
+	if parts[0] != "Basic" {
+		return "", errors.New("not a bearer auth")
+	}
+
+	decoded, err := base64.StdEncoding.DecodeString(parts[1])
+	if err != nil {
+		return "", errors.New("invalid base64")
+	}
+
+	usernameAndPassword := strings.Split(string(decoded), ":")
+	if len(usernameAndPassword) != 2 {
+		return "", errors.New("invalid username and password")
+	}
+
+	username := usernameAndPassword[0]
+	password := usernameAndPassword[1]
+
+	if username == "retool" && password == os.Getenv("NICEDISHY_RETOOL_API_PASSWORD") {
+		return username, nil
+	}
+
+	return "", errors.New("invalid auth")
 }
 
 func requireValidToken(w http.ResponseWriter, r *http.Request) (*tokentypes.Token, error) {
