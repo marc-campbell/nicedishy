@@ -104,7 +104,7 @@ const defaultDashboard = `{
 			  "group": [],
 			  "metricColumn": "none",
 			  "rawQuery": false,
-			  "rawSql": "SELECT\n  \"time\" AS \"time\",\n  upload_speed\nFROM dishy_speed\nWHERE\n  $__timeFilter(\"time\") and dishy_id=\"%s\" \nORDER BY 1",
+			  "rawSql": "SELECT\n  \"time\" AS \"time\",\n  upload_speed\nFROM dishy_speed\nWHERE\n  $__timeFilter(\"time\") and dishy_id='%s' \nORDER BY 1",
 			  "refId": "A",
 			  "select": [
 				[
@@ -186,7 +186,7 @@ const defaultDashboard = `{
 			  "group": [],
 			  "metricColumn": "none",
 			  "rawQuery": false,
-			  "rawSql": "SELECT\n  \"time\" AS \"time\",\n  upload_speed\nFROM dishy_speed\nWHERE\n  $__timeFilter(\"time\") and dishy_id=\"%s\" \nORDER BY 1",
+			  "rawSql": "SELECT\n  \"time\" AS \"time\",\n  upload_speed\nFROM dishy_speed\nWHERE\n  $__timeFilter(\"time\") and dishy_id='%s' \nORDER BY 1",
 			  "refId": "A",
 			  "select": [
 				[
@@ -268,7 +268,7 @@ const defaultDashboard = `{
 			  "group": [],
 			  "metricColumn": "none",
 			  "rawQuery": false,
-			  "rawSql": "SELECT\n  \"time\" AS \"time\",\n  upload_speed\nFROM dishy_speed\nWHERE\n  $__timeFilter(\"time\") and dishy_id=\"%s\" \nORDER BY 1",
+			  "rawSql": "SELECT\n  \"time\" AS \"time\",\n  upload_speed\nFROM dishy_speed\nWHERE\n  $__timeFilter(\"time\") and dishy_id='%s' \nORDER BY 1",
 			  "refId": "A",
 			  "select": [
 				[
@@ -374,7 +374,7 @@ const defaultDashboard = `{
 			  "group": [],
 			  "metricColumn": "none",
 			  "rawQuery": false,
-			  "rawSql": "SELECT\n  \"time\" AS \"time\",\n  download_speed\nFROM dishy_speed\nWHERE\n  $__timeFilter(\"time\") and dishy_id=\"%s\" \nORDER BY 1",
+			  "rawSql": "SELECT\n  \"time\" AS \"time\",\n  download_speed\nFROM dishy_speed\nWHERE\n  $__timeFilter(\"time\") and dishy_id='%s' \nORDER BY 1",
 			  "refId": "A",
 			  "select": [
 				[
@@ -455,7 +455,7 @@ const defaultDashboard = `{
 			  "group": [],
 			  "metricColumn": "none",
 			  "rawQuery": false,
-			  "rawSql": "SELECT\n  \"time\" AS \"time\",\n  download_speed\nFROM dishy_speed\nWHERE\n  $__timeFilter(\"time\") and dishy_id=\"%s\" \nORDER BY 1",
+			  "rawSql": "SELECT\n  \"time\" AS \"time\",\n  download_speed\nFROM dishy_speed\nWHERE\n  $__timeFilter(\"time\") and dishy_id='%s' \nORDER BY 1",
 			  "refId": "A",
 			  "select": [
 				[
@@ -537,7 +537,7 @@ const defaultDashboard = `{
 			  "group": [],
 			  "metricColumn": "none",
 			  "rawQuery": false,
-			  "rawSql": "SELECT\n  \"time\" AS \"time\",\n  download_speed\nFROM dishy_speed\nWHERE\n  $__timeFilter(\"time\") and dishy_id=\"%s\" \nORDER BY 1",
+			  "rawSql": "SELECT\n  \"time\" AS \"time\",\n  download_speed\nFROM dishy_speed\nWHERE\n  $__timeFilter(\"time\") and dishy_id='%s' \nORDER BY 1",
 			  "refId": "A",
 			  "select": [
 				[
@@ -655,7 +655,7 @@ const defaultDashboard = `{
 			  "group": [],
 			  "metricColumn": "none",
 			  "rawQuery": false,
-			  "rawSql": "SELECT\n  \"time\" AS \"time\",\n  pop_ping_latency_ms\nFROM dishy_data\nWHERE\n  $__timeFilter(\"time\") and dishy_id=\"%s\" \nORDER BY 1",
+			  "rawSql": "SELECT\n  \"time\" AS \"time\",\n  pop_ping_latency_ms\nFROM dishy_data\nWHERE\n  $__timeFilter(\"time\") and dishy_id='%s' \nORDER BY 1",
 			  "refId": "A",
 			  "select": [
 				[
@@ -737,7 +737,7 @@ const defaultDashboard = `{
 			  "group": [],
 			  "metricColumn": "none",
 			  "rawQuery": false,
-			  "rawSql": "SELECT\n  \"time\" AS \"time\",\n  pop_ping_latency_ms\nFROM dishy_data\nWHERE\n  $__timeFilter(\"time\") and dishy_id=\"%s\" \nORDER BY 1",
+			  "rawSql": "SELECT\n  \"time\" AS \"time\",\n  pop_ping_latency_ms\nFROM dishy_data\nWHERE\n  $__timeFilter(\"time\") and dishy_id='%s' \nORDER BY 1",
 			  "refId": "A",
 			  "select": [
 				[
@@ -819,7 +819,7 @@ const defaultDashboard = `{
 			  "group": [],
 			  "metricColumn": "none",
 			  "rawQuery": false,
-			  "rawSql": "SELECT\n  \"time\" AS \"time\",\n  pop_ping_latency_ms\nFROM dishy_data\nWHERE\n  $__timeFilter(\"time\") and dishy_id=\"%s\" \nORDER BY 1",
+			  "rawSql": "SELECT\n  \"time\" AS \"time\",\n  pop_ping_latency_ms\nFROM dishy_data\nWHERE\n  $__timeFilter(\"time\") and dishy_id='%s' \nORDER BY 1",
 			  "refId": "A",
 			  "select": [
 				[
@@ -898,7 +898,7 @@ const defaultDashboard = `{
 			  "group": [],
 			  "metricColumn": "software_version",
 			  "rawQuery": false,
-			  "rawSql": "SELECT\n  \"time\" AS \"time\",\n  software_version AS metric,\n  downlink_throughput_bps\nFROM dishy_data\nWHERE\n  $__timeFilter(\"time\") and dishy_id=\"%s\" \nORDER BY 1,2",
+			  "rawSql": "SELECT\n  \"time\" AS \"time\",\n  software_version AS metric,\n  downlink_throughput_bps\nFROM dishy_data\nWHERE\n  $__timeFilter(\"time\") and dishy_id='%s' \nORDER BY 1,2",
 			  "refId": "A",
 			  "select": [
 				[
@@ -976,7 +976,7 @@ const defaultDashboard = `{
 			  "group": [],
 			  "metricColumn": "hardware_version",
 			  "rawQuery": false,
-			  "rawSql": "SELECT\n  \"time\" AS \"time\",\n  hardware_version AS metric,\n  downlink_throughput_bps\nFROM dishy_data\nWHERE\n  $__timeFilter(\"time\") and dishy_id=\"%s\" \nORDER BY 1,2",
+			  "rawSql": "SELECT\n  \"time\" AS \"time\",\n  hardware_version AS metric,\n  downlink_throughput_bps\nFROM dishy_data\nWHERE\n  $__timeFilter(\"time\") and dishy_id='%s' \nORDER BY 1,2",
 			  "refId": "A",
 			  "select": [
 				[
@@ -1082,7 +1082,7 @@ const defaultDashboard = `{
 			  "group": [],
 			  "metricColumn": "none",
 			  "rawQuery": false,
-			  "rawSql": "SELECT\n  \"time\" AS \"time\",\n  pop_ping_drop_rate\nFROM dishy_data\nWHERE\n  $__timeFilter(\"time\") and dishy_id=\"%s\" \nORDER BY 1",
+			  "rawSql": "SELECT\n  \"time\" AS \"time\",\n  pop_ping_drop_rate\nFROM dishy_data\nWHERE\n  $__timeFilter(\"time\") and dishy_id='%s' \nORDER BY 1",
 			  "refId": "A",
 			  "select": [
 				[
