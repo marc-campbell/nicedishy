@@ -19,7 +19,7 @@ require (
 	github.com/segmentio/ksuid v1.0.4
 	github.com/spf13/cobra v1.3.0
 	github.com/spf13/viper v1.10.1
-	github.com/swaggo/swag v1.7.9
+	github.com/swaggo/swag v1.8.0
 	go.uber.org/zap v1.21.0
 	goji.io v2.0.2+incompatible // indirect
 	golang.org/x/crypto v0.0.0-20211117183948-ae814b36b871 // indirect
