@@ -1,25 +1,11 @@
-******************
-Welcome to NiceDishy
-******************
+There is a new version of firmware on your dishy. We thought you might want to know
 
-I appreciate your patience as I'm working to get NiceDishy out of private beta. It's been a lot of work to iron out some rough edges to make NiceDishy a great service.
+Previous Firmware: {{ previousFirmware }}
+New Firmware: {{ pewFirmware }}
 
-The service is still in beta, but I'd love to have you send some data from your device and let me know if NiceDishy is useful.
-
-I've moved your account from the waitlist queue into an active account. To get started, just click the button below to log in:
-
-https://nicedishy.com/login
-
-Once you've logged in, you'll see some instructions to download our agent and install it locally.
-
-If you have any questions, feel free to email me directly (marc@nicedishy.com). Or post over in the r/starlink subreddit, I'm there constantly too!
+NiceDishy is still collecting data on this version to identify is there's an noticable change to performance or any cool new features to be aware of.
+There's nothing you need to do right now.
 
 Thanks,
 Marc
 
-P.S. Need immediate help getting started? Check out our help documentation ( https://docs.nicedishy.com ). Or, just reply to this email.
-
-
-If you’re having trouble with the button above, copy and paste the URL below into your web browser.
-
-https://nicedishy.com/login
