@@ -65,6 +65,7 @@ func Start() {
 	internalQuietRouter := r.PathPrefix("/api/internal").Subrouter()
 	internalQuietRouter.Use(handlers.RequireValidInternalAuthQuietMiddleware)
 	internalQuietRouter.Path("/dishy/{id}/dashboard").Methods("PUT").HandlerFunc(handlers.DeployLatestDishyDashboard)
+	internalQuietRouter.Path("/public/dashboards").Methods("PUT").HandlerFunc(handlers.DeployLatestPublicDashboards)
 
 	/**********************************************************************
 	* Grafana
