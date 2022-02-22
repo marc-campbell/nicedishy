@@ -6,7 +6,7 @@ You can disable all notifications using the toggle at the top of the page, or co
 
 #### Firmware Upgrade
 
-The service will send you an email when the firmware version on your device changes. Starlink doesn't currently provide release notes, so it will include a link to any known changes (new features, performance changes, etc).
+The service will send you an email when the firmware version on your device changes. Starlink doesn't currently provide release notes, so we don't have much to share here other than the fact that the version changed. As more users share data with NiceDishy, we plan to include some generic stats about how the new firmware version has been performing compared to previous.
 
 #### Device Offline
 

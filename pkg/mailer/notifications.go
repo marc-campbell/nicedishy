@@ -2,18 +2,40 @@ package mailer
 
 import (
 	"context"
+	"encoding/json"
+	"fmt"
 
 	"github.com/keighl/postmark"
 )
 
-func SendSoftwareVersionChanged(ctx context.Context, emailAddress string, version string) error {
-	email := postmark.Email{
-		From:     "notifications@nicedishy.com",
-		To:       emailAddress,
-		Subject:  "Woot. You have some new bits on your dishy to try out",
-		HtmlBody: "...",
-		TextBody: "There is a new version of firmware on your dishy",
+const SendSoftwareVersionChangedTemplateID = 111
+
+type SoftwareVersionChangedContext struct {
+	NewFirmware      string `json:"newFirmware"`
+	PreviousFirmware string `json:"previousFirmware"`
+}
+
+func SendSoftwareVersionChanged(ctx context.Context, emailAddress string, mailContext SoftwareVersionChangedContext) error {
+	model, err := json.Marshal(mailContext)
+	if err != nil {
+		return fmt.Errorf("marshal mail context: %v", err)
+	}
+	marsheledModel := map[string]interface{}{}
+	if err := json.Unmarshal(model, &marsheledModel); err != nil {
+		return fmt.Errorf("unmarshal mail context: %v", err)
 	}
 
-	return sendEmail(ctx, email)
+	email := postmark.TemplatedEmail{
+		TemplateId:    SendSoftwareVersionChangedTemplateID,
+		From:          "notifications@nicedishy.com",
+		To:            emailAddress,
+		TemplateModel: marsheledModel,
+	}
+
+	_, err = sendTemplatedEmail(ctx, email)
+	if err != nil {
+		return fmt.Errorf("send templated email: %v", err)
+	}
+
+	return nil
 }

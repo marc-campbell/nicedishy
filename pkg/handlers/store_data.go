@@ -179,7 +179,11 @@ values
 		}
 
 		// send an email that the version changes
-		if err := mailer.SendSoftwareVersionChanged(context.TODO(), user.EmailAddress, storeDataRequest.Status.DeviceInfo.SoftwareVersion); err != nil {
+		mailContext := mailer.SoftwareVersionChangedContext{
+			NewFirmware:      storeDataRequest.Status.DeviceInfo.SoftwareVersion,
+			PreviousFirmware: previousSoftwareVersion,
+		}
+		if err := mailer.SendSoftwareVersionChanged(context.TODO(), user.EmailAddress, mailContext); err != nil {
 			logger.Error(err)
 			storeDataResponse.Error = err.Error()
 			JSON(w, http.StatusInternalServerError, storeDataResponse)
