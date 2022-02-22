@@ -10,6 +10,8 @@ resources:
   - ../../../migrations/kustomize/overlays/production
   - ./loadbalancer.yaml
   - ./clusterrole.yaml
+  - ./retool.yaml
+  - ./retool-secrets.yaml
 
 patches:
   - ./deployment-api.yaml

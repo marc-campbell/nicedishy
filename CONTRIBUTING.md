@@ -1,7 +1,6 @@
 NiceDishy is the Web and API side of the nicedishy.com service.
 This runs in Kubernetes.
 
-
 ## install nats in production
 
 ```
