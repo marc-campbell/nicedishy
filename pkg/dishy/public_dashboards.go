@@ -102,7 +102,7 @@ const theData = `{
 			{
 			  "datasource": {
 				"type": "postgres",
-				"uid": "ybmyTGxnz"
+				"uid": "%s"
 			  },
 			  "format": "time_series",
 			  "group": [],
@@ -200,7 +200,7 @@ const theData = `{
 			{
 			  "datasource": {
 				"type": "postgres",
-				"uid": "ybmyTGxnz"
+				"uid": "%s"
 			  },
 			  "format": "time_series",
 			  "group": [],
@@ -298,7 +298,7 @@ const theData = `{
 			{
 			  "datasource": {
 				"type": "postgres",
-				"uid": "ybmyTGxnz"
+				"uid": "%s"
 			  },
 			  "format": "time_series",
 			  "group": [],
@@ -404,7 +404,7 @@ const theData = `{
 			{
 			  "datasource": {
 				"type": "postgres",
-				"uid": "ybmyTGxnz"
+				"uid": "%s"
 			  },
 			  "format": "time_series",
 			  "group": [],
@@ -501,7 +501,7 @@ const theData = `{
 			{
 			  "datasource": {
 				"type": "postgres",
-				"uid": "ybmyTGxnz"
+				"uid": "%s"
 			  },
 			  "format": "time_series",
 			  "group": [],
@@ -599,7 +599,7 @@ const theData = `{
 			{
 			  "datasource": {
 				"type": "postgres",
-				"uid": "ybmyTGxnz"
+				"uid": "%s"
 			  },
 			  "format": "time_series",
 			  "group": [],
@@ -717,7 +717,7 @@ const theData = `{
 			{
 			  "datasource": {
 				"type": "postgres",
-				"uid": "ybmyTGxnz"
+				"uid": "%s"
 			  },
 			  "format": "time_series",
 			  "group": [],
@@ -799,7 +799,7 @@ const theData = `{
 			{
 			  "datasource": {
 				"type": "postgres",
-				"uid": "ybmyTGxnz"
+				"uid": "%s"
 			  },
 			  "format": "time_series",
 			  "group": [],
@@ -881,7 +881,7 @@ const theData = `{
 			{
 			  "datasource": {
 				"type": "postgres",
-				"uid": "ybmyTGxnz"
+				"uid": "%s"
 			  },
 			  "format": "time_series",
 			  "group": [],
@@ -960,7 +960,7 @@ const theData = `{
 			{
 			  "datasource": {
 				"type": "postgres",
-				"uid": "ybmyTGxnz"
+				"uid": "%s"
 			  },
 			  "format": "time_series",
 			  "group": [],
@@ -1038,7 +1038,7 @@ const theData = `{
 			{
 			  "datasource": {
 				"type": "postgres",
-				"uid": "ybmyTGxnz"
+				"uid": "%s"
 			  },
 			  "format": "time_series",
 			  "group": [],
@@ -1144,7 +1144,7 @@ const theData = `{
 			{
 			  "datasource": {
 				"type": "postgres",
-				"uid": "ybmyTGxnz"
+				"uid": "%s"
 			  },
 			  "format": "time_series",
 			  "group": [],

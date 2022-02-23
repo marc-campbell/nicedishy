@@ -9,6 +9,8 @@ import (
 	"net/http"
 	"os"
 	"strings"
+
+	"github.com/marc-campbell/nicedishy/pkg/logger"
 )
 
 // UpdatePublicDashboards will update all public dashboards (not dishy dahsboards)
@@ -63,8 +65,14 @@ func UpdatePublicDashboards(ctx context.Context) error {
 
 		defer resp.Body.Close()
 
-		fmt.Println("response Status:", resp.Status)
-		fmt.Println("response Headers:", resp.Header)
+		if resp.StatusCode != http.StatusOK {
+			body, err := ioutil.ReadAll(resp.Body)
+			if err != nil {
+				return fmt.Errorf("read response: %w", err)
+			}
+			logger.Errorf("failed to update %s: %s", title, string(body))
+			return fmt.Errorf("response Status: %d", resp.StatusCode)
+		}
 
 		return nil
 	}
