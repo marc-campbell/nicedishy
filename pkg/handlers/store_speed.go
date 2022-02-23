@@ -123,12 +123,13 @@ func StoreSpeed(w http.ResponseWriter, r *http.Request) {
 	metricsDB := persistence.MustGetMetricsDBSession()
 	query := `insert into dishy_speed (
 time, dishy_id, ip_address,
-download_speed, upload_speed, software_version, hardware_version)
+download_speed, upload_speed, software_version, hardware_version, user_agent)
 values
-($1, $2, $3, $4, $5, $6, $7)`
+($1, $2, $3, $4, $5, $6, $7, $8)`
 	_, err = metricsDB.Exec(context.Background(), query, when, d.ID, ipAddress,
 		storeSpeedRequest.Speed.Download, storeSpeedRequest.Speed.Upload,
-		storeSpeedRequest.SoftwareVersion, storeSpeedRequest.HardwareVersion)
+		storeSpeedRequest.SoftwareVersion, storeSpeedRequest.HardwareVersion,
+		r.Header.Get("User-Agent"))
 	if err != nil {
 		logger.Error(err)
 		response.Error = err.Error()

@@ -8,6 +8,7 @@ const defaultDashboard = `{
 	  "refresh": "5s",
 	  "schemaVersion": 6,
 	  "version": 0,
+
 	  "panels": [
 		{
 		  "collapsed": false,
@@ -98,7 +99,7 @@ const defaultDashboard = `{
 			{
 			  "datasource": {
 				"type": "postgres",
-				"uid": "%s"
+				"uid": "ybmyTGxnz"
 			  },
 			  "format": "time_series",
 			  "group": [],
@@ -143,12 +144,28 @@ const defaultDashboard = `{
 				"mode": "absolute",
 				"steps": [
 				  {
-					"color": "green",
+					"color": "red",
 					"value": null
 				  },
 				  {
-					"color": "red",
-					"value": 80
+					"color": "orange",
+					"value": 10000000
+				  },
+				  {
+					"color": "yellow",
+					"value": 20000000
+				  },
+				  {
+					"color": "green",
+					"value": 30000000
+				  },
+				  {
+					"color": "blue",
+					"value": 40000000
+				  },
+				  {
+					"color": "purple",
+					"value": 50000000
 				  }
 				]
 			  },
@@ -180,7 +197,7 @@ const defaultDashboard = `{
 			{
 			  "datasource": {
 				"type": "postgres",
-				"uid": "%s"
+				"uid": "ybmyTGxnz"
 			  },
 			  "format": "time_series",
 			  "group": [],
@@ -218,19 +235,35 @@ const defaultDashboard = `{
 		  "fieldConfig": {
 			"defaults": {
 			  "color": {
-				"mode": "continuous-GrYlRd"
+				"mode": "thresholds"
 			  },
 			  "mappings": [],
 			  "thresholds": {
 				"mode": "absolute",
 				"steps": [
 				  {
-					"color": "green",
+					"color": "red",
 					"value": null
 				  },
 				  {
-					"color": "red",
-					"value": 80
+					"color": "orange",
+					"value": 10000000
+				  },
+				  {
+					"color": "yellow",
+					"value": 20000000
+				  },
+				  {
+					"color": "green",
+					"value": 30000000
+				  },
+				  {
+					"color": "blue",
+					"value": 40000000
+				  },
+				  {
+					"color": "purple",
+					"value": 50000000
 				  }
 				]
 			  },
@@ -251,7 +284,7 @@ const defaultDashboard = `{
 			  "calcs": [
 				"max"
 			  ],
-			  "fields": "/^upload_speed$/",
+			  "fields": "",
 			  "values": false
 			},
 			"showThresholdLabels": false,
@@ -262,7 +295,7 @@ const defaultDashboard = `{
 			{
 			  "datasource": {
 				"type": "postgres",
-				"uid": "%s"
+				"uid": "ybmyTGxnz"
 			  },
 			  "format": "time_series",
 			  "group": [],
@@ -368,7 +401,7 @@ const defaultDashboard = `{
 			{
 			  "datasource": {
 				"type": "postgres",
-				"uid": "%s"
+				"uid": "ybmyTGxnz"
 			  },
 			  "format": "time_series",
 			  "group": [],
@@ -412,12 +445,28 @@ const defaultDashboard = `{
 				"mode": "absolute",
 				"steps": [
 				  {
-					"color": "green",
+					"color": "red",
 					"value": null
 				  },
 				  {
-					"color": "red",
-					"value": 80
+					"color": "orange",
+					"value": 30000000
+				  },
+				  {
+					"color": "#EAB839",
+					"value": 80000000
+				  },
+				  {
+					"color": "green",
+					"value": 100000000
+				  },
+				  {
+					"color": "#6ED0E0",
+					"value": 150000000
+				  },
+				  {
+					"color": "purple",
+					"value": 200000000
 				  }
 				]
 			  },
@@ -449,7 +498,7 @@ const defaultDashboard = `{
 			{
 			  "datasource": {
 				"type": "postgres",
-				"uid": "%s"
+				"uid": "ybmyTGxnz"
 			  },
 			  "format": "time_series",
 			  "group": [],
@@ -494,12 +543,28 @@ const defaultDashboard = `{
 				"mode": "absolute",
 				"steps": [
 				  {
-					"color": "green",
+					"color": "red",
 					"value": null
 				  },
 				  {
-					"color": "red",
-					"value": 80
+					"color": "orange",
+					"value": 30000000
+				  },
+				  {
+					"color": "#EAB839",
+					"value": 80000000
+				  },
+				  {
+					"color": "green",
+					"value": 100000000
+				  },
+				  {
+					"color": "blue",
+					"value": 150000000
+				  },
+				  {
+					"color": "purple",
+					"value": 200000000
 				  }
 				]
 			  },
@@ -531,7 +596,7 @@ const defaultDashboard = `{
 			{
 			  "datasource": {
 				"type": "postgres",
-				"uid": "%s"
+				"uid": "ybmyTGxnz"
 			  },
 			  "format": "time_series",
 			  "group": [],
@@ -649,7 +714,7 @@ const defaultDashboard = `{
 			{
 			  "datasource": {
 				"type": "postgres",
-				"uid": "%s"
+				"uid": "ybmyTGxnz"
 			  },
 			  "format": "time_series",
 			  "group": [],
@@ -731,7 +796,7 @@ const defaultDashboard = `{
 			{
 			  "datasource": {
 				"type": "postgres",
-				"uid": "%s"
+				"uid": "ybmyTGxnz"
 			  },
 			  "format": "time_series",
 			  "group": [],
@@ -813,7 +878,7 @@ const defaultDashboard = `{
 			{
 			  "datasource": {
 				"type": "postgres",
-				"uid": "%s"
+				"uid": "ybmyTGxnz"
 			  },
 			  "format": "time_series",
 			  "group": [],
@@ -892,7 +957,7 @@ const defaultDashboard = `{
 			{
 			  "datasource": {
 				"type": "postgres",
-				"uid": "%s"
+				"uid": "ybmyTGxnz"
 			  },
 			  "format": "time_series",
 			  "group": [],
@@ -970,7 +1035,7 @@ const defaultDashboard = `{
 			{
 			  "datasource": {
 				"type": "postgres",
-				"uid": "%s"
+				"uid": "ybmyTGxnz"
 			  },
 			  "format": "time_series",
 			  "group": [],
@@ -1076,7 +1141,7 @@ const defaultDashboard = `{
 			{
 			  "datasource": {
 				"type": "postgres",
-				"uid": "%s"
+				"uid": "ybmyTGxnz"
 			  },
 			  "format": "time_series",
 			  "group": [],

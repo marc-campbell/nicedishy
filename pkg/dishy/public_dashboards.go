@@ -102,7 +102,7 @@ const theData = `{
 			{
 			  "datasource": {
 				"type": "postgres",
-				"uid": "%s"
+				"uid": "ybmyTGxnz"
 			  },
 			  "format": "time_series",
 			  "group": [],
@@ -147,12 +147,28 @@ const theData = `{
 				"mode": "absolute",
 				"steps": [
 				  {
-					"color": "green",
+					"color": "red",
 					"value": null
 				  },
 				  {
-					"color": "red",
-					"value": 80
+					"color": "orange",
+					"value": 10000000
+				  },
+				  {
+					"color": "yellow",
+					"value": 20000000
+				  },
+				  {
+					"color": "green",
+					"value": 30000000
+				  },
+				  {
+					"color": "blue",
+					"value": 40000000
+				  },
+				  {
+					"color": "purple",
+					"value": 50000000
 				  }
 				]
 			  },
@@ -184,7 +200,7 @@ const theData = `{
 			{
 			  "datasource": {
 				"type": "postgres",
-				"uid": "%s"
+				"uid": "ybmyTGxnz"
 			  },
 			  "format": "time_series",
 			  "group": [],
@@ -222,19 +238,35 @@ const theData = `{
 		  "fieldConfig": {
 			"defaults": {
 			  "color": {
-				"mode": "continuous-GrYlRd"
+				"mode": "thresholds"
 			  },
 			  "mappings": [],
 			  "thresholds": {
 				"mode": "absolute",
 				"steps": [
 				  {
-					"color": "green",
+					"color": "red",
 					"value": null
 				  },
 				  {
-					"color": "red",
-					"value": 80
+					"color": "orange",
+					"value": 10000000
+				  },
+				  {
+					"color": "yellow",
+					"value": 20000000
+				  },
+				  {
+					"color": "green",
+					"value": 30000000
+				  },
+				  {
+					"color": "blue",
+					"value": 40000000
+				  },
+				  {
+					"color": "purple",
+					"value": 50000000
 				  }
 				]
 			  },
@@ -255,7 +287,7 @@ const theData = `{
 			  "calcs": [
 				"max"
 			  ],
-			  "fields": "/^upload_speed$/",
+			  "fields": "",
 			  "values": false
 			},
 			"showThresholdLabels": false,
@@ -266,7 +298,7 @@ const theData = `{
 			{
 			  "datasource": {
 				"type": "postgres",
-				"uid": "%s"
+				"uid": "ybmyTGxnz"
 			  },
 			  "format": "time_series",
 			  "group": [],
@@ -372,7 +404,7 @@ const theData = `{
 			{
 			  "datasource": {
 				"type": "postgres",
-				"uid": "%s"
+				"uid": "ybmyTGxnz"
 			  },
 			  "format": "time_series",
 			  "group": [],
@@ -416,12 +448,28 @@ const theData = `{
 				"mode": "absolute",
 				"steps": [
 				  {
-					"color": "green",
+					"color": "red",
 					"value": null
 				  },
 				  {
-					"color": "red",
-					"value": 80
+					"color": "orange",
+					"value": 30000000
+				  },
+				  {
+					"color": "#EAB839",
+					"value": 80000000
+				  },
+				  {
+					"color": "green",
+					"value": 100000000
+				  },
+				  {
+					"color": "#6ED0E0",
+					"value": 150000000
+				  },
+				  {
+					"color": "purple",
+					"value": 200000000
 				  }
 				]
 			  },
@@ -453,7 +501,7 @@ const theData = `{
 			{
 			  "datasource": {
 				"type": "postgres",
-				"uid": "%s"
+				"uid": "ybmyTGxnz"
 			  },
 			  "format": "time_series",
 			  "group": [],
@@ -498,12 +546,28 @@ const theData = `{
 				"mode": "absolute",
 				"steps": [
 				  {
-					"color": "green",
+					"color": "red",
 					"value": null
 				  },
 				  {
-					"color": "red",
-					"value": 80
+					"color": "orange",
+					"value": 30000000
+				  },
+				  {
+					"color": "#EAB839",
+					"value": 80000000
+				  },
+				  {
+					"color": "green",
+					"value": 100000000
+				  },
+				  {
+					"color": "blue",
+					"value": 150000000
+				  },
+				  {
+					"color": "purple",
+					"value": 200000000
 				  }
 				]
 			  },
@@ -535,7 +599,7 @@ const theData = `{
 			{
 			  "datasource": {
 				"type": "postgres",
-				"uid": "%s"
+				"uid": "ybmyTGxnz"
 			  },
 			  "format": "time_series",
 			  "group": [],
@@ -653,7 +717,7 @@ const theData = `{
 			{
 			  "datasource": {
 				"type": "postgres",
-				"uid": "%s"
+				"uid": "ybmyTGxnz"
 			  },
 			  "format": "time_series",
 			  "group": [],
@@ -735,7 +799,7 @@ const theData = `{
 			{
 			  "datasource": {
 				"type": "postgres",
-				"uid": "%s"
+				"uid": "ybmyTGxnz"
 			  },
 			  "format": "time_series",
 			  "group": [],
@@ -817,13 +881,13 @@ const theData = `{
 			{
 			  "datasource": {
 				"type": "postgres",
-				"uid": "%s"
+				"uid": "ybmyTGxnz"
 			  },
 			  "format": "time_series",
 			  "group": [],
 			  "metricColumn": "none",
 			  "rawQuery": false,
-			  "rawSql": "SELECT\n  \"time\" AS \"time\",\n  pop_ping_latency_ms\nFROM dishy_data\nWHERE\n  $__timeFilter(\"time\")\nORDER BY 1",
+			  "rawSql": "SELECT\n  \"time\" AS \"time\",\n  pop_ping_latency_ms\nFROM dishy_data\nWHERE\n  $__timeFilter(\"time\") \nORDER BY 1",
 			  "refId": "A",
 			  "select": [
 				[
@@ -896,7 +960,7 @@ const theData = `{
 			{
 			  "datasource": {
 				"type": "postgres",
-				"uid": "%s"
+				"uid": "ybmyTGxnz"
 			  },
 			  "format": "time_series",
 			  "group": [],
@@ -974,7 +1038,7 @@ const theData = `{
 			{
 			  "datasource": {
 				"type": "postgres",
-				"uid": "%s"
+				"uid": "ybmyTGxnz"
 			  },
 			  "format": "time_series",
 			  "group": [],
@@ -1080,7 +1144,7 @@ const theData = `{
 			{
 			  "datasource": {
 				"type": "postgres",
-				"uid": "%s"
+				"uid": "ybmyTGxnz"
 			  },
 			  "format": "time_series",
 			  "group": [],

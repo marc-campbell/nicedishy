@@ -66,7 +66,8 @@ create table dishy_data (
   percent_obstructed double precision,
   seconds_obstructed double precision,
   software_version text not null,
-  hardware_version text not null
+  hardware_version text not null,
+  user_agent text
 );
 SELECT create_hypertable('dishy_data', 'time'); 
 
@@ -77,7 +78,8 @@ create table dishy_speed (
   download_speed double precision,
   upload_speed double precision,
   software_version text not null,
-  hardware_version text not null
+  hardware_version text not null,
+  user_agent text
 );
 SELECT create_hypertable('dishy_speed', 'time'); 
 
