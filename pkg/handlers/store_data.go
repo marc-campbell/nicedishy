@@ -183,6 +183,14 @@ values
 			NewFirmware:      storeDataRequest.Status.DeviceInfo.SoftwareVersion,
 			PreviousFirmware: previousSoftwareVersion,
 		}
+		_, err = stores.GetStore().QueueEmail(context.TODO(), "notifications@nicedishy.com", user.EmailAddress, mailer.SendSoftwareVersionChangedTemplateID, mailer.GetSoftwareVersionChangedModel(mailContext))
+		if err != nil {
+			logger.Error(err)
+			storeDataResponse.Error = err.Error()
+			JSON(w, http.StatusInternalServerError, storeDataResponse)
+			return
+		}
+
 		if err := mailer.SendSoftwareVersionChanged(context.TODO(), user.EmailAddress, mailContext); err != nil {
 			logger.Error(err)
 			storeDataResponse.Error = err.Error()

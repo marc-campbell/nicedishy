@@ -1,0 +1,14 @@
+
+Uh oh, is everything ok?
+
+We've been getting regular checkins from your Dishy, telling us how it's working, how fast it is, and more.
+
+But something seems to have happened, and we haven't heard from your Dishy since {{ lastMetricAt }}.
+
+If this is unexpected, check out out troubleshooting guide at: https://docs.nicedishy.com/troubleshooting
+
+If you need some help, feel free to >email me directly at marc@nicedishy.com. Or post over in the r/starlink subreddit, I'm there constantly too!
+
+Thanks,
+Marc
+

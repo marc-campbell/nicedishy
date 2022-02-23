@@ -72,5 +72,5 @@ type Store interface {
 	GetQueuedEmails(ctx context.Context) ([]*mailertypes.Email, error)
 	MarkQueuedEmailSent(ctx context.Context, id string) error
 	MarkQueuedEmailError(ctx context.Context, id string) error
-	QueueEmail(ctx context.Context, fromAddress string, toAddress string, templateID string, templateContext map[string]interface{}) (*mailertypes.Email, error)
+	QueueEmail(ctx context.Context, fromAddress string, toAddress string, templateID int64, templateContext map[string]interface{}) (*mailertypes.Email, error)
 }

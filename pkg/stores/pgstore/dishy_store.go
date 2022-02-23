@@ -160,6 +160,13 @@ func (s PGStore) SetDishyLastReceivedStats(ctx context.Context, id string, when 
 		return fmt.Errorf("error setting last_metric_at: %v", err)
 	}
 
+	query = `insert into dishy_disconnected_queue (dishy_id, send_at) values ($1, $2) on conflict (dishy_id)
+do update set send_at = EXCLUDED.send_at`
+	sendAt := time.Now().Add(time.Hour * 6)
+	if _, err := pg.Exec(ctx, query, id, sendAt); err != nil {
+		return fmt.Errorf("error inserting into dishy_disconnected_queue: %v", err)
+	}
+
 	return nil
 }
 

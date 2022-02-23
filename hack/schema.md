@@ -106,3 +106,8 @@ create table email_notification (
   template_id text not null,
   marshalled_context text not null
 );
+
+create table dishy_disconnected_queue (
+  dishy_id text not null primary key,
+  send_at timestamp not null
+);

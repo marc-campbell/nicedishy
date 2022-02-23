@@ -5,6 +5,7 @@ import (
 	"database/sql"
 	"encoding/json"
 	"fmt"
+	"strconv"
 	"time"
 
 	mailertypes "github.com/marc-campbell/nicedishy/pkg/mailer/types"
@@ -71,7 +72,7 @@ func (s PGStore) MarkQueuedEmailError(ctx context.Context, id string) error {
 	return nil
 }
 
-func (s PGStore) QueueEmail(ctx context.Context, fromAddress string, toAddress string, templateID string, templateContext map[string]interface{}) (*mailertypes.Email, error) {
+func (s PGStore) QueueEmail(ctx context.Context, fromAddress string, toAddress string, templateID int64, templateContext map[string]interface{}) (*mailertypes.Email, error) {
 	marshalledContext, err := json.Marshal(templateContext)
 	if err != nil {
 		return nil, fmt.Errorf("marshalling email context: %w", err)
@@ -90,7 +91,7 @@ func (s PGStore) QueueEmail(ctx context.Context, fromAddress string, toAddress s
 values
 ($1, $2, null, null, $3, $4, $5, $6)`
 
-	if _, err := pg.Exec(ctx, query, id.String(), queuedAt, fromAddress, toAddress, templateID, marshalledContext); err != nil {
+	if _, err := pg.Exec(ctx, query, id.String(), queuedAt, fromAddress, toAddress, strconv.FormatInt(templateID, 10), marshalledContext); err != nil {
 		return nil, fmt.Errorf("queuing email: %w", err)
 	}
 
@@ -98,7 +99,7 @@ values
 		ID:              id.String(),
 		FromAddress:     fromAddress,
 		ToAddress:       toAddress,
-		TemplateID:      templateID,
+		TemplateID:      strconv.FormatInt(templateID, 10),
 		TemplateContext: templateContext,
 		QueuedAt:        queuedAt,
 	}, nil

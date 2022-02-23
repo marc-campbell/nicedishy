@@ -15,6 +15,13 @@ type SoftwareVersionChangedContext struct {
 	PreviousFirmware string `json:"previousFirmware"`
 }
 
+func GetSoftwareVersionChangedModel(ctx SoftwareVersionChangedContext) map[string]interface{} {
+	return map[string]interface{}{
+		"newFirmware":      ctx.NewFirmware,
+		"previousFirmware": ctx.PreviousFirmware,
+	}
+}
+
 func SendSoftwareVersionChanged(ctx context.Context, emailAddress string, mailContext SoftwareVersionChangedContext) error {
 	model, err := json.Marshal(mailContext)
 	if err != nil {
