@@ -38,11 +38,11 @@ jobs:
       - run: make test
       - run: make build
 
-      - uses: actions/upload-artifact@v2.3.1
+      - uses: actions/upload-artifact@v3
         with:
           name: nicedishy-api
           path: ./bin/nicedishy-api
-      - uses: actions/upload-artifact@v2.3.1
+      - uses: actions/upload-artifact@v3
         with:
           name: grafana-proxy
           path: ./bin/grafana-proxy
@@ -105,7 +105,7 @@ jobs:
           kustomize_output_file: "gitops-rendered.yaml"
 
       - name: upload rendered yaml
-        uses: actions/upload-artifact@v2.3.1
+        uses: actions/upload-artifact@v3
         with:
           name: gitops-rendered.yaml
           path: gitops-rendered.yaml
