@@ -1,6 +1,9 @@
 package cli
 
 import (
+	"log"
+
+	"github.com/getsentry/sentry-go"
 	"github.com/marc-campbell/nicedishy/pkg/logger"
 	"github.com/marc-campbell/nicedishy/pkg/mailer"
 	"github.com/spf13/cobra"
@@ -21,6 +24,13 @@ func MailerCmd() *cobra.Command {
 			if v.GetString("log-level") == "debug" {
 				logger.Info("setting log level to debug")
 				logger.SetDebug()
+			}
+
+			err := sentry.Init(sentry.ClientOptions{
+				Dsn: "https://36e408e5af5647d2988935d9b9da584b@o242537.ingest.sentry.io/6247594",
+			})
+			if err != nil {
+				log.Fatalf("sentry.Init: %s", err)
 			}
 
 			mailer.StartDaemon()

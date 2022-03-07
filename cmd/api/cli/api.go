@@ -1,6 +1,9 @@
 package cli
 
 import (
+	"log"
+
+	"github.com/getsentry/sentry-go"
 	"github.com/marc-campbell/nicedishy/pkg/apiserver"
 	"github.com/marc-campbell/nicedishy/pkg/logger"
 	"github.com/marc-campbell/nicedishy/pkg/mailer"
@@ -22,6 +25,13 @@ func APICmd() *cobra.Command {
 			if v.GetString("log-level") == "debug" {
 				logger.Info("setting log level to debug")
 				logger.SetDebug()
+			}
+
+			err := sentry.Init(sentry.ClientOptions{
+				Dsn: "https://fe53e0b20cbc4565b2deb5b577dbb8a8@o242537.ingest.sentry.io/6247592",
+			})
+			if err != nil {
+				log.Fatalf("sentry.Init: %s", err)
 			}
 
 			go mailer.QueueDisconnectedDeviceEmails()
