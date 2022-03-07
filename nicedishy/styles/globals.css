@@ -10,6 +10,18 @@ body {
   line-height: var(--bs-body-line-height);
 }
 
+.bg-purple {
+  background-color: #691BA6 !important;
+}
+
+.header-light {
+  color: #efefef !important;
+}
+
+.nav-item-light a {
+  color: #efefef !important;
+}
+
 .navbar-brand-logo {
   height: 60px;
 }
