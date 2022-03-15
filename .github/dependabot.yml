@@ -1,8 +1,8 @@
 ---
 version: 2
 updates:
-  - package-ecosystem: "npm"
-    directory: "/web"
+  - package-ecosystem: "yarn"
+    directory: "/nicedishy"
     schedule:
       interval: "weekly"
 
