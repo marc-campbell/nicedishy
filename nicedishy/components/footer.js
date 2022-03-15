@@ -58,7 +58,7 @@ export default function Footer() {
                       <div className="d-flex w-100 gap-2">
                         <label htmlFor="newsletter1" className="visually-hidden">Email address</label>
                         <input value={emailAddress} onChange={e => setEmailAddress(e.target.value)} type="text" className="form-control" placeholder="Email address" />
-                        <button className="btn btn-outline-secondary" type="button" onClick={handleSubscribeClick}>Subscribe</button>
+                        <button className="btn btn-outline-secondary-white" type="button" onClick={handleSubscribeClick}>Subscribe</button>
                       </div>
                     </form>
                   </div>

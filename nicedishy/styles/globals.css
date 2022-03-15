@@ -29,6 +29,13 @@ body {
   font-size: 14px;
 }
 
+footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 200px;
+}
+
 .card-hover:hover {
   box-shadow: 8px 8px 8px #8c98a4;
   transform:scale(1.02);
@@ -58,6 +65,16 @@ a.text-muted{
   padding-bottom: 20px;
   min-height: 160px;
   border-radius: 10px;
+}
+
+.btn-outline-secondary-white {
+  color: #ccc !important;
+  border-color: #ccc !important;
+}
+
+.btn-outline-secondary-white:hover {
+  color: #fff !important;
+  border-color: #fff !important;
 }
 
 .dashboard-card-blue {

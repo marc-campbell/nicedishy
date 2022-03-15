@@ -5,15 +5,13 @@ export default function Layout({ children }) {
   return (
     <>
       <div style={{minHeight: "100vh"}}>
-        <div className="col-lg-8 mx-auto">
+        <div className="col-lg-8 mx-auto" style={{paddingBottom: "200px"}}>
           <Navbar />
-            <div className="py-md-5 p3">
-              <main>{children}</main>
-            </div>
+          <div className="py-md-5 p3">
+            <main>{children}</main>
           </div>
-        <div style={{position: "relative", left: "0", bottom: "0", width: "100%"}}>
-          <Footer />
         </div>
+        <Footer />
       </div>
     </>
 
