@@ -19,12 +19,11 @@ require (
 	github.com/rogpeppe/go-internal v1.8.0 // indirect
 	github.com/segmentio/ksuid v1.0.4
 	github.com/spf13/cobra v1.4.0
-	github.com/spf13/viper v1.10.1
+	github.com/spf13/viper v1.11.0
 	github.com/swaggo/swag v1.8.0
 	go.uber.org/zap v1.21.0
 	goji.io v2.0.2+incompatible // indirect
-	golang.org/x/crypto v0.0.0-20211117183948-ae814b36b871 // indirect
-	golang.org/x/net v0.0.0-20211118161319-6a13c67c3ce4 // indirect
-	golang.org/x/oauth2 v0.0.0-20211104180415-d3ed0bb246c8
+	golang.org/x/mod v0.5.0 // indirect
+	golang.org/x/oauth2 v0.0.0-20220411215720-9780585627b5
 	gopkg.in/check.v1 v1.0.0-20201130134442-10cb98267c6c // indirect
 )
