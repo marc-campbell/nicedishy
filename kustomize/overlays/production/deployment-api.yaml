@@ -20,6 +20,8 @@ spec:
               value: https://api.nicedishy.com
             - name: WEB_ENDPOINT
               value: https://nicedishy.com
+            - name: POSTHOG_KEY
+              value: phc_LZECaXf8ccWedmStjxjInSbyjC1LVdlbRrefqaguo9E
             - name: GOOGLE_CLIENTID
               valueFrom:
                 secretKeyRef:

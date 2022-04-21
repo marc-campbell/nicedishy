@@ -16,6 +16,7 @@ require (
 	github.com/nats-io/nats-server/v2 v2.6.6 // indirect
 	github.com/nats-io/nats.go v1.13.1-0.20211122170419-d7c1d78a50fc
 	github.com/pkg/errors v0.9.1
+	github.com/posthog/posthog-go v0.0.0-20211028072449-93c17c49e2b0 // indirect
 	github.com/rogpeppe/go-internal v1.8.0 // indirect
 	github.com/segmentio/ksuid v1.0.4
 	github.com/spf13/cobra v1.4.0
