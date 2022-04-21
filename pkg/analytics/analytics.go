@@ -1,8 +1,6 @@
 package analytics
 
 import (
-	"os"
-
 	"github.com/marc-campbell/nicedishy/pkg/logger"
 	posthog "github.com/posthog/posthog-go"
 )
@@ -11,15 +9,15 @@ var (
 	posthogClient *posthog.Client
 )
 
-func init() {
-	client, err := posthog.NewWithConfig(os.Getenv("POSTHOG_KEY"), posthog.Config{Endpoint: "https://app.posthog.com"})
-	if err != nil {
-		logger.Error(err)
-		return
-	}
-	defer client.Close()
-	posthogClient = &client
-}
+// func init() {
+// 	client, err := posthog.NewWithConfig(os.Getenv("POSTHOG_KEY"), posthog.Config{Endpoint: "https://app.posthog.com"})
+// 	if err != nil {
+// 		logger.Error(err)
+// 		return
+// 	}
+// 	defer client.Close()
+// 	posthogClient = &client
+// }
 
 func TrackEvent(actorID string, event string) error {
 	if posthogClient == nil {
