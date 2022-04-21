@@ -17,7 +17,6 @@ func init() {
 		logger.Error(err)
 		return
 	}
-	defer client.Close()
 	posthogClient = &client
 }
 
