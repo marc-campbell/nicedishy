@@ -201,7 +201,7 @@ values
 		}
 	}
 
-	analytics.TrackEvent(d.ID, "store_data")
+	analytics.TrackDishyEvent(d.ID, "store_data")
 
 	w.WriteHeader(http.StatusCreated)
 }

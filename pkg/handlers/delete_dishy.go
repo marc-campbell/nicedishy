@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
+	"github.com/marc-campbell/nicedishy/pkg/analytics"
 	"github.com/marc-campbell/nicedishy/pkg/logger"
 	"github.com/marc-campbell/nicedishy/pkg/stores"
 )
@@ -41,6 +42,8 @@ func DeleteDishy(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
+
+	analytics.TrackUserEvent(userID, "delete_dishy")
 
 	w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS, DELETE, PUT")
 	w.Header().Set("Access-Control-Allow-Origin", "*")

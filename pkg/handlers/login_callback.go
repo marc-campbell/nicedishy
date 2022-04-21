@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"os"
 
+	"github.com/marc-campbell/nicedishy/pkg/analytics"
 	"github.com/marc-campbell/nicedishy/pkg/logger"
 	"github.com/marc-campbell/nicedishy/pkg/session"
 	"github.com/marc-campbell/nicedishy/pkg/stores"
@@ -22,10 +23,9 @@ type LoginCallbackRequest struct {
 }
 
 type LoginCallbackResponse struct {
-	Error        string `json:"error,omitempty"`
-	Token        string `json:"token,omitempty"`
-	RedirectURI  string `json:"redirectUri,omitempty"`
-	IsWaitlisted bool   `json:"isWaitlisted"`
+	Error       string `json:"error,omitempty"`
+	Token       string `json:"token,omitempty"`
+	RedirectURI string `json:"redirectUri,omitempty"`
 }
 
 func LoginCallback(w http.ResponseWriter, r *http.Request) {
@@ -122,10 +122,8 @@ func LoginCallback(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if user.IsWaitlisted {
-		loginCallbackResponse.RedirectURI = "/waitlist"
-		loginCallbackResponse.IsWaitlisted = true
-	}
+	analytics.IdentifyUser(user.ID, user.EmailAddress)
+	analytics.TrackUserEvent(user.ID, "login")
 
 	if loginCallbackResponse.RedirectURI == "" {
 		dishies, err := stores.GetStore().ListDishies(context.TODO(), user.ID)

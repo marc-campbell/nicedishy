@@ -145,7 +145,7 @@ values
 		return
 	}
 
-	analytics.TrackEvent(d.ID, "store_speed")
+	analytics.TrackDishyEvent(d.ID, "store_speed")
 
 	w.WriteHeader(http.StatusCreated)
 }
