@@ -20,7 +20,7 @@ require (
 	github.com/segmentio/ksuid v1.0.4
 	github.com/spf13/cobra v1.4.0
 	github.com/spf13/viper v1.11.0
-	github.com/swaggo/swag v1.8.0
+	github.com/swaggo/swag v1.8.1
 	go.uber.org/zap v1.21.0
 	goji.io v2.0.2+incompatible // indirect
 	golang.org/x/mod v0.5.0 // indirect
