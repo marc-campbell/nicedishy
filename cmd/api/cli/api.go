@@ -4,6 +4,7 @@ import (
 	"log"
 
 	"github.com/getsentry/sentry-go"
+	"github.com/marc-campbell/nicedishy/pkg/apiserver"
 	"github.com/marc-campbell/nicedishy/pkg/logger"
 	"github.com/marc-campbell/nicedishy/pkg/mailer"
 	"github.com/spf13/cobra"
@@ -31,10 +32,10 @@ func APICmd() *cobra.Command {
 			})
 			if err != nil {
 				log.Fatalf("sentry.Init: %s", err)
-				return err
 			}
 
 			go mailer.QueueDisconnectedDeviceEmails()
+			apiserver.Start()
 			return nil
 		},
 	}
