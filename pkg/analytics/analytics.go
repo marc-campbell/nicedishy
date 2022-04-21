@@ -28,7 +28,7 @@ func IdentifyUser(userID string, email string) error {
 
 	c := *posthogClient
 	err := c.Enqueue(posthog.Identify{
-		DistinctId: fmt.Sprintf("user:%s", userID, email),
+		DistinctId: fmt.Sprintf("user:%s", userID),
 		Properties: posthog.NewProperties().
 			Set("email", email),
 	})
