@@ -1,7 +1,6 @@
 package analytics
 
 import (
-	"log"
 	"os"
 
 	"github.com/marc-campbell/nicedishy/pkg/logger"
@@ -15,7 +14,8 @@ var (
 func init() {
 	client, err := posthog.NewWithConfig(os.Getenv("POSTHOG_KEY"), posthog.Config{Endpoint: "https://app.posthog.com"})
 	if err != nil {
-		log.Fatal(err)
+		logger.Error(err)
+		return
 	}
 	defer client.Close()
 	posthogClient = &client
