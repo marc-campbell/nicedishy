@@ -26,7 +26,8 @@ func TrackEvent(actorID string, event string) error {
 		return nil
 	}
 
-	err := posthogClient.Enqueue(posthog.Capture{
+	c := *posthogClient
+	err := c.Enqueue(posthog.Capture{
 		DistinctId: actorID,
 		Event:      event,
 	})
