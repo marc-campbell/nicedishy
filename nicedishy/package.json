@@ -19,6 +19,7 @@
     "lodash": "^4.17.21",
     "mbps": "^1.0.0",
     "next": "12.0.4",
+    "next-use-posthog": "^1.16.0",
     "postcss-loader": "^6.2.1",
     "query-string": "^7.0.1",
     "react": "17.0.2",
