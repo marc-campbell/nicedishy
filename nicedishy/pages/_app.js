@@ -1,5 +1,6 @@
 import '../styles/globals.css'
 import '../styles/home.css'
+import posthog from 'posthog-js';
 
 const App = ({ Component, pageProps }) => {
   if (process.env.NEXT_PUBLIC_POSTHOG_KEY) {
