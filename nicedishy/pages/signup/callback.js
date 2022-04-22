@@ -46,32 +46,35 @@ function LoginCallback() {
           return;
         }
 
+        window.localStorage.setItem("token", response.token);
+
+        nextUrl = window.sessionStorage.getItem('next') ? window.sessionStorage.getItem('next') : '/dishies';
+        window.sessionStorage.removeItem('next');
+
+        setAuthComplete(true);
+        setNextUrl(nextUrl);
+
         if (process.env.NEXT_PUBLIC_POSTHOG_KEY) {
           posthog.init(process.env.NEXT_PUBLIC_POSTHOG_KEY, {
             api_host: 'https://app.posthog.com',
             loaded: function(posthog) {
               posthog.identify(
-                response.userId,
+                `user:${response.userId}`,
                 { email: response.emailAddress },
               );
+              router.push(nextUrl);
             }
           });
+        } else {
+          router.push(nextUrl);
         }
-
-        window.localStorage.setItem("token", response.token);
-
-        nextUrl = window.sessionStorage.getItem('next') ? window.sessionStorage.getItem('next') : '/dishies';
-        window.sessionStorage.removeItem('next');
       } catch (err) {
         console.log(err);
         router.replace("/error");
         return;
       }
 
-      setAuthComplete(true);
-      setNextUrl(nextUrl);
 
-      router.push(nextUrl);
     }
     fetchData();
   }, []);

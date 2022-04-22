@@ -59,13 +59,11 @@ function LoginCallback() {
       setNextUrl(nextUrl);
 
       if (process.env.NEXT_PUBLIC_POSTHOG_KEY) {
-        console.log("1");
         posthog.init(process.env.NEXT_PUBLIC_POSTHOG_KEY, {
           api_host: 'https://app.posthog.com',
           loaded: function(posthog) {
-            console.log("2");
             posthog.identify(
-              response.userId,
+              `user:${response.userId}`,
               { email: response.emailAddress },
             );
             router.push(nextUrl);
