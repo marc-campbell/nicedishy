@@ -10,7 +10,6 @@ import (
 	"strings"
 	"time"
 
-	"github.com/marc-campbell/nicedishy/pkg/analytics"
 	"github.com/marc-campbell/nicedishy/pkg/dishy"
 	"github.com/marc-campbell/nicedishy/pkg/logger"
 	"github.com/marc-campbell/nicedishy/pkg/persistence"
@@ -144,8 +143,6 @@ values
 		JSON(w, http.StatusInternalServerError, response)
 		return
 	}
-
-	analytics.TrackDishyEvent(d.ID, "store_speed")
 
 	w.WriteHeader(http.StatusCreated)
 }

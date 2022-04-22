@@ -46,7 +46,6 @@ func CreateDishy(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	analytics.IdentifyDishy(d.ID, d.Name)
 	analytics.TrackUserEvent(userID, "create_dishy")
 
 	err = dishy.CreateGrafanaDashboard(context.TODO(), d.ID, createDishyRequest.Name)
