@@ -46,10 +46,15 @@ function LoginCallback() {
       }
 
       if (process.env.NEXT_PUBLIC_POSTHOG_KEY) {
-        posthog.identify(
-          response.userId,
-          { email: response.emailAddress },
-        );
+        posthog.init(process.env.NEXT_PUBLIC_POSTHOG_KEY, {
+          api_host: 'https://app.posthog.com',
+          loaded: function(posthog) {
+            posthog.identify(
+              response.userId,
+              { email: response.emailAddress },
+            );
+          }
+        });
       }
 
       window.localStorage.setItem("token", response.token);
