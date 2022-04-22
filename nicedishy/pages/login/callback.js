@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import * as url from "url";
 import { useRouter } from 'next/router'
+import posthog from 'posthog-js';
 
 function LoginCallback() {
   const router = useRouter();
@@ -44,14 +45,14 @@ function LoginCallback() {
         return;
       }
 
-      window.localStorage.setItem("token", response.token);
-      if (response.isWaitlisted) {
-        window.localStorage.setItem("isWaitlisted", response.isWaitlisted);
-      } else {
-        window.localStorage.removeItem("isWaitlisted");
+      if (process.env.NEXT_PUBLIC_POSTHOG_KEY) {
+        posthog.identify(
+          response.userId,
+          { email: response.emailAddress },
+        );
       }
 
-      console.log(response);
+      window.localStorage.setItem("token", response.token);
 
       if (window.sessionStorage.getItem('next')) {
         nextUrl = window.sessionStorage.getItem('next');

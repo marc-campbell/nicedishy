@@ -13,6 +13,10 @@ var (
 )
 
 func init() {
+	if os.Getenv("POSTHOG_API_KEY") == "" {
+		return
+	}
+
 	client, err := posthog.NewWithConfig(os.Getenv("POSTHOG_KEY"), posthog.Config{Endpoint: "https://app.posthog.com"})
 	if err != nil {
 		logger.Error(err)

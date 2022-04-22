@@ -23,9 +23,11 @@ type LoginCallbackRequest struct {
 }
 
 type LoginCallbackResponse struct {
-	Error       string `json:"error,omitempty"`
-	Token       string `json:"token,omitempty"`
-	RedirectURI string `json:"redirectUri,omitempty"`
+	Error        string `json:"error,omitempty"`
+	Token        string `json:"token,omitempty"`
+	RedirectURI  string `json:"redirectUri,omitempty"`
+	UserID       string `json:"userId,omitempty"`
+	EmailAddress string `json:"emailAddress,omitempty"`
 }
 
 func LoginCallback(w http.ResponseWriter, r *http.Request) {
@@ -124,6 +126,9 @@ func LoginCallback(w http.ResponseWriter, r *http.Request) {
 
 	analytics.IdentifyUser(user.ID, user.EmailAddress)
 	analytics.TrackUserEvent(user.ID, "login")
+
+	loginCallbackResponse.UserID = user.ID
+	loginCallbackResponse.EmailAddress = user.EmailAddress
 
 	if loginCallbackResponse.RedirectURI == "" {
 		dishies, err := stores.GetStore().ListDishies(context.TODO(), user.ID)
