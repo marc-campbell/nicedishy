@@ -55,11 +55,7 @@ export default function Page() {
 
           const data = await res.json();
           if (data.user) {
-            if (data.user.isWaitlisted) {
-              router.push("/waitlist");
-            } else {
-              router.push("/dishies");
-            }
+            router.push("/dishies");
             return;
           }
         } catch(err) {

@@ -142,10 +142,6 @@ export const Utilities = {
     return b ? b.pop() : "";
   },
 
-  isWaitlisted() {
-    return !!window.localStorage.getItem("isWaitlisted");
-  },
-
   isLoggedIn() {
     const hasToken = this.getToken();
     return !!hasToken;

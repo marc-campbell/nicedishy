@@ -1,8 +1,6 @@
 # Emails
 
 ## Account management
-- on-waitlist: sent when a new signup occurs
-- invite-ready: sent when i convert an account from waitlist to full
 
 ## Dishy management
 - device-disconnected: sent ~ 24 hours after the last message reecived by a device

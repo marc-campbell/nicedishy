@@ -22,8 +22,7 @@ create table google_user (
   email_address text not null,
   avatar_url text not null,
   created_at timestamptz not null,
-  last_login_at timestamptz not null,
-  is_waitlisted boolean not null
+  last_login_at timestamptz not null
 );
 
 create table dishy (
@@ -82,21 +81,6 @@ create table dishy_speed (
   user_agent text
 );
 SELECT create_hypertable('dishy_speed', 'time'); 
-
-create table google_user_waitlist (
-  id text not null primary key,
-  created_at timestamptz,
-  already_have_dishy text not null,
-  how_long_with_dishy text not null,
-  primary_or_backup text not null,
-  operating_systems text[] not null,
-  why_access text[] not null
-);
-
-create table waitlist_approved (
-  id text not null primary key,
-  approved_at timestamptz
-);
 
 create table email_notification (
   id text not null primary key,

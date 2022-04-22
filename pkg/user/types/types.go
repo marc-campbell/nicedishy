@@ -10,5 +10,4 @@ type User struct {
 	AvatarURL    string     `json:"avatarURL"`
 	CreatedAt    time.Time  `json:"createdAt"`
 	LastLoginAt  *time.Time `json:"lastLoginAt,omitempty"`
-	IsWaitlisted bool       `json:"isWaitlisted"`
 }

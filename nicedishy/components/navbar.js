@@ -20,11 +20,7 @@ export default function Navbar() {
   const handleLogoClick = (ev) => {
     ev.preventDefault();
     if (Utilities.isLoggedIn()) {
-      if (Utilities.isWaitlisted()) {
-        router.push('/waitlist');
-      } else {
-        router.push('/dishies');
-      }
+      router.push('/dishies');
       return;
     }
     router.push("/");

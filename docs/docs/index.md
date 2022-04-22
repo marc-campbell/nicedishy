@@ -3,10 +3,8 @@
 NiceDishy is a service that can receive metrics and data rom your [Starlink](https://starlink.com) dish to help you monitor and manage your dish.
 
 !!! Beta
-    The service is currently in private beta. I'd love to roll out and invite you to join NiceDishy, but I want to make 
-    sure that our service will scale. Please sign up and join the waitlist if you are interested. I'm working
-    quickly through that list and will keep you updated on timing for the brief time you are in the queue.
-
+    The service is currently in private beta. There might be some bumps and issues.
+    
 ## Features
 
 NiceDishy is a *free* hosted service and installable agent (see "[How NiceDishy Works](/how-nicedishy-workds)") that ships your Starlink performance data
