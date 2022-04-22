@@ -45,20 +45,7 @@ function LoginCallback() {
         return;
       }
 
-      if (process.env.NEXT_PUBLIC_POSTHOG_KEY) {
-        posthog.init(process.env.NEXT_PUBLIC_POSTHOG_KEY, {
-          api_host: 'https://app.posthog.com',
-          loaded: function(posthog) {
-            posthog.identify(
-              response.userId,
-              { email: response.emailAddress },
-            );
-          }
-        });
-      }
-
       window.localStorage.setItem("token", response.token);
-
       if (window.sessionStorage.getItem('next')) {
         nextUrl = window.sessionStorage.getItem('next');
         window.sessionStorage.removeItem('next');
@@ -67,16 +54,36 @@ function LoginCallback() {
       } else {
         nextUrl = '/dishy/new';
       }
+
+      setAuthComplete(true);
+      setNextUrl(nextUrl);
+
+      if (process.env.NEXT_PUBLIC_POSTHOG_KEY) {
+        console.log("1");
+        posthog.init(process.env.NEXT_PUBLIC_POSTHOG_KEY, {
+          api_host: 'https://app.posthog.com',
+          loaded: function(posthog) {
+            console.log("2");
+            posthog.identify(
+              response.userId,
+              { email: response.emailAddress },
+            );
+            router.push(nextUrl);
+          }
+        });
+      } else {
+        console.log("3");
+        router.push(nextUrl);
+      }
     } catch (err) {
       console.log(err);
       router.replace("/error");
       return;
     }
 
-    setAuthComplete(true);
-    setNextUrl(nextUrl);
 
-    router.push(nextUrl);
+
+
   }, []);
 
   return (
