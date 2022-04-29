@@ -108,7 +108,7 @@ const theData = `{
 			  "group": [],
 			  "metricColumn": "none",
 			  "rawQuery": false,
-			  "rawSql": "SELECT\n  \"time\" AS \"time\",\n  upload_speed\nFROM dishy_speed\nWHERE\n  $__timeFilter(\"time\") \nORDER BY 1",
+			  "rawSql": "SELECT\n  \"time\" AS \"time\",\n  avg(upload_speed) over(order by time rows between 9 preceding and current row) as upload_speed\nFROM dishy_speed\nWHERE\n  $__timeFilter(\"time\") \nORDER BY 1",
 			  "refId": "A",
 			  "select": [
 				[
@@ -132,7 +132,7 @@ const theData = `{
 			  ]
 			}
 		  ],
-		  "title": "Measured Upload Speed",
+		  "title": "Average Upload Speed",
 		  "type": "timeseries"
 		},
 		{
@@ -410,7 +410,7 @@ const theData = `{
 			  "group": [],
 			  "metricColumn": "none",
 			  "rawQuery": false,
-			  "rawSql": "SELECT\n  \"time\" AS \"time\",\n  download_speed\nFROM dishy_speed\nWHERE\n  $__timeFilter(\"time\") \nORDER BY 1",
+			  "rawSql": "SELECT\n  \"time\" AS \"time\",\n  avg(download_speed) over(order by time rows between 9 preceding and current row) as download_speed\nFROM dishy_speed\nWHERE\n  $__timeFilter(\"time\") \nORDER BY 1",
 			  "refId": "A",
 			  "select": [
 				[
@@ -434,7 +434,7 @@ const theData = `{
 			  ]
 			}
 		  ],
-		  "title": "Measured Download Speed",
+		  "title": "Average Download Speed",
 		  "type": "timeseries"
 		},
 		{
