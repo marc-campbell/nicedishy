@@ -113,27 +113,27 @@ jobs:
       - uses: actions/checkout@v3
         name: "check out gitops repo"
         with:
-          repository: marc-campbell/nicedishy-gitops
+          repository: marc-campbell/gitops
           token: ${{ secrets.GITOPS_DEPLOY_TOKEN }}
           path: nicedishy-gitops
 
       - run: |
-          mkdir -p ./nicedishy-gitops/clusters/digitalocean/nicedishy
+          mkdir -p ./gitops/nicedishy
       - name: Split the rendered doc
         uses: marccampbell/yaml-toolbox/action/split@master
         with:
           path: ./gitops-rendered.yaml
-          out: ./nicedishy-gitops/clusters/digitalocean/nicedishy
+          out: ./gitops/nicedishy
 
       - name: gitops-commit
         run: |
           git config --global user.email "deploy@nicedishy.com"
           git config --global user.name "NiceDishy Bot"
-          cd nicedishy-gitops/clusters/digitalocean/nicedishy && git add . && git commit --allow-empty -m "Deploy from ${GITHUB_REF}"
+          cd gitops/nicedishy && git add . && git commit --allow-empty -m "Deploy from ${GITHUB_REF}"
 
       - name: Push changes
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITOPS_DEPLOY_TOKEN }}
-          directory: nicedishy-gitops/clusters/digitalocean/nicedishy
-          repository: marc-campbell/nicedishy-gitops
+          directory: gitops/nicedishy
+          repository: marc-campbell/gitops
