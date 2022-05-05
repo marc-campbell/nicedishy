@@ -129,11 +129,8 @@ jobs:
         run: |
           git config --global user.email "deploy@nicedishy.com"
           git config --global user.name "NiceDishy Bot"
-
-      - name: Push changes
-        uses: ad-m/github-push-action@master
-        with:
-          github_token: ${{ secrets.GITOPS_DEPLOY_TOKEN }}
-          branch: main
-          directory: gitops/nicedishy
-          repository: marc-campbell/gitops
+          cd gitops/nicedishy && git add . && git commit --allow-empty -m "Deploy from ${GITHUB_REF}"
+          git push https://$USERNAME:$TOKEN@github.com/marc-campbell/gitops.git
+        env:
+          TOKEN: ${{secrets.GITOPS_DEPLOY_TOKEN}}
+          USERNAME: nicedishy-bot
