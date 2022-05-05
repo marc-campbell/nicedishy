@@ -12,6 +12,7 @@ resources:
   - ./clusterrole.yaml
   - ./retool.yaml
   - ./retool-secrets.yaml
+  - ./nats.yaml
 
 patches:
   - ./deployment-api.yaml
