@@ -46,7 +46,7 @@ spec:
               key: uri
               name: nicedishy-timescale
         - name: NATS_ENDPOINT
-          value: nats://nats.nats.svc.cluster.local:4222
+          value: nats://nats.nicedishy.svc.cluster.local:4222
         - name: GRAFANA_API_KEY
           valueFrom:
             secretKeyRef:
@@ -69,7 +69,7 @@ spec:
             secretKeyRef:
               key: uri
               name: nicedishy-timescale
-        image: ghcr.io/marc-campbell/nicedishy/nicedishy-api:831108f
+        image: ghcr.io/marc-campbell/nicedishy/nicedishy-api:d3dddcd
         imagePullPolicy: IfNotPresent
         name: nicedishy-api
         ports:
