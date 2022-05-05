@@ -130,5 +130,4 @@ jobs:
           git config --global user.email "deploy@nicedishy.com"
           git config --global user.name "NiceDishy Bot"
           cd gitops/nicedishy && git add . && git commit --allow-empty -m "Deploy from ${GITHUB_REF}"
-          git commit -m "generated"
           git push origin main
