@@ -40,5 +40,5 @@ To see
 
 ## Deploying
 
-All CI is handled by GitHub Actions, and the resulting manifests are pushed to https://github.com/marc-campbell/nicedishy-gitops. Weave Flux is in the cluster and syncs from this repo.
+All CI is handled by GitHub Actions, and the resulting manifests are pushed to https://github.com/marc-campbell/nicedishy. Weave Flux is in the cluster and syncs from this repo.
 

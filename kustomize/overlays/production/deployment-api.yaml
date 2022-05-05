@@ -10,7 +10,7 @@ spec:
       serviceAccountName: nicedishy
       containers:
         - name: nicedishy-api
-          image: ghcr.io/marc-campbell/nicedishy-gitops/nicedishy-api
+          image: ghcr.io/marc-campbell/nicedishy/nicedishy-api
           env:
             - name: SESSION_KEY
               value: this-is-not-too-secret

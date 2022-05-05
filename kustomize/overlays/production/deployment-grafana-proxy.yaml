@@ -10,6 +10,6 @@ spec:
       serviceAccountName: nicedishy
       containers:
         - name: grafana-proxy
-          image: ghcr.io/marc-campbell/nicedishy-gitops/nicedishy-api
+          image: ghcr.io/marc-campbell/nicedishy/nicedishy-api
           command: ["/grafana-proxy"]
           args: ["run"]
