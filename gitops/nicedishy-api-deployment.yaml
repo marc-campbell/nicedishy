@@ -69,7 +69,7 @@ spec:
             secretKeyRef:
               key: uri
               name: nicedishy-timescale
-        image: ghcr.io/marc-campbell/nicedishy/nicedishy-api:ac71776
+        image: ghcr.io/marc-campbell/nicedishy/nicedishy-api:831108f
         imagePullPolicy: IfNotPresent
         name: nicedishy-api
         ports:
