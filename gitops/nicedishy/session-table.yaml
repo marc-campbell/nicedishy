@@ -1,0 +1,30 @@
+apiVersion: schemas.schemahero.io/v1alpha4
+kind: Table
+metadata:
+  name: session
+  namespace: nicedishy
+spec:
+  database: nicedishy-postgres
+  name: session
+  requires: []
+  schema:
+    postgres:
+      columns:
+      - constraints:
+          notNull: true
+        name: id
+        type: text
+      - constraints:
+          notNull: true
+        name: user_id
+        type: text
+      - constraints:
+          notNull: true
+        name: expire_at
+        type: timestamp
+      - constraints:
+          notNull: true
+        name: access_token
+        type: text
+      primaryKey:
+      - id

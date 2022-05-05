@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: grafana-proxy
+  namespace: nicedishy
+spec:
+  selector:
+    matchLabels:
+      app: grafana-proxy
+  template:
+    metadata:
+      labels:
+        app: grafana-proxy
+    spec:
+      containers:
+      - args:
+        - run
+        command:
+        - /grafana-proxy
+        env:
+        - name: POD_NAMESPACE
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.namespace
+        - name: POSTGRES_URI
+          valueFrom:
+            secretKeyRef:
+              key: uri
+              name: nicedishy-timescale
+        image: ghcr.io/marc-campbell/nicedishy-gitops/nicedishy-api:437a3a3
+        imagePullPolicy: IfNotPresent
+        name: grafana-proxy
+        ports:
+        - containerPort: 3000
+          name: http
+        resources:
+          limits:
+            cpu: 200m
+            memory: 1000Mi
+          requests:
+            cpu: 100m
+            memory: 500Mi
+      imagePullSecrets:
+      - name: ghcr
+      restartPolicy: Always
+      serviceAccountName: nicedishy

@@ -1,0 +1,15 @@
+apiVersion: databases.schemahero.io/v1alpha4
+kind: Database
+metadata:
+  name: nicedishy-postgres
+  namespace: nicedishy
+spec:
+  connection:
+    postgres:
+      uri:
+        valueFrom:
+          secretKeyRef:
+            key: uri
+            name: nicedishy-postgres
+  enableShellCommand: true
+  immediateDeploy: true
