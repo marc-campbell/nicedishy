@@ -1,0 +1,26 @@
+apiVersion: schemas.schemahero.io/v1alpha4
+kind: Table
+metadata:
+  name: oauth-state
+  namespace: nicedishy
+spec:
+  database: nicedishy-postgres
+  name: oauth_state
+  requires: []
+  schema:
+    postgres:
+      columns:
+      - constraints:
+          notNull: true
+        name: id
+        type: text
+      - constraints:
+          notNull: true
+        name: created_at
+        type: timestamp
+      - constraints:
+          notNull: true
+        name: next
+        type: text
+      primaryKey:
+      - id

@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: nicedishy-api
+  name: nicedishy-api
+  namespace: nicedishy
+spec:
+  ports:
+  - name: http
+    port: 3000
+    targetPort: http
+  selector:
+    app: nicedishy-api
+  type: ClusterIP

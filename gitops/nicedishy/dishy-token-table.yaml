@@ -1,0 +1,22 @@
+apiVersion: schemas.schemahero.io/v1alpha4
+kind: Table
+metadata:
+  name: dishy-token
+  namespace: nicedishy
+spec:
+  database: nicedishy-postgres
+  name: dishy_token
+  requires: []
+  schema:
+    postgres:
+      columns:
+      - constraints:
+          notNull: true
+        name: token_sha
+        type: text
+      - constraints:
+          notNull: true
+        name: dishy_id
+        type: text
+      primaryKey:
+      - token_sha
