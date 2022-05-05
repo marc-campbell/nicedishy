@@ -1,0 +1,70 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: timescale
+  namespace: nicedishy
+spec:
+  selector:
+    matchLabels:
+      app: timescale
+  serviceName: timescale
+  template:
+    metadata:
+      labels:
+        app: timescale
+    spec:
+      containers:
+      - env:
+        - name: PGDATA
+          value: /var/lib/postgresql/data/pgdata
+        - name: POSTGRES_USER
+          value: nicedishy
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: password
+              name: nicedishy-timescale
+        - name: POSTGRES_DB
+          value: nicedishy
+        image: timescale/timescaledb:latest-pg14
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          exec:
+            command:
+            - /bin/sh
+            - -i
+            - -c
+            - pg_isready -U nicedishy -h 127.0.0.1 -p 5432
+          failureThreshold: 3
+          initialDelaySeconds: 30
+          timeoutSeconds: 5
+        name: timescale
+        ports:
+        - containerPort: 5432
+          name: timescale
+        readinessProbe:
+          exec:
+            command:
+            - /bin/sh
+            - -i
+            - -c
+            - pg_isready -U nicedishy -h 127.0.0.1 -p 5432
+          initialDelaySeconds: 1
+          periodSeconds: 1
+          timeoutSeconds: 1
+        volumeMounts:
+        - mountPath: /var/lib/postgresql/data
+          name: nicedishy-datadir
+      volumes:
+      - name: nicedishy-datadir
+        persistentVolumeClaim:
+          claimName: nicedishy-datadir
+  volumeClaimTemplates:
+  - metadata:
+      name: nicedishy-datadir
+    spec:
+      accessModes:
+      - ReadWriteOnce
+      resources:
+        requests:
+          storage: 10Gi
