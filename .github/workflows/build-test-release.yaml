@@ -110,27 +110,18 @@ jobs:
           name: gitops-rendered.yaml
           path: gitops-rendered.yaml
 
-      - uses: actions/checkout@v3
-        name: "check out gitops repo"
-        with:
-          repository: marc-campbell/gitops
-          token: ${{ secrets.GITOPS_DEPLOY_TOKEN }}
-          path: nicedishy-gitops
-
       - run: |
-          mkdir -p ./gitops/nicedishy
+          mkdir -p ./gitops
       - name: Split the rendered doc
         uses: marccampbell/yaml-toolbox/action/split@master
         with:
           path: ./gitops-rendered.yaml
-          out: ./gitops/nicedishy
+          out: ./gitops
 
       - name: gitops-commit
         run: |
           git config --global user.email "deploy@nicedishy.com"
           git config --global user.name "NiceDishy Bot"
-          cd gitops/nicedishy && git add . && git commit --allow-empty -m "Deploy from ${GITHUB_REF}"
-          git push https://$USERNAME:$TOKEN@github.com/marc-campbell/gitops.git
-        env:
-          TOKEN: ${{secrets.GITOPS_DEPLOY_TOKEN}}
-          USERNAME: nicedishy-bot
+          cd gitops && git add . && git commit --allow-empty -m "Deploy from ${GITHUB_REF}"
+          git push origin main
+
