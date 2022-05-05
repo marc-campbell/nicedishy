@@ -28,7 +28,7 @@ spec:
             secretKeyRef:
               key: uri
               name: nicedishy-timescale
-        image: ghcr.io/marc-campbell/nicedishy-gitops/nicedishy-api:3be4568
+        image: ghcr.io/marc-campbell/nicedishy/nicedishy-api:ac71776
         imagePullPolicy: IfNotPresent
         name: grafana-proxy
         ports:

@@ -30,7 +30,7 @@ spec:
             fieldRef:
               apiVersion: v1
               fieldPath: metadata.namespace
-        image: ghcr.io/marc-campbell/nicedishy-gitops/nicedishy-api:3be4568
+        image: ghcr.io/marc-campbell/nicedishy-gitops/nicedishy-api
         imagePullPolicy: IfNotPresent
         name: nicedishy-mailer
         resources:
