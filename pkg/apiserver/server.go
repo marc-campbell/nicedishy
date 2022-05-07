@@ -69,7 +69,7 @@ func Start() {
 	/**********************************************************************
 	* Grafana
 	**********************************************************************/
-	u, err := url.Parse("http://grafana:3000")
+	u, err := url.Parse(os.Getenv("GRAFANA_ENDPOINT"))
 	if err != nil {
 		panic(err)
 	}

@@ -59,3 +59,5 @@ spec:
               value: ybmyTGxnz
             - name: NICEDISHY_RETOOL_API_PASSWORD
               value: "$NICEDISHY_RETOOL_API_PASSWORD"
+            - NAME: GRAFANA_ENDPOINT
+              value: http://grafana:3000
