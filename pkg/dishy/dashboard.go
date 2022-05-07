@@ -50,7 +50,7 @@ func UpdatePublicDashboards(ctx context.Context) error {
 
 		fullRequestBody := strings.ReplaceAll(string(requestBody), `"__REPLACEME__"`, marshaledDashboard)
 
-		req, err := http.NewRequest("POST", fmt.Sprintf("%s/api/dashboards/db", os.Getenv("GRAFANA_ENDPOINT"), bytes.NewBuffer([]byte(fullRequestBody)))
+		req, err := http.NewRequest("POST", fmt.Sprintf("%s/api/dashboards/db", os.Getenv("GRAFANA_ENDPOINT")), bytes.NewBuffer([]byte(fullRequestBody)))
 		if err != nil {
 			return fmt.Errorf("create request: %w", err)
 		}
@@ -116,7 +116,7 @@ func UpdateGrafanaDashboard(ctx context.Context, id string, name string) error {
 
 	fullRequestBody := strings.ReplaceAll(string(requestBody), `"__REPLACEME__"`, marshaledDashboard)
 
-	req, err := http.NewRequest("POST", fmt.Sprintf("%s/api/dashboards/db", os.Getenv("GRAFANA_ENDPOINT"), bytes.NewBuffer([]byte(fullRequestBody)))
+	req, err := http.NewRequest("POST", fmt.Sprintf("%s/api/dashboards/db", os.Getenv("GRAFANA_ENDPOINT")), bytes.NewBuffer([]byte(fullRequestBody)))
 	if err != nil {
 		return fmt.Errorf("create request: %w", err)
 	}
@@ -181,7 +181,7 @@ func CreateGrafanaDashboard(ctx context.Context, id string, name string) error {
 
 	fullRequestBody := strings.ReplaceAll(string(requestBody), `"__REPLACEME__"`, marshaledDashboard)
 
-	req, err := http.NewRequest("POST", fmt.Sprintf("%s/api/dashboards/db", os.Getenv("GRAFANA_ENDPOINT"), bytes.NewBuffer([]byte(fullRequestBody)))
+	req, err := http.NewRequest("POST", fmt.Sprintf("%s/api/dashboards/db", os.Getenv("GRAFANA_ENDPOINT")), bytes.NewBuffer([]byte(fullRequestBody)))
 	if err != nil {
 		return fmt.Errorf("create request: %w", err)
 	}
@@ -203,7 +203,7 @@ func CreateGrafanaDashboard(ctx context.Context, id string, name string) error {
 }
 
 func getFolder(ctx context.Context, folderName string) (int, error) {
-	req, err := http.NewRequest("GET", fmt.Sprintf("%s/api/folders", os.Getenv("GRAFANA_ENDPOINT"), nil)
+	req, err := http.NewRequest("GET", fmt.Sprintf("%s/api/folders", os.Getenv("GRAFANA_ENDPOINT")), nil)
 	if err != nil {
 		return 0, fmt.Errorf("create request: %w", err)
 	}
@@ -241,7 +241,7 @@ func createFolder(ctx context.Context, folderName string) (int, error) {
 		return 0, fmt.Errorf("marshal request: %w", err)
 	}
 
-	req, err := http.NewRequest("POST", fmt.Sprintf("%s/api/folders", os.Getenv("GRAFANA_ENDPOINT"), bytes.NewBuffer(requestBody))
+	req, err := http.NewRequest("POST", fmt.Sprintf("%s/api/folders", os.Getenv("GRAFANA_ENDPOINT")), bytes.NewBuffer(requestBody))
 	if err != nil {
 		return 0, fmt.Errorf("create request: %w", err)
 	}
