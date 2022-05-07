@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"net/http/httputil"
 	"net/url"
+	"os"
 	"regexp"
 	"strings"
 
@@ -198,5 +199,5 @@ func grafanaEndpointForRequest(r *http.Request) (string, error) {
 	// 	return "http://grafana:3000/d/apzwaMb7z/sample?orgId=1", nil
 	// }
 
-	return "http://grafana:3000", nil
+	return os.Getenv("GRAFANA_ENDPOINT"), nil
 }
