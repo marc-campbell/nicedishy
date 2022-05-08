@@ -42,6 +42,8 @@ func StreamDishies(w http.ResponseWriter, r *http.Request) {
 				continue
 			}
 
+			fmt.Printf("dishies: %+v\n", dishies)
+
 			// attach some stats and speeds
 			dishiesWithStats := []*dishytypes.DishyWithStats{}
 			for _, d := range dishies {
@@ -54,6 +56,8 @@ func StreamDishies(w http.ResponseWriter, r *http.Request) {
 					logger.Error(err)
 					continue
 				}
+
+				fmt.Printf("latest stats: %+v\n", latestStats)
 				dishyWithStats.LatestStats = latestStats
 
 				latestSpeeds, err := dishy.GetLatestSpeeds(d.ID)
@@ -61,6 +65,7 @@ func StreamDishies(w http.ResponseWriter, r *http.Request) {
 					logger.Error(err)
 					continue
 				}
+				fmt.Printf("latest speeds: %+v\n", latestSpeeds)
 				dishyWithStats.LatestSpeeds = latestSpeeds
 
 				dishiesWithStats = append(dishiesWithStats, &dishyWithStats)
