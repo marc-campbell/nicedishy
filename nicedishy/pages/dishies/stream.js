@@ -15,55 +15,22 @@ export default function Page() {
   }
 
   useEffect( async () => {
-    if (!Utilities.getToken()) {
-      router.replace(`/login?next=/dishies`);
-      return;
-    }
+    // generate a nonce to use for the event source connection
+    const nonce = await Utilities.fetchNonce(router, '/dishies');
+    const source = new EventSource(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/v1/dishies/stream?nonce=${nonce}`);
+    source.onmessage = (event) => {
+      setIsLoading(false);
 
-    const data = await fetchDishies();
-    if (data.dishies.length === 0) {
-      router.replace('/dishy/new');
-      return;
-    }
-
-    setIsLoading(false);
-    setDishies(data.dishies);
-
-    setInterval(async () => {
-      const data = await fetchDishies();
-      if (data.dishies.length === 0) {
+      const dishies = JSON.parse(event.data);
+      if (dishies.length === 0) {
         router.replace('/dishy/new');
         return;
       }
 
-      setIsLoading(false);
-      setDishies(data.dishies);
-    }, 3000);
+      setDishies(dishies);
+    }
   }, [])
 
-  const fetchDishies = async() => {
-    try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/v1/dishies`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": Utilities.getToken(),
-        },
-      });
-
-      if (!res.ok) {
-        if (res.status === 401) {
-          router.push(`/login?next=${encodeURIComponent(router.pathname)}`);
-        }
-        return;
-      }
-
-      const data = await res.json();
-      return data;
-    } catch (err) {
-      console.error(err);
-    }
-  }
 
   let cards = [];
   if (isLoading) {

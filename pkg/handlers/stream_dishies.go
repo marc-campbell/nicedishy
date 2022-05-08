@@ -82,7 +82,6 @@ func StreamDishies(w http.ResponseWriter, r *http.Request) {
 	for {
 		select {
 		case message := <-messageChan:
-			fmt.Printf("sending message: %s\n", message)
 			fmt.Fprintf(w, "data: %s\n\n", message)
 			flusher.Flush()
 
