@@ -8,10 +8,12 @@ spec:
       containers:
         - name: grafana-proxy
           command: ["/go/src/github.com/marc-campbell/nicedishy/bin/grafana-proxy"]
-          args: ["run", "--log-level", "debug"]
+          args: ["run", "--log-level", "debug", "--admin-mode"]
           env:
             - name: POSTGRES_URI
               valueFrom:
                 secretKeyRef:
                   name: nicedishy-timescale # we use the same database in dev
                   key: uri
+            - NAME: GRAFANA_ENDPOINT
+              value: http://grafana:3000

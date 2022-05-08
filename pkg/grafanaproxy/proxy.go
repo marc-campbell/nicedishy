@@ -19,17 +19,56 @@ import (
 	"go.uber.org/zap"
 )
 
-func Start(ctx context.Context) {
+// Start will start the proxy, where fullProxy is just a complete upstream proxy to all
+// endpoints (i.e. don't run this in prod with true)
+func Start(ctx context.Context, fullProxy bool) {
 	logger.Info("starting grafana proxy on port 3000")
 
-	http.HandleFunc("/", handleRequestAndRedirect)
+	if fullProxy {
+		http.HandleFunc("/", handleFullProxy)
+	} else {
+		http.HandleFunc("/", handleProxy)
+	}
 
 	if err := http.ListenAndServe(":3000", nil); err != nil {
 		panic(err)
 	}
 }
 
-func handleRequestAndRedirect(w http.ResponseWriter, r *http.Request) {
+func handleFullProxy(w http.ResponseWriter, r *http.Request) {
+	logger.Debug("handling grafana full proxy request")
+
+	upstreamEndpoint, err := grafanaEndpointForRequest(r)
+	if err != nil {
+		logger.Error(errors.Wrap(err, "get cluster endpoint for request"))
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	url, err := url.Parse(upstreamEndpoint)
+	if err != nil {
+		logger.Error(errors.Wrap(err, "parse upstream uri"))
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	proxy := httputil.NewSingleHostReverseProxy(url)
+
+	r.URL.Host = url.Host
+	r.URL.Scheme = url.Scheme
+	r.Header.Set("X-Forwarded-Host", r.Header.Get("Host"))
+	r.Host = url.Host
+
+	logger.Info("proxying request",
+		zap.String("upstreamEndpoint", url.Host),
+		zap.String("requestedPath", r.URL.Path),
+		zap.String("scheme", url.Scheme),
+		zap.String("x-forwarded-host", r.Header.Get("Host")))
+
+	proxy.ServeHTTP(w, r)
+}
+
+func handleProxy(w http.ResponseWriter, r *http.Request) {
 	logger.Debug("handling grafana proxy request")
 
 	upstreamEndpoint, err := grafanaEndpointForRequest(r)
