@@ -23,7 +23,7 @@ spec:
             requests:
               cpu: 100m
               memory: 500Mi
-          args: ["dashboard"]
+          args: ["dashboard", "--admin-mode"]
           ports:
             - name: http
               containerPort: 3000

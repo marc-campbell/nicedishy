@@ -25,15 +25,23 @@ func RunCmd() *cobra.Command {
 				logger.SetDebug()
 			}
 
-			ctx := context.Background()
-			grafanaproxy.Start(ctx)
-			<-ctx.Done()
+			if v.GetBool("admin-mode") {
+				logger.Info("running full grafana proxy")
+				ctx := context.Background()
+				grafanaproxy.Start(ctx, true)
+				<-ctx.Done()
+			} else {
+				ctx := context.Background()
+				grafanaproxy.Start(ctx, false)
+				<-ctx.Done()
+			}
 
 			return nil
 		},
 	}
 
 	cmd.Flags().String("log-level", "info", "set the log level")
+	cmd.Flags().Bool("admin-mode", false, "run in admin mode")
 
 	return cmd
 }
