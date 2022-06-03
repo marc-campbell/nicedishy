@@ -1,0 +1,21 @@
+Another week has gone by with Dishy, and it's time to take a look at how it's going.
+
+Comparing this week to last:
+
+Your average download speed was 7% slower this week compared to last.
+Your average upload speed was 3% faster this week compared to last.
+
+Comparing your week to others using NiceDishy:
+
+Your average download speed was 9% slower than the average seen.
+Your average upload speed was 2% faster than the average seen.
+
+The following stats are for the week ending (Sat):
+
+Fastest download speed: xxx Mbs
+Average download speed: 
+Fastest upload speed: xx Mbps
+Average upload speed:
+Number of reboots: 0 (yay)
+Number of firmware updates: 1
+
