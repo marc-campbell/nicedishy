@@ -4,7 +4,7 @@ import Layout from "../../components/layout";
 export default function Page() {
   return (
     <div>
-      <h1>Compare Dishy</h1>
+      <h1>Current Outages</h1>
       <p>coming soon.</p>
     </div>
   );

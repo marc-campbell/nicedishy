@@ -192,16 +192,24 @@ export const Utilities = {
     return str;
   },
 
-  logoutUser() {
-    const token = this.getToken();
-    // TODO: for now we just remove the token,
-    if (token) {
-      window.localStorage.removeItem("token");
+  async logoutUser() {
+    try {
+      const response = await fetch(`/api/logout`, {
+        method: "POST",
+      });
+
+      if (!response.ok) {
+        return false;
+      }
+
+      if (window.location.pathname !== "/login" && window.location.pathname !== '/signup') {
+        window.location = "/login";
+      }
+    } catch (err) {
+      console.error(err);
+      return false;
     }
 
-    if (window.location.pathname !== "/login") {
-      window.location = "/login";
-    }
   },
 
   isEmailValid(email) {

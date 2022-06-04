@@ -6,7 +6,7 @@ export default function Layout({ children }) {
     <>
       <div style={{minHeight: "100vh", position: "relative"}}>
         <div className="col-lg-8 mx-auto" style={{paddingBottom: "200px"}}>
-          <Navbar />
+          <Navbar isLoggedIn={true} />
           <div className="py-md-5 p3">
             <main>{children}</main>
           </div>

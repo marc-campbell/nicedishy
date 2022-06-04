@@ -2,9 +2,10 @@ import Link from 'next/link'
 import Footer from '../components/footer';
 import Image from 'next/image';
 import Head from 'next/head';
+import cookies from 'next-cookies';
+import { loadSession } from "../lib/session";
 
-export default function Home() {
-
+export default function Home({isLoggedIn}) {
   return (
     <body id="page-top">
       <Head>
@@ -25,7 +26,8 @@ export default function Home() {
               <div className="collapse navbar-collapse" id="navbarResponsive">
                 <ul className="navbar-nav ms-auto me-4 my-3 my-lg-0">
                   <li className="nav-item-light"><Link href="https://docs.nicedishy.com"><a className="nav-link me-lg-3">Docs</a></Link></li>
-                  <li className="nav-item-light"><Link href="/login"><a className="nav-link me-lg-3">Login</a></Link></li>
+                  { isLoggedIn ? <li className="nav-item-light"><Link href="/dishies"><a className="nav-link me-lg-3">My Dishy</a></Link></li> : null }
+                  <li className="nav-item-light"><Link href={isLoggedIn ? `/logout` : '/login'}><a className="nav-link me-lg-3">{ isLoggedIn ? "Logout" : "Login" }</a></Link></li>
                 </ul>
               </div>
             </div>
@@ -141,4 +143,23 @@ export default function Home() {
 
     </body>
   )
+}
+
+export async function getServerSideProps(ctx) {
+  const c = cookies(ctx);
+
+  if (!c.auth) {
+    return {
+      props: {
+        isLoggedIn: false,
+      },
+    };
+  }
+
+  const sess = await loadSession(c.auth);
+  return {
+    props: {
+      isLoggedIn: sess !== null,
+    }
+  }
 }

@@ -3,15 +3,27 @@ FROM golang:1.17 as deps
 EXPOSE 3000
 EXPOSE 6060
 
+ENV GOCACHE "/.cache/gocache/"
+ENV GOMODCACHE "/.cache/gomodcache/"
+
 ENV PROJECT_PATH=/go/src/github.com/marc-campbell/nicedishy
 WORKDIR $PROJECT_PATH
 
 ## Get deps
-ADD go.mod go.sum $PROJECT_PATH
-RUN --mount=type=cache,target=/root/.cache go mod download
+COPY go.mod go.sum ./
+RUN --mount=target=$GOMODCACHE,id=nicedishy-gomodcache,type=cache go mod download
 
 ## Now add the project and compile
-COPY . /go/src/github.com/marc-campbell/nicedishy
-RUN --mount=type=cache,target=/root/.cache make build
+COPY . .
+RUN --mount=target=$GOCACHE,id=nicedishy-gocache,type=cache \
+    --mount=target=$GOMODCACHE,id=nicedishy-gomodcache,type=cache \
+    make build
+
+RUN --mount=target=/tmp/.cache/gocache,id=nicedishy-gocache,type=cache \
+    --mount=target=/tmp/.cache/gomodcache,id=nicedishy-gomodcache,type=cache \
+    mkdir -p $GOCACHE \
+    && cp -r /tmp/.cache/gocache/* $GOCACHE \
+    && mkdir -p $GOMODCACHE \
+    && cp -r /tmp/.cache/gomodcache/* $GOMODCACHE
 
 ENTRYPOINT ["./bin/nicedishy-api"]

@@ -5,6 +5,20 @@ const moduleExports = {
   images: {
     domains: ['source.unsplash.com'],
   },
+  future: {
+    webpack5: true,
+  },
+  webpack(config) {
+    config.resolve.fallback = {
+      ...config.resolve.fallback,
+      fs: false,
+      dns: false,
+      net: false,
+      tls: false,
+    };
+
+    return config;
+  },
 }
 
 const sentryWebpackPluginOptions = {
@@ -14,6 +28,7 @@ const sentryWebpackPluginOptions = {
   //   release, url, org, project, authToken, configFile, stripPrefix,
   //   urlPrefix, include, ignore
 
+  dryRun: true,
   silent: true, // Suppresses all logs
   // For all available options, see:
   // https://github.com/getsentry/sentry-webpack-plugin#options.

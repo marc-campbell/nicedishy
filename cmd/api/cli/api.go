@@ -7,6 +7,7 @@ import (
 	"github.com/marc-campbell/nicedishy/pkg/apiserver"
 	"github.com/marc-campbell/nicedishy/pkg/logger"
 	"github.com/marc-campbell/nicedishy/pkg/mailer"
+	"github.com/marc-campbell/nicedishy/pkg/reports"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
@@ -35,6 +36,8 @@ func APICmd() *cobra.Command {
 			}
 
 			go mailer.QueueDisconnectedDeviceEmails()
+			go reports.GenerateReports()
+
 			apiserver.Start()
 			return nil
 		},

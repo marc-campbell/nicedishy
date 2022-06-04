@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nicedishy-api
+spec:
+  template:
+    spec:
+      containers:
+        - name: nicedishy-api
+          args: ["api", "--log-level", "debug"]
+          env:
+            - name: SESSION_KEY
+              value: this-is-not-too-secret
+            - name: ENCRYPTION_KEY
+              value: this-is-32-bytes-and-not-secret!
+            - name: API_ENDPOINT
+              value: https://nicedishy-api-marccampbell.cloud.okteto.net
+            - name: WEB_ENDPOINT
+              value: https://nicedishy-marccampbell.cloud.okteto.net
+            - name: CLUSTER_ENDPOINT
+              value: localhost:30066
+            - name: GOOGLE_CLIENTID
+              valueFrom:
+                secretKeyRef:
+                  name: nicedishy-google
+                  key: clientId
+            - name: GOOGLE_CLIENTSECRET
+              valueFrom:
+                secretKeyRef:
+                  name: nicedishy-google
+                  key: clientSecret
+            - name: CORS_ALLOW_ORIGIN
+              value: https://nicedishy-marccampbell.cloud.okteto.net
+            - name: GOOGLE_REDIRECTURI
+              value: https://nicedishy-marccampbell.cloud.okteto.net/login/callback
+            - name: METRICS_DB_URI
+              valueFrom:
+                secretKeyRef:
+                  name: nicedishy-timescale
+                  key: uri
+            - name: POSTGRES_URI
+              valueFrom:
+                secretKeyRef:
+                  name: nicedishy-timescale # we use the same database in dev
+                  key: uri
+            - name: NICEDISHY_ENDPOINT
+              value: http://localhost:3000
+            - name: NATS_ENDPOINT
+              value: nats://nats:4222
+            - name: POSTMARK_SERVER_TOKEN
+              value: "beada4a6-b123-4aff-aa03-402b1c3cd396"
+            - name: POSTMARK_ACCOUNT_TOKEN
+              value: "617487fa-e6b6-4afc-b4ed-f687a8542e8c"
+            - name: MAILCHIMP_API_KEY
+              value: "ac660e3923a0bb683c4d6e11050043ef-us20"
+            - name: GRAFANA_API_KEY
+              value: "eyJrIjoicFQzbU5lbzJIQlpoc2Y2SHZraE1pS0s2ck9IOWRueE8iLCJuIjoiZXhwb3J0IiwiaWQiOjF9"
+            - name: GRAFANA_DATASOURCE_UID
+              value: ybmyTGxnz
+            - name: NICEDISHY_RETOOL_API_PASSWORD
+              value: "797e39d874b74a8ab18d445ab2d0368f"
+            - NAME: GRAFANA_ENDPOINT
+              value: http://grafana:3000

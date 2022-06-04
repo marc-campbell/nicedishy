@@ -4,8 +4,10 @@ import GaugeChart from 'react-gauge-chart';
 import { Utilities, secondsAgo } from "../utils/utilities";
 import Link from 'next/link';
 
-export default function DishyCard({dishy}) {
+export default function DishyCard({dishy, stats, speed}) {
   const router = useRouter();
+
+  console.log(dishy, stats, speed);
 
   const handleDownloadClick = (e) => {
     e.preventDefault();
@@ -113,18 +115,18 @@ export default function DishyCard({dishy}) {
             <h2 className="card-title" style={{textAlign: "left"}}>{dishy.name}</h2>
             <div className="row" style={{paddingTop: "30px"}}>
               <div className="col-4">
-                <div style={{fontSize: "3em", lineHeight: "1.2em", paddingTop: "10px"}}>{dishy.latestStats.popPingLatencyMs.toFixed(0)}ms</div>
+                <div style={{fontSize: "3em", lineHeight: "1.2em", paddingTop: "10px"}}>{stats.popPingLatencyMs.toFixed(0)}ms</div>
               </div>
-              <div className={`col-4 ${dishy.latestSpeeds ? '' : 'hidden'}`}>
+              <div className={`col-4 ${speed ? '' : 'hidden'}`}>
                 <GaugeChart
-                  percent={dishy.latestSpeeds ? dishy.latestSpeeds.uploadSpeed / 40000000 : 0}
+                  percent={speed ? speed.uploadSpeed / 40000000 : 0}
                   colors={["#FF5F6D", "#00ff00"]}
                   hideText={true}
                 />
               </div>
-              <div className={`col-4 ${dishy.latestSpeeds ? '' : 'hidden'}`}>
+              <div className={`col-4 ${speed ? '' : 'hidden'}`}>
                 <GaugeChart
-                  percent={dishy.latestSpeeds ? dishy.latestSpeeds.downloadSpeed / 300000000 : 0}
+                  percent={speed ? speed.downloadSpeed / 300000000 : 0}
                   colors={["#FF5F6D", "#00ff00"]}
                   hideText={true}
                 />
@@ -134,13 +136,13 @@ export default function DishyCard({dishy}) {
               <div className="col-4">
                 ping
               </div>
-              <div className={`col-4 ${dishy.latestSpeeds ? '' : 'hidden'}`}>
+              <div className={`col-4 ${speed ? '' : 'hidden'}`}>
                 upload speed<br />
-                ({dishy.latestSpeeds ? Utilities.mbps(dishy.latestSpeeds.uploadSpeed, 10) : 0})
+                ({speed ? Utilities.mbps(speed.uploadSpeed, 10) : 0})
               </div>
-              <div className={`col-4 ${dishy.latestSpeeds ? '' : 'hidden'}`}>
+              <div className={`col-4 ${speed ? '' : 'hidden'}`}>
                 download speed<br />
-                ({dishy.latestSpeeds ? Utilities.mbps(dishy.latestSpeeds.downloadSpeed, 10) : 0})
+                ({speed ? Utilities.mbps(speed.downloadSpeed, 10) : 0})
               </div>
             </div>
           </div>

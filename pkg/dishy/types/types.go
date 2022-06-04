@@ -44,4 +44,13 @@ type GeoCheck struct {
 	Longitude float64 `json:"longitude"`
 
 	Org string `json:"org"`
+
+	Timezone GeoCheckTimezone `json:"timezone"`
+}
+
+type GeoCheckTimezone struct {
+	ID     string `json:"id"`
+	Abbr   string `json:"abbr"`
+	UTC    string `json:"utc"`
+	Offset int    `json:"offset"`
 }

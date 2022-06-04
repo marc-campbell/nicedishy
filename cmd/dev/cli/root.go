@@ -26,6 +26,7 @@ func RootCmd() *cobra.Command {
 	cobra.OnInitialize(initConfig)
 
 	cmd.AddCommand(ExportDashboardCmd())
+	cmd.AddCommand(GenerateDataCmd())
 
 	viper.SetEnvKeyReplacer(strings.NewReplacer("-", "_"))
 

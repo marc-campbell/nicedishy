@@ -4,6 +4,8 @@ import { Utilities } from "../../utils/utilities";
 import Layout from "../../components/layout";
 import { useRouter } from 'next/router'
 import Image from 'next/image';
+import cookies from 'next-cookies';
+import { loadSession } from "../../lib/session";
 
 export default function Page() {
   const router = useRouter();
@@ -14,15 +16,8 @@ export default function Page() {
     // ensure the user is logged out
     Utilities.logoutUser();
 
-    // set or clear the next url from sessionstorage
-    window.sessionStorage.removeItem('next');
-    const query = url.parse(window.location.href, true).query;
-    if (query && query.next) {
-      window.sessionStorage.setItem('next', query.next);
-    }
-
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/v1/login?next=${encodeURIComponent(url.parse(window.location.href, true).query.next)}`);
+      const res = await fetch(`/api/login`);
       if (!res.ok) {
         console.log("error")
         return;
@@ -90,8 +85,26 @@ export default function Page() {
 
 Page.getLayout = function getLayout(page) {
   return (
-    <Layout>
+    <Layout isLoggedIn>
       {page}
     </Layout>
   );
+}
+
+export async function getServerSideProps(ctx) {
+  const c = cookies(ctx);
+  const sess = await loadSession(c.auth);
+  if (sess) {
+    return {
+      redirect: {
+        permanent: false,
+        destination: "/dishies",
+      },
+      props: {},
+    };
+  }
+
+  return {
+    props: {},
+  };
 }

@@ -1,9 +1,85 @@
-name: nicedishy-api
-command: bash
-workdir: /go/src/github.com/marc-campbell/nicedishy
-sync:
-  - .:/go/src/github.com/marc-campbell/nicedishy
-resources:
-  limits:
-    cpu: "2"
-    memory: 4Gi
+
+build:
+  nicedishy-api:
+    context: .
+    dockerfile: Dockerfile.okteto
+  nicedishy-frontend:
+    context: nicedishy
+    dockerfile: nicedishy/Dockerfile.okteto
+  nicedishy-docs:
+    context: docs
+    dockerfile: docs/Dockerfile.okteto
+
+deploy:
+  - envsubst < kustomize/overlays/okteto/retool-secrets.tmpl.yaml > kustomize/overlays/okteto/retool-secrets.yaml
+  - envsubst < kustomize/overlays/okteto/google-secret-tmpl.yaml > kustomize/overlays/okteto/google-secret.yaml
+  - envsubst < kustomize/overlays/okteto/deployment-api.tmpl.yaml > kustomize/overlays/okteto/deployment-api.yaml
+  - envsubst < kustomize/overlays/okteto/mailer-api.tmpl.yaml > kustomize/overlays/okteto/mailer-api.yaml
+  - envsubst < kustomize/overlays/okteto/grafana-proxy.tmpl.yaml > kustomize/overlays/okteto/grafana-proxy.yaml
+
+  - okteto build -f ./nicedishy/Dockerfile.okteto -t okteto.dev/nicedishy-frontend:${OKTETO_GIT_COMMIT} nicedishy
+  - okteto build -f ./Dockerfile.okteto -t okteto.dev/nicedishy-api:${OKTETO_GIT_COMMIT} .
+  - okteto build -f ./migrations/Dockerfile.okteto -t okteto.dev/nicedishy-migrations:${OKTETO_GIT_COMMIT} migrations
+  - okteto build -f ./docs/Dockerfile.okteto -t okteto.dev/nicedishy-docs:${OKTETO_GIT_COMMIT} docs
+  - okteto build -f ./docs/Dockerfile.dev -t okteto.dev/nicedishy-docs:dev docs
+
+  - cd kustomize/overlays/okteto && kustomize edit set image nicedishy-frontend=${OKTETO_BUILD_NICEDISHY_FRONTEND_IMAGE}
+  - cd kustomize/overlays/okteto && kustomize edit set image nicedishy-api=${OKTETO_BUILD_NICEDISHY_API_IMAGE}
+  # - cd kustomize/overlays/okteto && kustomize edit set image nicedishy-migrations=okteto.dev/nicedishy-migrations:${OKTETO_GIT_COMMIT}
+  - cd kustomize/overlays/okteto && kustomize edit set image nicedishy-docs=${OKTETO_BUILD_NICEDISHY_DOCS_IMAGE}
+
+  - kubectl apply -k kustomize/overlays/okteto
+
+dev:
+  nicedishy-api:
+    command: bash
+    workdir: /go/src/github.com/marc-campbell/nicedishy
+    sync:
+      - .:/go/src/github.com/marc-campbell/nicedishy
+    resources:
+      limits:
+        cpu: "2"
+        memory: 4Gi
+  nicedishy-mailer:
+    command: bash
+    workdir: /go/src/github.com/marc-campbell/nicedishy
+    sync:
+      - .:/go/src/github.com/marc-campbell/nicedishy
+    resources:
+      limits:
+        cpu: "2"
+        memory: 4Gi
+  nicedishy-grafanaproxy:
+    command: bash
+    workdir: /go/src/github.com/marc-campbell/nicedishy
+    sync:
+      - .:/go/src/github.com/marc-campbell/nicedishy
+    resources:
+      limits:
+        cpu: "2"
+        memory: 4Gi
+  nicedishy-frontend:
+    command: |
+      mkdir -p /okteto && \
+      echo NEXT_PUBLIC_API_ENDPOINT=https://nicedishy-api-${OKTETO_NAMESPACE}.cloud.okteto.net > /okteto/.env.local && \
+      echo NEXT_PUBLIC_DASHBOARD_ENDPOINT=https://grafana-proxy-$OKTETO_NAMESPACE.cloud.okteto.net >> /okteto/.env.local && \
+      echo NEXT_PUBLIC_GRAFANA_PUBLIC_FOLDER=0VXHRHB7z >> /okteto/.env.local && \
+      echo GOOGLE_AUTH_CLIENT_ID=${GOOGLE_CLIENTID} >> /okteto/.env.local && \
+      echo GOOGLE_AUTH_CLIENT_SECRET=${GOOGLE_CLIENTSECRET} >> /okteto/.env.local && \
+      echo GOOGLE_AUTH_REDIRECT_URI=https://nicedishy-${OKTETO_NAMESPACE}.cloud.okteto.net/login/callback >> /okteto/.env.local && \
+      echo DATABASE_URL="postgresql://nicedishy:nicedishy@timescale/nicedishy?connect_timeout=10&application_name=nicedishy&sslmode=disable" >> /okteto/.env.local && \
+      echo SESSION_KEY=not-a-secret >> /okteto/.env.local && \
+      yarn && \
+      yarn dev
+    environment:
+      GOOGLE_CLIENTID: ${NICEDISHY_GOOGLE_CLIENTID}
+      GOOGLE_CLIENTSECRET: ${NICEDISHY_GOOGLE_CLIENTSECRET}
+    workdir: /okteto
+    sync:
+      - ./nicedishy:/okteto
+    resources:
+      limits:
+        cpu: "2"
+        memory: 4Gi
+
+
