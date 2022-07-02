@@ -1,2 +1,4 @@
 google-secret.yaml
 timescale-secret.yaml
+retool-secrets.yaml
+mailer-api.yaml

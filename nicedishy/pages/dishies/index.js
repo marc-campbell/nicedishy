@@ -4,75 +4,33 @@ import { useRouter } from 'next/router'
 import Layout from "../../components/layout";
 import DishyCard from '../../components/dishy-card';
 import DishyPlaceholderCard from '../../components/dishy-placeholder-card';
+import cookies from 'next-cookies';
+import { loadSession } from "../../lib/session";
+import { listDishies, getDishyStats, getDishySpeed } from "../../lib/dishy";
 
-export default function Page() {
+export default function Page({dishies, stats, speed}) {
   const router = useRouter();
-  const [isLoading, setIsLoading] = useState(true);
-  const [dishies, setDishies] = useState([]);
 
-  const handleAddAnotherClick = () => {
+  const handleAddAnotherClick = (ev) => {
+    ev.preventDefault();
     router.push(`/dishy/new`);
   }
 
-  useEffect( async () => {
-    if (!Utilities.getToken()) {
-      router.replace(`/login?next=/dishies`);
-      return;
-    }
-
-    const data = await fetchDishies();
-    if (data.dishies.length === 0) {
-      router.replace('/dishy/new');
-      return;
-    }
-
-    setIsLoading(false);
-    setDishies(data.dishies);
-
-    setInterval(async () => {
-      const data = await fetchDishies();
-      if (data.dishies.length === 0) {
-        router.replace('/dishy/new');
-        return;
+  let cards = dishies.map((dishy) => {
+    let dishyStats, dishySpeed = {};
+    for (const s of stats) {
+      if (s.id === dishy.id) {
+        dishyStats = s.stats;
       }
-
-      setIsLoading(false);
-      setDishies(data.dishies);
-    }, 3000);
-  }, [])
-
-  const fetchDishies = async() => {
-    try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/v1/dishies`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": Utilities.getToken(),
-        },
-      });
-
-      if (!res.ok) {
-        if (res.status === 401) {
-          router.push(`/login?next=${encodeURIComponent(router.pathname)}`);
-        }
-        return;
+    };
+    for (const s of speed) {
+      if (s.id === dishy.id) {
+        dishySpeed = s.speed;
       }
+    };
 
-      const data = await res.json();
-      return data;
-    } catch (err) {
-      console.error(err);
-    }
-  }
-
-  let cards = [];
-  if (isLoading) {
-    cards = [<DishyPlaceholderCard key="loading" />];
-  } else {
-    cards = dishies.map((dishy) => {
-      return <DishyCard key={dishy.id} dishy={dishy} />
-    });
-  }
+    return <DishyCard key={dishy.id} dishy={dishy} stats={dishyStats} speed={dishySpeed} />
+  });
 
   return (
     <>
@@ -97,4 +55,45 @@ Page.getLayout = function getLayout(page) {
       {page}
     </Layout>
   );
+}
+
+export async function getServerSideProps(ctx) {
+  const c = cookies(ctx);
+  const sess = await loadSession(c.auth);
+  if (!sess) {
+    return {
+      redirect: {
+        permanent: false,
+        destination: "/login",
+      },
+      props:{},
+    };
+  }
+
+  const dishies = await listDishies(sess.userId);
+
+  const stats = await Promise.all(dishies.map(async (dishy) => {
+    const stats = await getDishyStats(dishy.id);
+    return {
+      id: dishy.id,
+      stats,
+    };
+  }));
+
+  const speed = await Promise.all(dishies.map(async (dishy) => {
+    const speed = await getDishySpeed(dishy.id);
+    return {
+      id: dishy.id,
+      speed,
+    }
+  }));
+
+
+  return {
+    props: {
+      dishies,
+      stats,
+      speed,
+    },
+  };
 }

@@ -9,7 +9,7 @@ function LoginCallback() {
   const [nextUrl, setNextUrl] = useState("/");
 
   const requestSessionToken = async (code, state) => {
-    const uri = `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/v1/login/callback`;
+    const uri = `/api/login_callback`;
     const response = await fetch(uri, {
       method: "POST",
       headers: {
@@ -36,7 +36,6 @@ function LoginCallback() {
       return;
     }
 
-    let nextUrl = "";
     try {
       const query = url.parse(window.location.href, true).query;
       const response = await requestSessionToken(query.code, query.state);
@@ -45,18 +44,7 @@ function LoginCallback() {
         return;
       }
 
-      window.localStorage.setItem("token", response.token);
-      if (window.sessionStorage.getItem('next')) {
-        nextUrl = window.sessionStorage.getItem('next');
-        window.sessionStorage.removeItem('next');
-      } else if (response.redirectUri) {
-        nextUrl = response.redirectUri;
-      } else {
-        nextUrl = '/dishy/new';
-      }
-
       setAuthComplete(true);
-      setNextUrl(nextUrl);
 
       if (process.env.NEXT_PUBLIC_POSTHOG_KEY) {
         posthog.init(process.env.NEXT_PUBLIC_POSTHOG_KEY, {
@@ -66,22 +54,17 @@ function LoginCallback() {
               `user:${response.userId}`,
               { email: response.emailAddress },
             );
-            router.push(nextUrl);
+            router.push(response.nextUrl);
           }
         });
       } else {
-        console.log("3");
-        router.push(nextUrl);
+        router.push(response.nextUrl);
       }
     } catch (err) {
       console.log(err);
       router.replace("/error");
       return;
     }
-
-
-
-
   }, []);
 
   return (

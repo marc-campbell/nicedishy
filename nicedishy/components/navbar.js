@@ -3,15 +3,11 @@ import {useState, useEffect} from 'react'
 import { Utilities } from "../utils/utilities";
 import { useRouter } from 'next/router'
 import Image from 'next/image'
+import cookies from 'next-cookies';
+import { loadSession } from "../lib/session";
 
-export default function Navbar() {
+export default function Navbar({isLoggedIn}) {
   const router = useRouter();
-
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  useEffect(() => {
-    setIsLoggedIn(Utilities.getToken() !== null);
-  }, []);
 
   const handleLogout = () => {
     Utilities.logoutUser();
@@ -19,7 +15,7 @@ export default function Navbar() {
 
   const handleLogoClick = (ev) => {
     ev.preventDefault();
-    if (Utilities.isLoggedIn()) {
+    if (isLoggedIn) {
       router.push('/dishies');
       return;
     }

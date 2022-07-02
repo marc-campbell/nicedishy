@@ -2,21 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router'
 import Layout from "../../../components/layout";
 import { Utilities } from '../../../utils/utilities';
+import cookies from 'next-cookies';
+import { loadSession } from "../../../lib/session";
+import { listDishies } from '../../../lib/dishy';
 
-export default function Page() {
+export default function Page({dishy, settings}) {
   const router = useRouter();
-  const { id } = router.query
 
-  const [name, setName] = useState("");
-
-  // fetchDishy( async () => {
-
-  // });
-
-  // useEffect( async () => {
-  //   const data = await fetchDishy();
-  //   console.log(data);
-  // }, []);
+  const [name, setName] = useState(dishy.name);
 
   const handleSave = async () => {
 
@@ -81,4 +74,37 @@ Page.getLayout = function getLayout(page) {
       {page}
     </Layout>
   );
+}
+
+export async function getServerSideProps(ctx) {
+  const c = cookies(ctx);
+  const sess = await loadSession(c.auth);
+  if (!sess) {
+    return {
+      redirect: {
+        permanent: false,
+        destination: "/login",
+      },
+      props:{},
+    };
+  }
+
+  const dishies = await listDishies(sess.userId);
+  const dishy = dishies.find(d => d.id === ctx.query.id);
+  if (!dishy) {
+    return {
+      redirect: {
+        permanent: false,
+        destination: "/dishies",
+      },
+      props:{},
+    };
+  }
+
+  return {
+    props: {
+      id: ctx.query.id,
+      dishy,
+    },
+  }
 }

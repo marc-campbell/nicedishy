@@ -1,9 +1,0 @@
-name: nicedishy-frontend
-command: yarn && yarn dev
-workdir: /src
-sync:
-  - .:/src
-resources:
-  limits:
-    cpu: "2"
-    memory: 4Gi

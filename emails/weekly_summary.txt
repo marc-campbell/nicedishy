@@ -7,15 +7,23 @@ Your average upload speed was 3% faster this week compared to last.
 
 Comparing your week to others using NiceDishy:
 
-Your average download speed was 9% slower than the average seen.
-Your average upload speed was 2% faster than the average seen.
+Your average download speed was 9% slower than the average seen globally.
+Your average upload speed was 2% faster than the average seen globally.
 
 The following stats are for the week ending (Sat):
 
 Fastest download speed: xxx Mbs
-Average download speed: 
+Average download speed:
+Fastest time of day for downloading: 1-5 AM, averaging 190 Mbps
+Slowest time of day for downloading: 4-9 PM, averaging 25 Mbps
+
 Fastest upload speed: xx Mbps
 Average upload speed:
+Fastest time of day for uploading:
+Slowest time of day for uploading:
+
 Number of reboots: 0 (yay)
 Number of firmware updates: 1
+
+Some things of note that we detected in your stats:
 

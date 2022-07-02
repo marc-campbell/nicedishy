@@ -135,7 +135,7 @@ func (s PGStore) GetDishy(ctx context.Context, id string) (*dishytypes.Dishy, er
 	lastGeocheckAt := sql.NullTime{}
 
 	if err := row.Scan(&dishy.ID, &dishy.CreatedAt, &lastMetricAt, &lastGeocheckAt, &dishy.Name); err != nil {
-		if err == sql.ErrNoRows {
+		if err == pgx.ErrNoRows {
 			return nil, nil
 		}
 
@@ -184,8 +184,13 @@ func (s PGStore) DeleteDishy(ctx context.Context, id string) error {
 func (s PGStore) UpdateDishyGeo(ctx context.Context, id string, when time.Time, geo *dishytypes.GeoCheck) error {
 	pg := persistence.MustGetMetricsDBSession()
 
-	query := `insert into dishy_geo (time, id, ip_address, continent, country, region, city, org, latitude, longitude) values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`
-	if _, err := pg.Exec(ctx, query, when, id, geo.IPAddress, geo.Continent, geo.Country, geo.Region, geo.City, geo.Org, geo.Latitude, geo.Longitude); err != nil {
+	query := `insert into dishy_geo
+(time, id, ip_address, continent, country, region, city, org, latitude, longitude, timezone_id, timezone_abbr, timezone_offset, timezone_utc)
+values
+($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)`
+	if _, err := pg.Exec(ctx, query, when, id, geo.IPAddress, geo.Continent, geo.Country,
+		geo.Region, geo.City, geo.Org, geo.Latitude, geo.Longitude,
+		geo.Timezone.ID, geo.Timezone.Abbr, geo.Timezone.Offset, geo.Timezone.UTC); err != nil {
 		return fmt.Errorf("error inserting geo: %w", err)
 	}
 

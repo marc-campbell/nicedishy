@@ -44,7 +44,11 @@ create table dishy_geo (
   city text not null,
   org text not null,
   latitude double precision not null,
-  longitude double precision not null
+  longitude double precision not null,
+  timezone_id text,
+  timezone_abbr text,
+  timezone_offset int,
+  timezone_utc text
 );
 select create_hypertable('dishy_geo', 'time');
 
@@ -96,4 +100,13 @@ create table email_notification (
 create table dishy_disconnected_queue (
   dishy_id text not null primary key,
   send_at timestamp not null
+);
+
+create table dishy_report_weekly (
+  dishy_id text not null,
+  week_start timestamptz not null,
+  week_end timestamptz not null,
+  report_context text not null,
+  is_generating boolean not null,
+  primary key (dishy_id, week_start)
 );
