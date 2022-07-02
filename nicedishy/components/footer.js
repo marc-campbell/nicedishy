@@ -32,7 +32,7 @@ export default function Footer() {
                     <ul className="nav flex-column">
                       <li className="nav-item mb-2 nav-item-light"><Link href="/signup" className="nav-link p-0 text-muted">Join NiceDishy</Link></li>
                       <li className="nav-item mb-2 nav-item-light"><Link href="/compare"><a className="nav-link p-0 text-muted">Compare My Dishy</a></Link></li>
-                      <li className="nav-item mb-2 nav-item-light"><a href="/outages" className="nav-link p-0 text-muted">Is Everything Ok?</a></li>
+                      <li className="nav-item mb-2 nav-item-light"><Link href="/outages"><a className="nav-link p-0 text-muted">Is Everything Ok?</a></Link></li>
                     </ul>
                   </div>
 
