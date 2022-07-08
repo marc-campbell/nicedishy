@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"os"
 	"time"
 
 	"github.com/jackc/pgx/v4"
@@ -120,7 +121,12 @@ order by time desc limit 10`
 // Geocheck will look up the ip address and make sure it looks to be
 // a starlink address
 func Geocheck(id string, ipAddress string) (*types.GeoCheck, error) {
-	req, err := http.NewRequest("GET", fmt.Sprintf("https://ipwhois.app/json/%s", ipAddress), nil)
+	url := fmt.Sprintf("https://ipwho.is/%s", ipAddress)
+	if os.Getenv("IPWHOIS_KEY") != "" {
+		url = fmt.Sprintf("https:ipwhois.pro/%s?key=%s", ipAddress, os.Getenv("IPWHOIS_KEY"))
+	}
+
+	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
 		return nil, fmt.Errorf("create request: %w", err)
 	}
