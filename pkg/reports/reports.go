@@ -2,6 +2,7 @@ package reports
 
 import (
 	"context"
+	"database/sql"
 	"fmt"
 	"time"
 
@@ -85,16 +86,18 @@ order by random()`
 g.timezone_offset from dishy_geo g
 where g.id = $1 order by g.time desc limit 1`
 		row := metricsDB.QueryRow(ctx, query, dishyID)
-		var timezoneOffset int
+		var timezoneOffset sql.NullInt64
 		if err := row.Scan(&timezoneOffset); err != nil {
 			logger.Errorf("error getting timezone offset: %w", err)
 			time.Sleep(time.Minute)
 			continue
 		}
 
-		// if the timezone offset means that we have a new week for this dishy,
-		if time.Now().UTC().Add(time.Second*time.Duration(timezoneOffset)).Weekday() == time.Sunday {
-			return dishyID, timezoneOffset, nil
+		if !timezoneOffset.Valid {
+			// if the timezone offset means that we have a new week for this dishy,
+			if time.Now().UTC().Add(time.Second*time.Duration(timezoneOffset.Int64)).Weekday() == time.Sunday {
+				return dishyID, int(timezoneOffset.Int64), nil
+			}
 		}
 
 		time.Sleep(time.Minute)
