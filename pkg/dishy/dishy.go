@@ -123,7 +123,7 @@ order by time desc limit 10`
 func Geocheck(id string, ipAddress string) (*types.GeoCheck, error) {
 	url := fmt.Sprintf("https://ipwho.is/%s", ipAddress)
 	if os.Getenv("IPWHOIS_KEY") != "" {
-		url = fmt.Sprintf("https:ipwhois.pro/%s?key=%s", ipAddress, os.Getenv("IPWHOIS_KEY"))
+		url = fmt.Sprintf("https://ipwhois.pro/%s?key=%s", ipAddress, os.Getenv("IPWHOIS_KEY"))
 	}
 
 	req, err := http.NewRequest("GET", url, nil)
