@@ -62,6 +62,15 @@ export async function createSession(userId: string, accessToken: string): Promis
   }
 }
 
+export async function deleteSession(id: string): Promise<void> {
+  try {
+    const db = await getDB();
+    await db.query(`delete from session where id = $1`, [id]);
+  } catch (err) {
+    console.error(err);
+  }
+}
+
 export async function loadSession(token: string): Promise<Session | undefined> {
   try {
     const claims = await jwt.verify(token, process.env.SESSION_KEY!) as jwt.JwtPayload;

@@ -14,7 +14,7 @@ export async function getOrCreateUser(email: string, avatarUrl: string): Promise
   try {
     const db = await getDB();
     const result = await db.query(`select id from google_user where email_address = $1`, [email]);
-    if (result.rows) {
+    if (result.rowCount > 0) {
       return getUser(result.rows[0].id);
     }
 
@@ -22,8 +22,8 @@ export async function getOrCreateUser(email: string, avatarUrl: string): Promise
     const createdAt = new Date();
     const lastLoginAt = new Date();
 
-    await db.run(`insert into google_user (id, email_address, avatar_url, created_at, last_login_at) values ($1, $2, $3, $4, $5)`,
-      [id, email, avatarUrl, createdAt.getTime(), lastLoginAt.getTime()]);
+    await db.query(`insert into google_user (id, email_address, avatar_url, created_at, last_login_at) values ($1, $2, $3, $4, $5)`,
+      [id, email, avatarUrl, createdAt, lastLoginAt]);
 
     return getUser(id);
   } catch (err) {

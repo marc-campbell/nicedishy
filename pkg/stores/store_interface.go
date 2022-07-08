@@ -45,7 +45,6 @@ type Store interface {
 	GetUserByDishy(ctx context.Context, id string) (*usertypes.User, error)
 
 	ListDishies(ctx context.Context, userID string) ([]*dishytypes.Dishy, error)
-	CreateDishy(ctx context.Context, userID string, name string) (*dishytypes.Dishy, error)
 	GetDishyForUser(ctx context.Context, id string, userID string) (*dishytypes.Dishy, error)
 	GetDishy(ctx context.Context, id string) (*dishytypes.Dishy, error)
 	SetDishyLastReceivedStats(ctx context.Context, id string, when time.Time) error

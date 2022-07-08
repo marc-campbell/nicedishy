@@ -25,6 +25,19 @@ export interface DishySpeed {
   uploadSpeed: number;
 }
 
+export async function createDishy(userId: string, name: string): Promise<Dishy> {
+  const id = srs.default({ length: 36 });
+
+  const createdAt = new Date();
+  const db = await getDB();
+
+  await db.query(`insert into dishy (id, name, created_at, user_id) values ($1, $2, $3, $4)`,
+    [id, name, createdAt, userId]);
+
+  const dishy = await getDishy(userId, id);
+  return dishy!;
+}
+
 export async function createDishyToken(dishyId: string): Promise<string> {
   const token = srs.default({ length: 36 })
   const tokenSha = crypto.createHash('sha256').update(token).digest('hex');
@@ -33,6 +46,27 @@ export async function createDishyToken(dishyId: string): Promise<string> {
   await db.query(`insert into dishy_token (token_sha, dishy_id) values ($1, $2)`, [tokenSha, dishyId]);
 
   return token;
+}
+
+export async function getDishy(userId: string, id: string): Promise<Dishy | undefined> {
+  const db = await getDB();
+
+  const result = await db.query(`select id, name, created_at, last_metric_at, last_geocheck_at from dishy where user_id = $1 and id = $2`, [userId, id]);
+  if (result.rowCount === 0) {
+    return;
+  }
+
+  const row = result.rows[0];
+
+  const dishy = {
+    id: row.id,
+    name: row.name,
+    createdAt: new Date(row.created_at).toISOString(),
+    lastMetricAt: new Date(row.last_metric_at).toISOString(),
+    lastGeocheckAt: new Date(row.last_geocheck_at).toISOString(),
+  };
+
+  return dishy;
 }
 
 export async function listDishies(userId: string): Promise<Dishy[]> {
@@ -57,7 +91,7 @@ export async function getDishySpeed(id: string): Promise<DishySpeed | undefined>
 
   const result = await db.query(`select download_speed, upload_speed from dishy_speed where dishy_id = $1 and download_speed is not null
 order by time desc limit 1`, [id]);
-  if (!result.rows) {
+  if (result.rowCount === 0) {
     return undefined;
   }
 
@@ -80,7 +114,7 @@ where dishy_id = $1
 and downlink_throughput_bps is not null
 order by time desc limit 1`, [id]);
 
-  if (!result.rows) {
+  if (result.rowCount === 0) {
     return;
   }
 

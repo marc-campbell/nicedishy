@@ -72,22 +72,32 @@ export async function getServerSideProps(ctx) {
 
   const dishies = await listDishies(sess.userId);
 
-  const stats = await Promise.all(dishies.map(async (dishy) => {
+  if (dishies.length === 0) {
+    return {
+      redirect: {
+        permanent: false,
+        destination: "/dishy/new",
+      },
+      props: { },
+    };
+  }
+
+  let stats = await Promise.all(dishies.map(async (dishy) => {
     const stats = await getDishyStats(dishy.id);
     return {
       id: dishy.id,
-      stats,
+      stats: stats || [],
     };
   }));
 
-  const speed = await Promise.all(dishies.map(async (dishy) => {
+
+  let speed = await Promise.all(dishies.map(async (dishy) => {
     const speed = await getDishySpeed(dishy.id);
     return {
       id: dishy.id,
-      speed,
+      speed: speed || [],
     }
   }));
-
 
   return {
     props: {
