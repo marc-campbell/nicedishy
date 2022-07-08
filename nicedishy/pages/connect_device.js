@@ -2,20 +2,21 @@ import React, { useEffect, useState } from 'react';
 import { Utilities } from "../utils/utilities";
 import { useRouter } from 'next/router'
 import Layout from "../components/layout";
+import { loadSession } from '../lib/session';
+import { listDishies } from '../lib/dishy';
+import cookies from 'next-cookies';
 
-export default function Page() {
+export default function Page({dishies, authToken}) {
   const router = useRouter();
-  const [isLoading, setIsLoading] = useState(false);
-  const [dishies, setDishies] = useState([]);
   const [hasRedirected, setHasRedirected] = useState(false);
 
   const fetchToken = async(dishyId) => {
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/v1/dishy/${dishyId}/token`, {
+      const res = await fetch(`/api/dishy/${dishyId}/token`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": Utilities.getToken(),
+          "Authorization": `Bearer ${authToken}`,
         },
       });
 
@@ -24,31 +25,8 @@ export default function Page() {
       }
 
       const data = await res.json();
+
       return data.token;
-    } catch (err) {
-      console.error(err);
-    }
-  }
-
-  const fetchDishies = async() => {
-    try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/v1/dishies`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": Utilities.getToken(),
-        },
-      });
-
-      if (!res.ok) {
-        if (res.status === 401) {
-          router.push(`/login?next=${encodeURIComponent(router.pathname)}`);
-        }
-        return;
-      }
-
-      const data = await res.json();
-      return data;
     } catch (err) {
       console.error(err);
     }
@@ -59,33 +37,9 @@ export default function Page() {
   }
 
   const handleCardClick = async (dishyId) => {
-    // TODO get token
     const token = await fetchToken(dishyId);
     window.location.href = `nicedishy://connected?token=${token}`;
     setHasRedirected(true);
-  }
-
-  useEffect( async () => {
-    if (!Utilities.getToken()) {
-      router.replace(`/login?next=/connect_device`);
-      return;
-    }
-
-    const data = await fetchDishies();
-    if (data.dishies.length === 0) {
-      router.replace('/dishy/new');
-      return;
-    }
-    setIsLoading(false);
-    setDishies(data.dishies);
-  }, []);
-
-  if (isLoading) {
-    return (
-      <div>
-        loading...
-      </div>
-    );
   }
 
   if (hasRedirected) {
@@ -138,4 +92,27 @@ Page.getLayout = function getLayout(page) {
       {page}
     </Layout>
   );
+}
+
+export async function getServerSideProps(ctx) {
+  const c = cookies(ctx);
+  const sess = await loadSession(c.auth);
+  if (!sess) {
+    return {
+      redirect: {
+        permanent: false,
+        destination: "/login",
+      },
+      props: {},
+    };
+  }
+
+  const dishies = await listDishies(sess.userId);
+
+  return {
+    props: {
+      dishies,
+      authToken: c.auth,
+    }
+  }
 }

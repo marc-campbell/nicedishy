@@ -2,7 +2,6 @@ package pgstore
 
 import (
 	"context"
-	"crypto/sha256"
 	"database/sql"
 	"fmt"
 	"time"
@@ -105,23 +104,6 @@ func (s PGStore) GetDishyForUser(ctx context.Context, id string, userID string) 
 	}
 
 	return &dishy, nil
-}
-
-func (s PGStore) CreateDishyToken(ctx context.Context, id string) (string, error) {
-	pg := persistence.MustGetPGSession()
-
-	token, err := ksuid.NewRandom()
-	if err != nil {
-		return "", fmt.Errorf("error creating id: %w", err)
-	}
-
-	tokenSHA := fmt.Sprintf("%x", sha256.Sum256([]byte(token.String())))
-	query := `insert into dishy_token (token_sha, dishy_id) values ($1, $2)`
-	if _, err := pg.Exec(ctx, query, tokenSHA, id); err != nil {
-		return "", fmt.Errorf("error creating token: %w", err)
-	}
-
-	return token.String(), nil
 }
 
 func (s PGStore) GetDishy(ctx context.Context, id string) (*dishytypes.Dishy, error) {

@@ -1,4 +1,6 @@
 import { getDB } from "./db";
+import * as srs from "secure-random-string";
+var crypto = require('crypto');
 
 export interface Dishy {
   id: string;
@@ -21,6 +23,16 @@ export interface DishyStats {
 export interface DishySpeed {
   downloadSpeed: number;
   uploadSpeed: number;
+}
+
+export async function createDishyToken(dishyId: string): Promise<string> {
+  const token = srs.default({ length: 36 })
+  const tokenSha = crypto.createHash('sha256').update(token).digest('hex');
+
+  const db = await getDB();
+  await db.query(`insert into dishy_token (token_sha, dishy_id) values ($1, $2)`, [tokenSha, dishyId]);
+
+  return token;
 }
 
 export async function listDishies(userId: string): Promise<Dishy[]> {

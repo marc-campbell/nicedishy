@@ -137,7 +137,7 @@ func Geocheck(id string, ipAddress string) (*types.GeoCheck, error) {
 
 	geoCheck := types.GeoCheck{}
 	if err := json.Unmarshal(b, &geoCheck); err != nil {
-		return nil, fmt.Errorf("unmarshal json: %w", err)
+		return nil, fmt.Errorf("unmarshal json: %w, body was %s", err, b)
 	}
 
 	return &geoCheck, nil
