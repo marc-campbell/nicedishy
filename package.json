@@ -1,0 +1,24 @@
+{
+  "name": "nicedishy",
+  "version": "1.0.0",
+  "description": "This is the web and api (and database, etc) for the nicedishy.com service.",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/marc-campbell/nicedishy.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/marc-campbell/nicedishy/issues"
+  },
+  "homepage": "https://github.com/marc-campbell/nicedishy#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.23.2"
+  }
+}
