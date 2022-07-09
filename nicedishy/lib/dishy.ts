@@ -1,5 +1,7 @@
 import { getDB } from "./db";
 import * as srs from "secure-random-string";
+import { createDashboard } from "./dashboard";
+import { queueEmail } from "./email";
 var crypto = require('crypto');
 
 export interface Dishy {
@@ -25,7 +27,8 @@ export interface DishySpeed {
   uploadSpeed: number;
 }
 
-export async function createDishy(userId: string, name: string): Promise<Dishy> {
+export async function createDishy(userId: string, name: string, emailAddress: string): Promise<Dishy> {
+  console.log(`createDishy: userId=${userId}, name=${name}, emailAddress=${emailAddress}`);
   const id = srs.default({ length: 36 });
 
   const createdAt = new Date();
@@ -35,6 +38,13 @@ export async function createDishy(userId: string, name: string): Promise<Dishy> 
     [id, name, createdAt, userId]);
 
   const dishy = await getDishy(userId, id);
+
+  // create the dashboard
+  await createDashboard(dishy!.id, dishy!.name);
+
+  // queue a setup email
+  await queueEmail("notifications@nicedishy.com", emailAddress, "28512866", {});
+
   return dishy!;
 }
 
@@ -46,6 +56,11 @@ export async function createDishyToken(dishyId: string): Promise<string> {
   await db.query(`insert into dishy_token (token_sha, dishy_id) values ($1, $2)`, [tokenSha, dishyId]);
 
   return token;
+}
+
+export async function deleteDishy(userId: string, id: string): Promise<void> {
+  const db = await getDB();
+  await db.query(`delete from dishy where id = $1 and user_id = $2`, [id, userId]);
 }
 
 export async function getDishy(userId: string, id: string): Promise<Dishy | undefined> {

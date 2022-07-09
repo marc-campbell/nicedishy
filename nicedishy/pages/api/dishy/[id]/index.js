@@ -1,9 +1,8 @@
-import { createDishy } from "../../../lib/dishy";
-import { loadSession } from "../../../lib/session";
-import { getUser } from "../../../lib/user";
+import { createDishyToken, deleteDishy, getDishy, listDishies } from "../../../../lib/dishy";
+import { loadSession } from "../../../../lib/session";
 
 export default async function handler(req, res) {
-  if (req.method !== 'POST') {
+  if (req.method !== 'DELETE') {
     res.status(405).send({ error: 'Method not allowed' });
     return;
   }
@@ -23,10 +22,16 @@ export default async function handler(req, res) {
   const token = tokenParts[1];
   const sess = await loadSession(token);
 
-  const user = await getUser(sess.userId);
-  const dishy = await createDishy(sess.userId, req.body.name, user.email);
+  const userId = sess.userId;
+  const dishyId = req.query.id;
 
-  res.status(200).json({
-    dishy,
-  });
+  const dishy = await getDishy(userId, dishyId);
+  if (!dishy) {
+    res.status(404).json({message: "Dishy not found"});
+    return;
+  }
+
+  await deleteDishy(userId, dishyId);
+
+  res.status(204).send();
 }

@@ -42,7 +42,7 @@ export default function Page() {
               <div className="card-body">
                 <h3><i className="bi bi-windows"></i> Windows</h3>
                 <a className="btn btn-outline-secondary" href="https://github.com/marc-campbell/nicedishy-windows"><i className="bi bi-github"></i> View Source Code</a>
-                <br /><br /><strong>Current Version:</strong> (private beta, download coming soon)
+                <br /><br /><strong>Current Version:</strong> (download coming soon)
               </div>
             </div>
             <div className="card" style={{width: "100%"}}>

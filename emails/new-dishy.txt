@@ -1,0 +1,10 @@
+
+Almost there. You've added your Starlink on NiceDishy.com, and now all you need to do is install our tiny agent to shuttle some info about your dish to our service.
+
+Click the "Download" link on NiceDishy.com and follow the instructions there. If you need some help, check out our docs at https://docs.nicedishy.com/getting-started.
+
+If you need some help, feel free to >email me directly at marc@nicedishy.com. Or post over in the r/starlink subreddit, I'm there constantly too!
+
+Thanks,
+Marc
+

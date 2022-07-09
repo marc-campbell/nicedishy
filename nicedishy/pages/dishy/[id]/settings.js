@@ -6,7 +6,7 @@ import cookies from 'next-cookies';
 import { loadSession } from "../../../lib/session";
 import { listDishies } from '../../../lib/dishy';
 
-export default function Page({dishy, settings}) {
+export default function Page({dishy, settings, authToken}) {
   const router = useRouter();
 
   const [name, setName] = useState(dishy.name);
@@ -17,10 +17,10 @@ export default function Page({dishy, settings}) {
 
   const handleDelete = async () => {
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/v1/dishy/${id}`, {
+      const res = await fetch(`/api/dishy/${dishy.id}`, {
         method: 'DELETE',
         headers: {
-          'Authorization': Utilities.getToken(),
+          "Authorization": `Bearer ${authToken}`,
         },
       });
 
@@ -105,6 +105,7 @@ export async function getServerSideProps(ctx) {
     props: {
       id: ctx.query.id,
       dishy,
+      authToken: c.auth,
     },
   }
 }
