@@ -7,8 +7,6 @@ import Link from 'next/link';
 export default function DishyCard({dishy, stats, speed}) {
   const router = useRouter();
 
-  console.log(dishy, stats, speed);
-
   const handleDownloadClick = (e) => {
     e.preventDefault();
     router.push('/download');
@@ -20,7 +18,7 @@ export default function DishyCard({dishy, stats, speed}) {
   }
 
   let isConnected = false;
-  let hasEverConnected = !!dishy.lastMetricAt;
+  let hasEverConnected = new Date(dishy.lastMetricAt).getFullYear() > 1970;
   if (hasEverConnected) {
     isConnected = secondsAgo(dishy.lastMetricAt) < 86400;
   }
@@ -162,8 +160,8 @@ export default function DishyCard({dishy, stats, speed}) {
                   {' '}/{' '}<Link href={`${process.env.NEXT_PUBLIC_DASHBOARD_ENDPOINT}/d/${dishy.id}/default-dashboard?kiosk&refresh=5s&from=now-7d&to=now`} passHref><a target="_blank">1w</a></Link>
                   {' '}/{' '}<Link href={`${process.env.NEXT_PUBLIC_DASHBOARD_ENDPOINT}/d/${dishy.id}/default-dashboard?kiosk&refresh=5s&from=now-30d&to=now`} passHref><a target="_blank">1m</a></Link>)
                 <br />
-                <a href={`/dishy/${dishy.id}/compare`}><i className="bi bi-people-fill"></i>{' '}How do I compare?</a><br />
-                <a href={`/dishy/${dishy.id}/troubleshooting`}><i className="bi bi-lightbulb"></i>{' '}Troubleshooting</a><br />
+                {/* <a href={`/dishy/${dishy.id}/compare`}><i className="bi bi-people-fill"></i>{' '}How do I compare?</a><br /> */}
+                {/* <a href={`/dishy/${dishy.id}/troubleshooting`}><i className="bi bi-lightbulb"></i>{' '}Troubleshooting</a><br /> */}
                 <a href={`/dishy/${dishy.id}/settings`}><i className="bi bi-gear"></i>{' '}Settings</a>
               </div>
             </div>

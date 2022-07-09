@@ -13,3 +13,4 @@ spec:
           env:
             - name: API_SERVER
               value: "http://localhost:30065"
+

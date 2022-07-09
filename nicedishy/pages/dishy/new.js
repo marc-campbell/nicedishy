@@ -1,20 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router'
 import Layout from "../../components/layout";
-import { Utilities } from '../../utils/utilities';
+import cookies from 'next-cookies';
+import { loadSession } from '../../lib/session';
 
-export default function Page() {
+export default function Page({authToken}) {
   const router = useRouter();
 
   const [name, setName] = useState("");
 
   const handleSave = async () => {
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/v1/dishy`, {
+      const res = await fetch(`/api/dishy`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': Utilities.getToken(),
+          "Authorization": `Bearer ${authToken}`,
         },
         body: JSON.stringify({
           name,
@@ -58,4 +59,24 @@ Page.getLayout = function getLayout(page) {
       {page}
     </Layout>
   );
+}
+
+export async function getServerSideProps(ctx) {
+  const c = cookies(ctx);
+  const sess = await loadSession(c.auth);
+  if (!sess) {
+    return {
+      redirect: {
+        permanent: false,
+        destination: "/login",
+      },
+      props: {},
+    };
+  }
+
+  return {
+    props: {
+      authToken: c.auth,
+    }
+  }
 }

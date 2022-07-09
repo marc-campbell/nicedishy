@@ -5,7 +5,7 @@ export default function Footer() {
   const [emailAddress, setEmailAddress] = useState('');
 
   const handleSubscribeClick = async () => {
-    const uri = `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/v1/subscribe`;
+    const uri = `/api/subscribe`;
     const response = await fetch(uri, {
       method: "POST",
       headers: {
@@ -31,8 +31,8 @@ export default function Footer() {
                     <h5 className="header-light">Dishy Owners</h5>
                     <ul className="nav flex-column">
                       <li className="nav-item mb-2 nav-item-light"><Link href="/signup" className="nav-link p-0 text-muted">Join NiceDishy</Link></li>
-                      <li className="nav-item mb-2 nav-item-light"><Link href="/compare"><a className="nav-link p-0 text-muted">Compare My Dishy</a></Link></li>
-                      <li className="nav-item mb-2 nav-item-light"><Link href="/outages"><a className="nav-link p-0 text-muted">Is Everything Ok?</a></Link></li>
+                      {/* <li className="nav-item mb-2 nav-item-light"><Link href="/compare"><a className="nav-link p-0 text-muted">Compare My Dishy</a></Link></li>
+                      <li className="nav-item mb-2 nav-item-light"><Link href="/outages"><a className="nav-link p-0 text-muted">Is Everything Ok?</a></Link></li> */}
                     </ul>
                   </div>
 
@@ -46,7 +46,7 @@ export default function Footer() {
                   <div className="col-2">
                     <h5 className="header-light">Everyone Else</h5>
                     <ul className="nav flex-column">
-                      <li className="nav-item mb-2 nav-item-light"><Link href={`${process.env.NEXT_PUBLIC_DASHBOARD_ENDPOINT}/d/${process.env.NEXT_PUBLIC_GRAFANA_PUBLIC_FOLDER}/the-data`}><a className="nav-link p-0 text-muted">See Some Stats</a></Link></li>
+                      {/* <li className="nav-item mb-2 nav-item-light"><Link href={`${process.env.NEXT_PUBLIC_DASHBOARD_ENDPOINT}/d/${process.env.NEXT_PUBLIC_GRAFANA_PUBLIC_FOLDER}/the-data`}><a className="nav-link p-0 text-muted">See Some Stats</a></Link></li> */}
                     </ul>
                   </div>
 

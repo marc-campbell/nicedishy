@@ -61,6 +61,7 @@ dev:
   nicedishy-frontend:
     command: |
       mkdir -p /okteto && \
+      rm -rf /okteto.env.local && \
       echo NEXT_PUBLIC_API_ENDPOINT=https://nicedishy-api-${OKTETO_NAMESPACE}.cloud.okteto.net > /okteto/.env.local && \
       echo NEXT_PUBLIC_DASHBOARD_ENDPOINT=https://grafana-proxy-$OKTETO_NAMESPACE.cloud.okteto.net >> /okteto/.env.local && \
       echo NEXT_PUBLIC_GRAFANA_PUBLIC_FOLDER=0VXHRHB7z >> /okteto/.env.local && \
@@ -69,11 +70,17 @@ dev:
       echo GOOGLE_AUTH_REDIRECT_URI=https://nicedishy-${OKTETO_NAMESPACE}.cloud.okteto.net/login/callback >> /okteto/.env.local && \
       echo DATABASE_URL="postgresql://nicedishy:nicedishy@timescale/nicedishy?connect_timeout=10&application_name=nicedishy&sslmode=disable" >> /okteto/.env.local && \
       echo SESSION_KEY=not-a-secret >> /okteto/.env.local && \
+      echo GRAFANA_ENDPOINT="http://grafana:3000" >> /okteto/.env.local && \
+      echo GRAFANA_API_KEY="${GRAFANA_API_KEY}" >> /okteto/.env.local && \
+      echo GRAFANA_DATASIOURCE_UID="ybmyTGxnz" >> /okteto/.env.local && \
+      echo MAILCHIMP_API_KEY="${MAILCHIMP_API_KEY}" >> /okteto/.env.local && \
       yarn && \
       yarn dev
     environment:
       GOOGLE_CLIENTID: ${NICEDISHY_GOOGLE_CLIENTID}
       GOOGLE_CLIENTSECRET: ${NICEDISHY_GOOGLE_CLIENTSECRET}
+      GRAFANA_API_KEY: ${NICEDISHY_GRAFANA_API_KEY}
+      MAILCHIMP_API_KEY: ${MAILCHIMP_API_KEY}
     workdir: /okteto
     sync:
       - ./nicedishy:/okteto

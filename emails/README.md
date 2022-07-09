@@ -2,7 +2,9 @@
 
 ## Account management
 
+
 ## Dishy management
+- new-dishy: sent when a new dish is added, with instructions to connect
 - device-disconnected: sent ~ 24 hours after the last message reecived by a device
 - device-reconnected: when a device transitions from disconnected -> connected
 - device-connected: when a device is first connected

@@ -9,7 +9,6 @@ import (
 	"github.com/jackc/pgx/v4"
 	dishytypes "github.com/marc-campbell/nicedishy/pkg/dishy/types"
 	"github.com/marc-campbell/nicedishy/pkg/persistence"
-	"github.com/segmentio/ksuid"
 )
 
 func (s PGStore) GetDishyVersions(ctx context.Context, id string) (string, string, error) {
@@ -60,27 +59,6 @@ func (s PGStore) ListDishies(ctx context.Context, userID string) ([]*dishytypes.
 	}
 
 	return dishies, nil
-}
-
-func (s PGStore) CreateDishy(ctx context.Context, userID string, name string) (*dishytypes.Dishy, error) {
-	pg := persistence.MustGetPGSession()
-
-	id, err := ksuid.NewRandom()
-	if err != nil {
-		return nil, fmt.Errorf("error creating id: %v", err)
-	}
-
-	now := time.Now()
-	query := `insert into dishy (id, user_id, created_at, name) values ($1, $2, $3, $4)`
-	if _, err := pg.Exec(ctx, query, id.String(), userID, now, name); err != nil {
-		return nil, fmt.Errorf("error creating dishy: %v", err)
-	}
-
-	return &dishytypes.Dishy{
-		ID:        id.String(),
-		CreatedAt: now,
-		Name:      name,
-	}, nil
 }
 
 func (s PGStore) GetDishyForUser(ctx context.Context, id string, userID string) (*dishytypes.Dishy, error) {
@@ -147,17 +125,6 @@ do update set send_at = EXCLUDED.send_at`
 	sendAt := time.Now().Add(time.Hour * 6)
 	if _, err := pg.Exec(ctx, query, id, sendAt); err != nil {
 		return fmt.Errorf("error inserting into dishy_disconnected_queue: %v", err)
-	}
-
-	return nil
-}
-
-func (s PGStore) DeleteDishy(ctx context.Context, id string) error {
-	pg := persistence.MustGetPGSession()
-
-	query := `delete from dishy where id = $1`
-	if _, err := pg.Exec(ctx, query, id); err != nil {
-		return fmt.Errorf("error deleting dishy: %w", err)
 	}
 
 	return nil
