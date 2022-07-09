@@ -10,5 +10,5 @@ export default async function handler(req, res) {
   const emailAddress = req.body.emailAddress;
   await signUpForNewsletter(emailAddress, true);
 
-  res.status(200).send({redirectURL: authorizeUrl});
+  res.status(200).send();
 }

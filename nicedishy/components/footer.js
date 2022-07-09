@@ -5,7 +5,7 @@ export default function Footer() {
   const [emailAddress, setEmailAddress] = useState('');
 
   const handleSubscribeClick = async () => {
-    const uri = `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/subscribe`;
+    const uri = `/api/subscribe`;
     const response = await fetch(uri, {
       method: "POST",
       headers: {
