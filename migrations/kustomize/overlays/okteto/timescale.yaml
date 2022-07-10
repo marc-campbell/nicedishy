@@ -40,7 +40,7 @@ spec:
     spec:
       containers:
       - name: timescale
-        image: timescale/timescaledb-ha:pg14-latest
+        image: timescale/timescaledb:latest-pg14
         imagePullPolicy: IfNotPresent
         env:
         - name: PGDATA
