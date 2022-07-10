@@ -189,7 +189,7 @@ where d.id = $1`
 		return fmt.Errorf("error getting email address: %v", err)
 	}
 
-	query = `update dishy_report_weekly set report_context = $1, is_generating = false, where dishy_id = $2`
+	query = `update dishy_report_weekly set report_context = $1, is_generating = false where dishy_id = $2`
 
 	_, err := metricsDB.Exec(ctx, query, reportContext, dishyID)
 	if err != nil {
