@@ -3,21 +3,45 @@ package reports
 import (
 	"context"
 	"database/sql"
+	"encoding/json"
 	"fmt"
 	"time"
 
 	"github.com/marc-campbell/nicedishy/pkg/logger"
+	"github.com/marc-campbell/nicedishy/pkg/mailer"
 	"github.com/marc-campbell/nicedishy/pkg/persistence"
+	"github.com/marc-campbell/nicedishy/pkg/stores"
 )
 
 type WeeklyReportContext struct {
 	Start time.Time `json:"start"`
 	End   time.Time `json:"end"`
 
+	AverageDownloadSpeedPercentChange float64 `json:"averageDownloadSpeedPercentChange"`
+	AverageUploadSpeedPercentChange   float64 `json:"averageUploadSpeedPercentChange"`
+
+	AverageDownloadSpeedComparisonPercent float64 `json:"averageDownloadSpeedComparisonPercent"`
+	AverageUploadSpeedComparisonPercent   float64 `json:"averageUploadSpeedComparisonPercent"`
+
 	FastestDownloadSpeed float64 `json:"fastestDownloadSpeed"`
 	FastestUploadSpeed   float64 `json:"fastestUploadSpeed"`
 
-	SlowestDownloadSpeedTimeBlock string `json:"slowestDownloadSpeedTimeBlock"`
+	AverageDownloadSpeed float64 `json:"averageDownloadSpeed"`
+	AverageUploadSpeed   float64 `json:"averageUploadSpeed"`
+
+	FastestDownloadSpeedTimeBlock string  `json:"fastestDownloadSpeedTimeBlock"`
+	FastestDownloadSpeedTimeSpeed float64 `json:"fastestDownloadSpeedTimeSpeed"`
+
+	FastestUploadSpeedTimeBlock string  `json:"fastestUploadSpeedTimeBlock"`
+	FastestUploadSpeedTimeSpeed float64 `json:"fastestUploadSpeedTimeSpeed"`
+
+	SlowestDownloadSpeedTimeBlock string  `json:"slowestDownloadSpeedTimeBlock"`
+	SlowestDownloadSpeedTimeSpeed float64 `json:"slowestDownloadSpeedTimeSpeed"`
+
+	SlowestUploadSpeedTimeBlock string  `json:"slowestUploadSpeedTimeBlock"`
+	SlowestUploadSpeedTimeSpeed float64 `json:"slowestUploadSpeedTimeSpeed"`
+
+	NumberFirmwareUpdates int `json:"numberFirmwareUpdates"`
 }
 
 func GenerateReports() {
@@ -32,7 +56,7 @@ func GenerateReports() {
 		}
 
 		if dishyID == "" {
-			logger.Info("no dishy id found for weekly report")
+			// logger.Info("no dishy id found for weekly report")
 			time.Sleep(time.Second * 5)
 			continue
 		}
@@ -54,13 +78,14 @@ func getNextDishyIDForWeeklyReport(ctx context.Context) (string, int, error) {
 	metricsDB := persistence.MustGetMetricsDBSession()
 
 	// the query here joins on geo to just make sure we have geo
-	query := `select d.id
+	query := `select * from
+(select distinct(d.id)
 from dishy d
 inner join dishy_geo g on g.id = d.id
 where
 d.last_metric_at is not null and
 d.id not in (select dishy_id from dishy_report_weekly where week_end > now() - interval '2 days')
-order by random()`
+) t order by random()`
 
 	rows, err := metricsDB.Query(ctx, query)
 	if err != nil {
@@ -93,7 +118,7 @@ where g.id = $1 order by g.time desc limit 1`
 			continue
 		}
 
-		if !timezoneOffset.Valid {
+		if timezoneOffset.Valid {
 			// if the timezone offset means that we have a new week for this dishy,
 			if time.Now().UTC().Add(time.Second*time.Duration(timezoneOffset.Int64)).Weekday() == time.Sunday {
 				return dishyID, int(timezoneOffset.Int64), nil
@@ -152,6 +177,41 @@ $3,
 	return nil
 }
 
+func updateReportContext(ctx context.Context, dishyID string, reportContext WeeklyReportContext, send bool) error {
+	metricsDB := persistence.MustGetMetricsDBSession()
+
+	query := `select gu.email_address from google_user gu
+inner join dishy d on d.user_id = gu.id
+where d.id = $1`
+	row := metricsDB.QueryRow(ctx, query, dishyID)
+	var emailAddress string
+	if err := row.Scan(&emailAddress); err != nil {
+		return fmt.Errorf("error getting email address: %v", err)
+	}
+
+	query = `update dishy_report_weekly set report_context = $1, is_generating = false, where dishy_id = $2`
+
+	_, err := metricsDB.Exec(ctx, query, reportContext, dishyID)
+	if err != nil {
+		return fmt.Errorf("error updating weekly report: %v", err)
+	}
+
+	model, err := json.Marshal(reportContext)
+	if err != nil {
+		return fmt.Errorf("marshal reportContext: %v", err)
+	}
+	marsheledModel := map[string]interface{}{}
+	if err := json.Unmarshal(model, &marsheledModel); err != nil {
+		return fmt.Errorf("unmarshal reportContext: %v", err)
+	}
+
+	if _, err := stores.GetStore().QueueEmail(ctx, "notifications@nicedishy.com", emailAddress, mailer.WeeklyReportTemplateID, marsheledModel); err != nil {
+		return fmt.Errorf("error sending weekly report email: %v", err)
+	}
+
+	return nil
+}
+
 func generateWeeklyReport(ctx context.Context, dishyID string, tzOffset int) error {
 	fmt.Printf("generating weekly report for dishy id: %s\n", dishyID)
 
@@ -169,7 +229,11 @@ func generateWeeklyReport(ctx context.Context, dishyID string, tzOffset int) err
 		return fmt.Errorf("error generating weekly report context: %v", err)
 	}
 
-	fmt.Printf("weekly report context: %+v\n", weeklyContext)
+	// update the context and mark it as ready to send
+	if err := updateReportContext(ctx, dishyID, *weeklyContext, true); err != nil {
+		return fmt.Errorf("error updating weekly report context: %v", err)
+	}
+
 	return nil
 }
 

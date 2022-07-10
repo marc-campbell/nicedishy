@@ -8,7 +8,10 @@ import (
 	"github.com/keighl/postmark"
 )
 
-const SendSoftwareVersionChangedTemplateID = 27132960
+const (
+	SendSoftwareVersionChangedTemplateID = 27132960
+	WeeklyReportTemplateID               = 28522168
+)
 
 type SoftwareVersionChangedContext struct {
 	NewFirmware      string `json:"newFirmware"`

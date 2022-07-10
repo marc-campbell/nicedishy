@@ -72,7 +72,7 @@ dev:
       echo SESSION_KEY=not-a-secret >> /okteto/.env.local && \
       echo GRAFANA_ENDPOINT="http://grafana:3000" >> /okteto/.env.local && \
       echo GRAFANA_API_KEY="${GRAFANA_API_KEY}" >> /okteto/.env.local && \
-      echo GRAFANA_DATASIOURCE_UID="ybmyTGxnz" >> /okteto/.env.local && \
+      echo GRAFANA_DATASOURCE_UID="ybmyTGxnz" >> /okteto/.env.local && \
       echo MAILCHIMP_API_KEY="${MAILCHIMP_API_KEY}" >> /okteto/.env.local && \
       yarn && \
       yarn dev

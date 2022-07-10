@@ -1,0 +1,38 @@
+Hey there,
+
+Another week has gone by with Dishy, and it's time to take a look at how it's going.
+
+Comparing this week to last:
+
+Your average download speed was {{ averageDownloadSpeedPercentChange }}% slower this week compared to last.<br />
+Your average upload speed was {{ averageUploadSpeedPercentChange }}% faster this week compared to last.
+
+Comparing your week to others using NiceDishy:
+
+Your average download speed was {{ averageDownloadSpeedComparisonPercent }}% slower than the average seen globally.
+ Your average upload speed was {{ averageUploadSpeedComparisonPercent }}% faster than the average seen globally.
+
+The following stats are for the week ending (Sat):
+
+Fastest download speed: {{ fastestDownloadSpeed }} Mbps
+Average download speed: {{ averageDownloadSpeed }} Mbps
+Fastest time of day for downloading: {{ fastestDownloadSpeedTimeBlock }}, averaging {{ fastestDownloadSpeedTimeSpeed }} Mbps
+Slowest time of day for downloading: {{ slowestDownloadSpeedTimeBlock }}, averaging {{ slowestDownloadSpeedTimeSpeed }} Mbps
+
+Fastest upload speed: {{ fastestUploadSpeed }} Mbps
+Average upload speed: {{ averageUploadSpeed }} Mbps
+Fastest time of day for uploading: {{ fastestUploadSpeedTimeBlock }}, averaging {{ fastestUploadSpeedTimeSpeed }} Mbps
+Slowest time of day for uploading: {{ slowestUploadSpeedTimeBlock }}, averaging {{ slowestUploadSpeedTimeSpeed }} Mbps
+
+Number of reboots: unknown
+Number of firmware updates: {{ numberFirmwareUpdates }}
+
+Some things of note that we detected in your stats:
+
+Nothing to note.
+
+Of course, our data (and this report) will continue to improve with each new dishy connected to NiceDishy.
+If you know someone with a Starlink dish, ask them to join at NiceDishy.com.
+
+Thanks,
+Marc
