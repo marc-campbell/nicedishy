@@ -1222,7 +1222,7 @@ async function getDashboard(dishyId: string): Promise<any | null> {
     });
 
     return getDashboardResponse.data.dashboard;
-  } catch (err) {
+  } catch (err: any) {
     if (err.response.status === 404) {
       return null;
     }
@@ -1243,7 +1243,7 @@ async function getFolder(dishyId: string): Promise<string> {
     });
 
     return getFolderResponse.data.id;
-  } catch (err) {
+  } catch (err: any) {
     if (err.response.status === 404) {
       return "";
     }
