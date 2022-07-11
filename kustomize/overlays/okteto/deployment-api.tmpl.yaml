@@ -61,3 +61,7 @@ spec:
               value: "$NICEDISHY_RETOOL_API_PASSWORD"
             - NAME: GRAFANA_ENDPOINT
               value: http://grafana:3000
+            - NAME: WEB_INTERNAL_ENDPOINT
+              value: http://nicedishy:3000
+            - NAME: INTERNAL_AUTH_TOKEN
+              value: internal-auth-token

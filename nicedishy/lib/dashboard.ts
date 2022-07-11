@@ -1,17 +1,7 @@
 const axios = require('axios').default;
 
-export async function createDashboard(dishyId: string, name: string): Promise<string> {
-  const folderId = await createFolder(dishyId);
-  const dashboard = {
-    "uid": dishyId,
-    "title": "Default Dashboard",
-    "tags": [ "templated" ],
-    "timezone": "browser",
-    "refresh": "5s",
-    "schemaVersion": 6,
-    "version": 0,
-
-    "panels": [
+function getPanels(dishyId: string): any {
+  return [
     {
       "collapsed": false,
       "gridPos": {
@@ -1176,7 +1166,30 @@ export async function createDashboard(dishyId: string, name: string): Promise<st
       "title": "Ping Drop Rate",
       "type": "timeseries"
     }
-    ]
+  ]
+}
+
+export async function createDashboard(dishyId: string, name: string): Promise<string> {
+  let folderId = await getFolder(dishyId);
+  if (!folderId) {
+    folderId = await createFolder(dishyId);
+  }
+
+  let dashboard = await getDashboard(dishyId);
+  if (!dashboard) {
+    dashboard = {
+      "uid": dishyId,
+      "title": "Default Dashboard",
+      "tags": [ "templated" ],
+      "timezone": "browser",
+      "refresh": "5s",
+      "schemaVersion": 6,
+      "version": 0,
+
+      "panels": getPanels(dishyId),
+    }
+  } else {
+    dashboard.panels = getPanels(dishyId);
   }
 
   const requestBody = {
@@ -1196,12 +1209,57 @@ export async function createDashboard(dishyId: string, name: string): Promise<st
   return createDashboardResponse.data.uid;
 }
 
+async function getDashboard(dishyId: string): Promise<any | null> {
+  console.log(`Getting dashboard id for dishy id ${dishyId}`);
+  const url = `${process.env.GRAFANA_ENDPOINT}/api/dashboards/uid/${dishyId}`;
+
+  try {
+    const getDashboardResponse = await axios.get(url, {
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${process.env.GRAFANA_API_KEY}`,
+      },
+    });
+
+    return getDashboardResponse.data.dashboard;
+  } catch (err) {
+    if (err.response.status === 404) {
+      return null;
+    }
+
+    throw err;
+  }
+}
+
+async function getFolder(dishyId: string): Promise<string> {
+  const url = `${process.env.GRAFANA_ENDPOINT}/api/folders/f-${dishyId}`;
+
+  try {
+    const getFolderResponse = await axios.get(url, {
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${process.env.GRAFANA_API_KEY}`,
+      },
+    });
+
+    return getFolderResponse.data.id;
+  } catch (err) {
+    if (err.response.status === 404) {
+      return "";
+    }
+
+    throw err;
+  }
+}
+
 async function createFolder(dishyId: string): Promise<string> {
   const createFolderRequest = {
     "title": dishyId,
+    "uid": `f-${dishyId}`,
   };
 
   const url = `${process.env.GRAFANA_ENDPOINT}/api/folders`;
+
   const createFolderResponse = await axios.post(url, createFolderRequest, {
     headers: {
       "Content-Type": "application/json",

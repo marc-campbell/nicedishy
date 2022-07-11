@@ -1,20 +1,21 @@
 package cli
 
 import (
+	"context"
 	"log"
 
 	"github.com/getsentry/sentry-go"
+	"github.com/marc-campbell/nicedishy/pkg/dashboard"
 	"github.com/marc-campbell/nicedishy/pkg/logger"
-	"github.com/marc-campbell/nicedishy/pkg/rollup"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
 
-func ReindexCmd() *cobra.Command {
+func RebuildDashboardsCmd() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "reindex",
-		Short: "Reindex the hourly data",
-		Long:  `Reindexes all hourly data`,
+		Use:   "rebuild-dashboards",
+		Short: "Rebuilds all dashboards with the latest template",
+		Long:  `Deletes and rebuilds all grafana dashboards`,
 		PreRun: func(cmd *cobra.Command, args []string) {
 			viper.BindPFlags(cmd.Flags())
 		},
@@ -33,8 +34,7 @@ func ReindexCmd() *cobra.Command {
 				log.Fatalf("sentry.Init: %s", err)
 			}
 
-			// this is horribly inefficient, but it's a one-off script
-			if err := rollup.ReindexAll(); err != nil {
+			if err := dashboard.RebuildAllDashboards(context.Background()); err != nil {
 				return err
 			}
 

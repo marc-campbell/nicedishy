@@ -63,6 +63,27 @@ export async function deleteDishy(userId: string, id: string): Promise<void> {
   await db.query(`delete from dishy where id = $1 and user_id = $2`, [id, userId]);
 }
 
+export async function getDishyUnsafe(id: string): Promise<Dishy | undefined> {
+  const db = await getDB();
+
+  const result = await db.query(`select id, name, created_at, last_metric_at, last_geocheck_at from dishy where id = $1`, [id]);
+  if (result.rowCount === 0) {
+    return;
+  }
+
+  const row = result.rows[0];
+
+  const dishy = {
+    id: row.id,
+    name: row.name,
+    createdAt: new Date(row.created_at).toISOString(),
+    lastMetricAt: new Date(row.last_metric_at).toISOString(),
+    lastGeocheckAt: new Date(row.last_geocheck_at).toISOString(),
+  };
+
+  return dishy;
+}
+
 export async function getDishy(userId: string, id: string): Promise<Dishy | undefined> {
   const db = await getDB();
 
