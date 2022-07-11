@@ -65,3 +65,8 @@ vet:
 .PHONY: test
 test: fmt vet
 	go test ./pkg/... ./cmd/...
+
+.PHONY: e2e
+e2e: export PLAYWRIGHT_TEST_BASE_URL=https://nicedishy-marccampbell.cloud.okteto.net
+e2e:
+	npx playwright test

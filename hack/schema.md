@@ -74,6 +74,21 @@ create table dishy_data (
 );
 SELECT create_hypertable('dishy_data', 'time'); 
 
+create table dishy_data_hourly (
+  time_start timestamptz not null,
+  dishy_id text not null,
+  snr integer,
+  downlink_throughput_bps double precision,
+  uplink_throughput_bps double precision,
+  pop_ping_latency_ms double precision,
+  pop_ping_drop_rate double precision,
+  percent_obstructed double precision,
+  seconds_obstructed double precision,
+  primary key (time_start, dishy_id)
+);
+SELECT create_hypertable('dishy_data_hourly', 'time_start'); 
+
+
 create table dishy_speed (
   time timestamptz not null,
   dishy_id text not null,
@@ -85,6 +100,15 @@ create table dishy_speed (
   user_agent text
 );
 SELECT create_hypertable('dishy_speed', 'time'); 
+
+create table dishy_speed_hourly (
+  time_start timestamptz not null,
+  dishy_id text not null,
+  download_speed double precision,
+  upload_speed double precision,
+  primary key (time_start, dishy_id)
+);
+SELECT create_hypertable('dishy_speed_hourly', 'time_start'); 
 
 create table email_notification (
   id text not null primary key,

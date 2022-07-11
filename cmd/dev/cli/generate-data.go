@@ -9,6 +9,7 @@ import (
 
 	"github.com/marc-campbell/nicedishy/pkg/logger"
 	"github.com/marc-campbell/nicedishy/pkg/persistence"
+	"github.com/marc-campbell/nicedishy/pkg/rollup"
 	"github.com/marc-campbell/nicedishy/pkg/stores"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -194,6 +195,10 @@ func writeData(when time.Time, id string) error {
 		return err
 	}
 
+	if err := rollup.ReindexDataHourly(context.Background(), id, when); err != nil {
+		return err
+	}
+
 	return nil
 }
 
@@ -229,6 +234,10 @@ func writeSpeed(when time.Time, id string) error {
 		hardwareVersion,
 		"NiceDishy/Generate/1.0")
 	if err != nil {
+		return err
+	}
+
+	if err := rollup.ReindexSpeedHourly(context.Background(), id, when); err != nil {
 		return err
 	}
 

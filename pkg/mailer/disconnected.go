@@ -46,7 +46,8 @@ func QueueDisconnectedDeviceEmails() {
 			var lastMetricAt time.Time
 			if err := row.Scan(&email, &dishyName, &lastMetricAt); err != nil {
 				logger.Error(err)
-				panic(err)
+				continue
+				// panic(err)
 			}
 
 			model := map[string]interface{}{
