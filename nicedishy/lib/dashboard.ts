@@ -646,105 +646,105 @@ export async function createDashboard(dishyId: string, name: string): Promise<st
     },
     {
       "fieldConfig": {
-      "defaults": {
-        "color": {
-        "mode": "palette-classic"
-        },
-        "custom": {
-        "axisLabel": "",
-        "axisPlacement": "auto",
-        "barAlignment": 0,
-        "drawStyle": "line",
-        "fillOpacity": 0,
-        "gradientMode": "none",
-        "hideFrom": {
-          "legend": false,
-          "tooltip": false,
-          "viz": false
-        },
-        "lineInterpolation": "linear",
-        "lineWidth": 1,
-        "pointSize": 5,
-        "scaleDistribution": {
-          "type": "linear"
-        },
-        "showPoints": "auto",
-        "spanNulls": false,
-        "stacking": {
-          "group": "A",
-          "mode": "none"
-        },
-        "thresholdsStyle": {
-          "mode": "off"
-        }
-        },
-        "mappings": [],
-        "thresholds": {
-        "mode": "absolute",
-        "steps": [
-          {
-          "color": "green",
-          "value": null
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
           },
-          {
-          "color": "red",
-          "value": 80
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "smooth",
+            "lineWidth": 3,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
           }
-        ]
-        }
-      },
-      "overrides": []
+        },
+        "overrides": []
       },
       "gridPos": {
-      "h": 8,
-      "w": 10,
-      "x": 0,
-      "y": 17
+        "h": 8,
+        "w": 10,
+        "x": 0,
+        "y": 17
       },
       "id": 14,
       "options": {
-      "legend": {
-        "calcs": [],
-        "displayMode": "list",
-        "placement": "bottom"
-      },
-      "tooltip": {
-        "mode": "single"
-      }
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "single"
+        }
       },
       "targets": [
-      {
-        "datasource": {
-        "type": "postgres",
-        "uid": `${process.env.GRAFANA_DATASOURCE_UID}`
-        },
-        "format": "time_series",
-        "group": [],
-        "metricColumn": "none",
-        "rawQuery": false,
-        "rawSql": `SELECT\n  \"time\" AS \"time\",\n  pop_ping_latency_ms\nFROM dishy_data\nWHERE\n  $__timeFilter(\"time\") and dishy_id='${dishyId}' \nORDER BY 1`,
-        "refId": "A",
-        "select": [
-        [
-          {
-          "params": [
-            "pop_ping_latency_ms"
-          ],
-          "type": "column"
-          }
-        ]
-        ],
-        "table": "dishy_data",
-        "timeColumn": "\"time\"",
-        "timeColumnType": "timestamp",
-        "where": [
         {
-          "name": "$__timeFilter",
-          "params": [],
-          "type": "macro"
+          "datasource": {
+            "type": "postgres",
+            "uid": "ybmyTGxnz"
+          },
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": false,
+          "rawSql": "SELECT\n  time_start AS \"time\",\n  pop_ping_latency_ms\nFROM dishy_data_hourly\nWHERE\n  $__timeFilter(time_start)\nORDER BY 1",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "pop_ping_latency_ms"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "dishy_data_hourly",
+          "timeColumn": "time_start",
+          "timeColumnType": "timestamptz",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
         }
-        ]
-      }
       ],
       "title": "Average Latency",
       "type": "timeseries"

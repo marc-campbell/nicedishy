@@ -146,7 +146,7 @@ values
 	}
 
 	// update hourly rollups
-	if err := rollup.ReindexHourly(context.Background(), d.ID, when); err != nil {
+	if err := rollup.ReindexSpeedHourly(context.Background(), d.ID, when); err != nil {
 		logger.Error(err)
 		response.Error = err.Error()
 		JSON(w, http.StatusInternalServerError, response)

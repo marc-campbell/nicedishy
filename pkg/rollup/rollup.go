@@ -42,7 +42,11 @@ func ReindexAll() error {
 
 		for min.Before(max) {
 			fmt.Printf("reindexing %s from %s to %s\n", dishyID, min, min.Add(time.Hour))
-			if err := ReindexHourly(context.Background(), dishyID, min); err != nil {
+			if err := ReindexSpeedHourly(context.Background(), dishyID, min); err != nil {
+				return fmt.Errorf("error reindexing hourly: %v", err)
+			}
+
+			if err := ReindexDataHourly(context.Background(), dishyID, min); err != nil {
 				return fmt.Errorf("error reindexing hourly: %v", err)
 			}
 
@@ -55,7 +59,81 @@ func ReindexAll() error {
 	return nil
 }
 
-func ReindexHourly(ctx context.Context, dishyID string, when time.Time) error {
+func ReindexDataHourly(ctx context.Context, dishyID string, when time.Time) error {
+	pg := persistence.MustGetPGSession()
+
+	startHour := when.Truncate(time.Hour)
+	endHour := startHour.Add(time.Hour)
+
+	query := `select snr, downlink_throughput_bps, uplink_throughput_bps,
+pop_ping_latency_ms, pop_ping_drop_rate, percent_obstructed, seconds_obstructed
+from dishy_data where time >= $1 and time < $2 and dishy_id = $3`
+	rows, err := pg.Query(ctx, query, startHour, endHour, dishyID)
+	if err != nil {
+		return fmt.Errorf("error querying for dishy speed: %v", err)
+	}
+	defer rows.Close()
+
+	metricCount := 0
+	totalSNR := 0
+	totalDownlinkThroughput := float64(0)
+	totalUplinkThroughput := float64(0)
+	totalPopPingLatency := float64(0)
+	totalPopPingDropRate := float64(0)
+	totalPercentObstructed := float64(0)
+	totalSecondsObstructed := float64(0)
+
+	for rows.Next() {
+		var snr int
+		var downlinkThroughputBPS float64
+		var uplinkThroughputBPS float64
+		var popPingLatencyMS float64
+		var popPingDropRate float64
+		var percentObstructed float64
+		var secondsObstructed float64
+
+		err := rows.Scan(&snr, &downlinkThroughputBPS, &uplinkThroughputBPS, &popPingLatencyMS, &popPingDropRate, &percentObstructed, &secondsObstructed)
+		if err != nil {
+			return fmt.Errorf("error scanning for dishy data: %v", err)
+		}
+
+		totalSNR += snr
+		totalDownlinkThroughput += downlinkThroughputBPS
+		totalUplinkThroughput += uplinkThroughputBPS
+		totalPopPingLatency += popPingLatencyMS
+		totalPopPingDropRate += popPingDropRate
+		totalPercentObstructed += percentObstructed
+		totalSecondsObstructed += secondsObstructed
+
+		metricCount++
+	}
+
+	if metricCount == 0 {
+		return nil
+	}
+
+	avgSNR := float64(totalSNR) / float64(metricCount)
+	avgDownlinkThroughput := totalDownlinkThroughput / float64(metricCount)
+	avgUplinkThroughput := totalUplinkThroughput / float64(metricCount)
+	avgPopPingLatency := totalPopPingLatency / float64(metricCount)
+	avgPopPingDropRate := totalPopPingDropRate / float64(metricCount)
+	avgPercentObstructed := totalPercentObstructed / float64(metricCount)
+	avgSecondsObstructed := totalSecondsObstructed / float64(metricCount)
+
+	query = `insert into dishy_data_hourly (time_start, dishy_id, snr, downlink_throughput_bps, uplink_throughput_bps, pop_ping_latency_ms, pop_ping_drop_rate, percent_obstructed, seconds_obstructed)
+values ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+on conflict (time_start, dishy_id) do update set
+snr = $3, downlink_throughput_bps = $4, uplink_throughput_bps = $5, pop_ping_latency_ms = $6, pop_ping_drop_rate = $7, percent_obstructed = $8, seconds_obstructed = $9`
+
+	_, err = pg.Exec(ctx, query, startHour, dishyID, avgSNR, avgDownlinkThroughput, avgUplinkThroughput, avgPopPingLatency, avgPopPingDropRate, avgPercentObstructed, avgSecondsObstructed)
+	if err != nil {
+		return fmt.Errorf("error inserting dishy data hourly: %v", err)
+	}
+
+	return nil
+}
+
+func ReindexSpeedHourly(ctx context.Context, dishyID string, when time.Time) error {
 	pg := persistence.MustGetPGSession()
 
 	startHour := when.Truncate(time.Hour)

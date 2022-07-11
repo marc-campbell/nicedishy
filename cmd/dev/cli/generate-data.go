@@ -195,6 +195,10 @@ func writeData(when time.Time, id string) error {
 		return err
 	}
 
+	if err := rollup.ReindexDataHourly(context.Background(), id, when); err != nil {
+		return err
+	}
+
 	return nil
 }
 
@@ -233,7 +237,7 @@ func writeSpeed(when time.Time, id string) error {
 		return err
 	}
 
-	if err := rollup.ReindexHourly(context.Background(), id, when); err != nil {
+	if err := rollup.ReindexSpeedHourly(context.Background(), id, when); err != nil {
 		return err
 	}
 
