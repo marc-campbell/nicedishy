@@ -86,6 +86,15 @@ create table dishy_speed (
 );
 SELECT create_hypertable('dishy_speed', 'time'); 
 
+create table dishy_speed_hourly (
+  time_start timestamptz not null,
+  dishy_id text not null,
+  download_speed double precision,
+  upload_speed double precision,
+  primary key (time_start, dishy_id)
+);
+SELECT create_hypertable('dishy_speed_hourly', 'time_start'); 
+
 create table email_notification (
   id text not null primary key,
   queued_at timestamptz not null,

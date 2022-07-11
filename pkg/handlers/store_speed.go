@@ -13,6 +13,7 @@ import (
 	"github.com/marc-campbell/nicedishy/pkg/dishy"
 	"github.com/marc-campbell/nicedishy/pkg/logger"
 	"github.com/marc-campbell/nicedishy/pkg/persistence"
+	"github.com/marc-campbell/nicedishy/pkg/rollup"
 	"github.com/marc-campbell/nicedishy/pkg/stores"
 	"go.uber.org/zap"
 )
@@ -138,6 +139,14 @@ values
 	}
 
 	if err := stores.GetStore().SetDishyLastReceivedStats(context.Background(), d.ID, when); err != nil {
+		logger.Error(err)
+		response.Error = err.Error()
+		JSON(w, http.StatusInternalServerError, response)
+		return
+	}
+
+	// update hourly rollups
+	if err := rollup.ReindexHourly(context.Background(), d.ID, when); err != nil {
 		logger.Error(err)
 		response.Error = err.Error()
 		JSON(w, http.StatusInternalServerError, response)

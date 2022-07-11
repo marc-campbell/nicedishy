@@ -98,38 +98,38 @@ export async function createDashboard(dishyId: string, name: string): Promise<st
       }
       },
       "targets": [
-      {
-        "datasource": {
-        "type": "postgres",
-        "uid": `${process.env.GRAFANA_DATASOURCE_UID}`
-        },
-        "format": "time_series",
-        "group": [],
-        "metricColumn": "none",
-        "rawQuery": false,
-        "rawSql": `SELECT\n  \"time\" AS \"time\",\n avg(upload_speed) over(order by time rows between 9 preceding and current row) as upload_speed \nFROM dishy_speed\nWHERE\n  $__timeFilter(\"time\") and dishy_id='${dishyId}' \nORDER BY 1`,
-        "refId": "A",
-        "select": [
-        [
-          {
-          "params": [
-            "upload_speed"
-          ],
-          "type": "column"
-          }
-        ]
-        ],
-        "table": "dishy_speed",
-        "timeColumn": "\"time\"",
-        "timeColumnType": "timestamptz",
-        "where": [
         {
-          "name": "$__timeFilter",
-          "params": [],
-          "type": "macro"
+          "datasource": {
+            "type": "postgres",
+            "uid": "ybmyTGxnz"
+          },
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": false,
+          "rawSql": "SELECT\n  time_start AS \"time\",\n  upload_speed\nFROM dishy_speed_hourly\nWHERE\n  $__timeFilter(time_start)\nORDER BY 1",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "upload_speed"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "dishy_speed_hourly",
+          "timeColumn": "time_start",
+          "timeColumnType": "timestamptz",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
         }
-        ]
-      }
       ],
       "title": "Average Upload Speed",
       "type": "timeseries"
@@ -400,38 +400,38 @@ export async function createDashboard(dishyId: string, name: string): Promise<st
       }
       },
       "targets": [
-      {
-        "datasource": {
-        "type": "postgres",
-        "uid": `${process.env.GRAFANA_DATASOURCE_UID}`
-        },
-        "format": "time_series",
-        "group": [],
-        "metricColumn": "none",
-        "rawQuery": false,
-        "rawSql": `SELECT\n  \"time\" AS \"time\",\n  avg(download_speed) over(order by time rows between 9 preceding and current row) as download_speed\nFROM dishy_speed\nWHERE\n  $__timeFilter(\"time\") and dishy_id='${dishyId}' \nORDER BY 1`,
-        "refId": "A",
-        "select": [
-        [
-          {
-          "params": [
-            "download_speed"
-          ],
-          "type": "column"
-          }
-        ]
-        ],
-        "table": "dishy_speed",
-        "timeColumn": "\"time\"",
-        "timeColumnType": "timestamptz",
-        "where": [
         {
-          "name": "$__timeFilter",
-          "params": [],
-          "type": "macro"
+          "datasource": {
+            "type": "postgres",
+            "uid": "ybmyTGxnz"
+          },
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": false,
+          "rawSql": "SELECT\n  time_start AS \"time\",\n  download_speed\nFROM dishy_speed_hourly\nWHERE\n  $__timeFilter(time_start)\nORDER BY 1",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "download_speed"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "dishy_speed_hourly",
+          "timeColumn": "time_start",
+          "timeColumnType": "timestamptz",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
         }
-        ]
-      }
       ],
       "title": "Average Download Speed",
       "type": "timeseries"

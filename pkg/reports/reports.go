@@ -189,13 +189,6 @@ where d.id = $1`
 		return fmt.Errorf("error getting email address: %v", err)
 	}
 
-	query = `update dishy_report_weekly set report_context = $1, is_generating = false where dishy_id = $2`
-
-	_, err := metricsDB.Exec(ctx, query, reportContext, dishyID)
-	if err != nil {
-		return fmt.Errorf("error updating weekly report: %v", err)
-	}
-
 	model, err := json.Marshal(reportContext)
 	if err != nil {
 		return fmt.Errorf("marshal reportContext: %v", err)
@@ -203,6 +196,13 @@ where d.id = $1`
 	marsheledModel := map[string]interface{}{}
 	if err := json.Unmarshal(model, &marsheledModel); err != nil {
 		return fmt.Errorf("unmarshal reportContext: %v", err)
+	}
+
+	query = `update dishy_report_weekly set report_context = $1, is_generating = false where dishy_id = $2`
+
+	_, err = metricsDB.Exec(ctx, query, marsheledModel, dishyID)
+	if err != nil {
+		return fmt.Errorf("error updating weekly report: %v", err)
 	}
 
 	if _, err := stores.GetStore().QueueEmail(ctx, "notifications@nicedishy.com", emailAddress, mailer.WeeklyReportTemplateID, marsheledModel); err != nil {
