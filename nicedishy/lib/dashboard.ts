@@ -91,7 +91,7 @@ function getPanels(dishyId: string): any {
         {
           "datasource": {
             "type": "postgres",
-            "uid": "ybmyTGxnz"
+            "uid": `${process.env.GRAFANA_DATASOURCE_UID}`
           },
           "format": "time_series",
           "group": [],
@@ -393,7 +393,7 @@ function getPanels(dishyId: string): any {
         {
           "datasource": {
             "type": "postgres",
-            "uid": "ybmyTGxnz"
+            "uid": `${process.env.GRAFANA_DATASOURCE_UID}`
           },
           "format": "time_series",
           "group": [],
@@ -706,7 +706,7 @@ function getPanels(dishyId: string): any {
         {
           "datasource": {
             "type": "postgres",
-            "uid": "ybmyTGxnz"
+            "uid": `${process.env.GRAFANA_DATASOURCE_UID}`
           },
           "format": "time_series",
           "group": [],
