@@ -200,7 +200,14 @@ values
 		JSON(w, http.StatusInternalServerError, storeDataResponse)
 		return
 	}
-	if err := rollup.ReindexDataDaily(context.Background(), d.ID, when); err != nil {
+	dailyStart, err := dishy.GetDayStart(context.Background(), timezoneOffset, when)
+	if err != nil {
+		logger.Error(err)
+		storeDataResponse.Error = err.Error()
+		JSON(w, http.StatusInternalServerError, storeDataResponse)
+		return
+	}
+	if err := rollup.ReindexDataDaily(context.Background(), d.ID, *dailyStart); err != nil {
 		logger.Error(err)
 		storeDataResponse.Error = err.Error()
 		JSON(w, http.StatusInternalServerError, storeDataResponse)

@@ -45,27 +45,33 @@ func ReindexAll() error {
 		}
 
 		// hourly
+		// fmt.Printf("...hourly\n")
 		max := time.Now()
-		for min.Before(max) {
-			fmt.Printf("reindexing hourly %s from %s to %s\n", dishyWithTimeZoneOffset.DishyID, min, min.Add(time.Hour))
-			if err := ReindexSpeedHourly(context.Background(), dishyWithTimeZoneOffset.DishyID, min); err != nil {
-				return fmt.Errorf("error reindexing hourly: %v", err)
-			}
-			if err := ReindexDataHourly(context.Background(), dishyWithTimeZoneOffset.DishyID, min); err != nil {
-				return fmt.Errorf("error reindexing hourly: %v", err)
-			}
+		// for min.Before(max) {
+		// 	if err := ReindexSpeedHourly(context.Background(), dishyWithTimeZoneOffset.DishyID, min); err != nil {
+		// 		return fmt.Errorf("error reindexing hourly: %v", err)
+		// 	}
+		// 	if err := ReindexDataHourly(context.Background(), dishyWithTimeZoneOffset.DishyID, min); err != nil {
+		// 		return fmt.Errorf("error reindexing hourly: %v", err)
+		// 	}
 
-			min = min.Add(time.Hour)
-		}
+		// 	min = min.Add(time.Hour)
+		// }
 
 		// daily
-		dayMin, err := dishy.GetDayStart(context.Background(), dishyWithTimeZoneOffset.TimeZoneOffset, time.Now())
+		fmt.Printf("...daily\n")
+		min, err = time.Parse(time.RFC3339, "2022-01-01T00:01:00Z")
+		if err != nil {
+			return fmt.Errorf("error parsing start time: %v", err)
+		}
+
+		dayMin, err := dishy.GetDayStart(context.Background(), dishyWithTimeZoneOffset.TimeZoneOffset, min)
 		if err != nil {
 			return fmt.Errorf("error getting day start: %v", err)
 		}
+		fmt.Printf("...day min: %s\n", dayMin.Format(time.RFC3339))
 		min = *dayMin
 		for min.Before(max) {
-			fmt.Printf("reindexing daily %s from %s to %s\n", dishyWithTimeZoneOffset.DishyID, min.Truncate(time.Hour), min.Add(24*time.Hour))
 			if err := ReindexSpeedDaily(context.Background(), dishyWithTimeZoneOffset.DishyID, min); err != nil {
 				return fmt.Errorf("error reindexing daily: %v", err)
 			}
@@ -77,22 +83,26 @@ func ReindexAll() error {
 		}
 
 		// four hour
-		fourHourMin, err := dishy.GetFourHourStart(context.Background(), dishyWithTimeZoneOffset.TimeZoneOffset, time.Now())
-		if err != nil {
-			return fmt.Errorf("error getting four hour start: %v", err)
-		}
-		min = *fourHourMin
-		for min.Before(max) {
-			fmt.Printf("reindexing four hour %s from %s to %s\n", dishyWithTimeZoneOffset.DishyID, min, min.Add(4*time.Hour))
-			if err := ReindexSpeedFourHour(context.Background(), dishyWithTimeZoneOffset.DishyID, min); err != nil {
-				return fmt.Errorf("error reindexing four hour: %v", err)
-			}
-			if err := ReindexDataFourHour(context.Background(), dishyWithTimeZoneOffset.DishyID, min); err != nil {
-				return fmt.Errorf("error reindexing hour hour: %v", err)
-			}
+		// fmt.Printf("...four hour\n")
+		// min, err = time.Parse(time.RFC3339, "2022-01-01T00:01:00Z")
+		// if err != nil {
+		// 	return fmt.Errorf("error parsing start time: %v", err)
+		// }
+		// fourHourMin, err := dishy.GetFourHourStart(context.Background(), dishyWithTimeZoneOffset.TimeZoneOffset, min)
+		// if err != nil {
+		// 	return fmt.Errorf("error getting four hour start: %v", err)
+		// }
+		// min = *fourHourMin
+		// for min.Before(max) {
+		// 	if err := ReindexSpeedFourHour(context.Background(), dishyWithTimeZoneOffset.DishyID, min); err != nil {
+		// 		return fmt.Errorf("error reindexing four hour: %v", err)
+		// 	}
+		// 	if err := ReindexDataFourHour(context.Background(), dishyWithTimeZoneOffset.DishyID, min); err != nil {
+		// 		return fmt.Errorf("error reindexing hour hour: %v", err)
+		// 	}
 
-			min = min.Add(time.Hour * 4)
-		}
+		// 	min = min.Add(time.Hour * 4)
+		// }
 
 	}
 
