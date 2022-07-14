@@ -110,6 +110,53 @@ create table dishy_speed_hourly (
 );
 SELECT create_hypertable('dishy_speed_hourly', 'time_start'); 
 
+create table dishy_speed_fourhour (
+  time_start timestamptz not null,
+  dishy_id text not null,
+  download_speed double precision,
+  upload_speed double precision,
+  primary key (time_start, dishy_id)
+);
+SELECT create_hypertable('dishy_speed_fourhour', 'time_start'); 
+
+create table dishy_data_fourhour (
+  time_start timestamptz not null,
+  dishy_id text not null,
+  snr integer,
+  downlink_throughput_bps double precision,
+  uplink_throughput_bps double precision,
+  pop_ping_latency_ms double precision,
+  pop_ping_drop_rate double precision,
+  percent_obstructed double precision,
+  seconds_obstructed double precision,
+  primary key (time_start, dishy_id)
+);
+SELECT create_hypertable('dishy_data_fourhour', 'time_start'); 
+
+create table dishy_speed_daily (
+  time_start timestamptz not null,
+  dishy_id text not null,
+  download_speed double precision,
+  upload_speed double precision,
+  primary key (time_start, dishy_id)
+);
+SELECT create_hypertable('dishy_speed_daily', 'time_start'); 
+
+create table dishy_data_daily (
+  time_start timestamptz not null,
+  dishy_id text not null,
+  snr integer,
+  downlink_throughput_bps double precision,
+  uplink_throughput_bps double precision,
+  pop_ping_latency_ms double precision,
+  pop_ping_drop_rate double precision,
+  percent_obstructed double precision,
+  seconds_obstructed double precision,
+  primary key (time_start, dishy_id)
+);
+SELECT create_hypertable('dishy_data_daily', 'time_start'); 
+
+
 create table email_notification (
   id text not null primary key,
   queued_at timestamptz not null,
@@ -134,3 +181,32 @@ create table dishy_report_weekly (
   is_generating boolean not null,
   primary key (dishy_id, week_start)
 );
+
+
+
+
+CREATE OR REPLACE FUNCTION download_speed(IN id TEXT)
+RETURNS table (
+    time_start timestamptz, 
+    download_speed double precision
+)
+LANGUAGE plpgsql
+AS $$
+DECLARE 
+    tabname varchar;
+BEGIN
+    tabname := 'dishy_speed_hourly';
+    return query EXECUTE '
+        select 
+            time_start, 
+            download_speed 
+        from '
+        || quote_ident(tabname) 
+        || ' where dishy_id = $1'
+        || ' order by time_start desc limit 10;'
+        using id;
+END;
+$$;
+
+
+select * from download_speed('rVe0QHfn7N6NM-XbuSItiU5v2bklb3-WJHwb');

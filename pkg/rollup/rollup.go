@@ -5,177 +5,95 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/marc-campbell/nicedishy/pkg/dishy"
 	"github.com/marc-campbell/nicedishy/pkg/logger"
 	"github.com/marc-campbell/nicedishy/pkg/persistence"
 )
 
+type DishyWithTimeZoneOffset struct {
+	DishyID        string
+	TimeZoneOffset int
+}
+
 func ReindexAll() error {
 	pg := persistence.MustGetPGSession()
 
-	query := `select id from dishy`
+	query := `select d.id, g.timezone_offset from dishy d inner join dishy_geo g on d.id = g.id`
 	rows, err := pg.Query(context.Background(), query)
 	if err != nil {
 		return fmt.Errorf("error querying for dishy: %v", err)
 	}
 	defer rows.Close()
 
-	dishyIDs := []string{}
+	dishiesWithTimeZoneOffset := []DishyWithTimeZoneOffset{}
 	for rows.Next() {
-		var dishyID string
-		err := rows.Scan(&dishyID)
+		dishyWithTimeZoneOffset := DishyWithTimeZoneOffset{}
+		err := rows.Scan(&dishyWithTimeZoneOffset.DishyID, &dishyWithTimeZoneOffset.TimeZoneOffset)
 		if err != nil {
 			return fmt.Errorf("error scanning for dishy: %v", err)
 		}
 
-		dishyIDs = append(dishyIDs, dishyID)
+		dishiesWithTimeZoneOffset = append(dishiesWithTimeZoneOffset, dishyWithTimeZoneOffset)
 	}
 	rows.Close()
 
-	for _, dishyID := range dishyIDs {
-		logger.Infof("reindexing dishy %s", dishyID)
+	for _, dishyWithTimeZoneOffset := range dishiesWithTimeZoneOffset {
+		logger.Infof("reindexing dishy %s", dishyWithTimeZoneOffset.DishyID)
 		min, err := time.Parse(time.RFC3339, "2022-01-01T00:01:00Z")
 		if err != nil {
 			return fmt.Errorf("error parsing start time: %v", err)
 		}
 
+		// hourly
 		max := time.Now()
-
 		for min.Before(max) {
-			fmt.Printf("reindexing %s from %s to %s\n", dishyID, min, min.Add(time.Hour))
-			if err := ReindexSpeedHourly(context.Background(), dishyID, min); err != nil {
+			fmt.Printf("reindexing hourly %s from %s to %s\n", dishyWithTimeZoneOffset.DishyID, min, min.Add(time.Hour))
+			if err := ReindexSpeedHourly(context.Background(), dishyWithTimeZoneOffset.DishyID, min); err != nil {
 				return fmt.Errorf("error reindexing hourly: %v", err)
 			}
-
-			if err := ReindexDataHourly(context.Background(), dishyID, min); err != nil {
+			if err := ReindexDataHourly(context.Background(), dishyWithTimeZoneOffset.DishyID, min); err != nil {
 				return fmt.Errorf("error reindexing hourly: %v", err)
 			}
 
 			min = min.Add(time.Hour)
-
 		}
 
-	}
-
-	return nil
-}
-
-func ReindexDataHourly(ctx context.Context, dishyID string, when time.Time) error {
-	pg := persistence.MustGetPGSession()
-
-	startHour := when.Truncate(time.Hour)
-	endHour := startHour.Add(time.Hour)
-
-	query := `select snr, downlink_throughput_bps, uplink_throughput_bps,
-pop_ping_latency_ms, pop_ping_drop_rate, percent_obstructed, seconds_obstructed
-from dishy_data where time >= $1 and time < $2 and dishy_id = $3`
-	rows, err := pg.Query(ctx, query, startHour, endHour, dishyID)
-	if err != nil {
-		return fmt.Errorf("error querying for dishy speed: %v", err)
-	}
-	defer rows.Close()
-
-	metricCount := 0
-	totalSNR := 0
-	totalDownlinkThroughput := float64(0)
-	totalUplinkThroughput := float64(0)
-	totalPopPingLatency := float64(0)
-	totalPopPingDropRate := float64(0)
-	totalPercentObstructed := float64(0)
-	totalSecondsObstructed := float64(0)
-
-	for rows.Next() {
-		var snr int
-		var downlinkThroughputBPS float64
-		var uplinkThroughputBPS float64
-		var popPingLatencyMS float64
-		var popPingDropRate float64
-		var percentObstructed float64
-		var secondsObstructed float64
-
-		err := rows.Scan(&snr, &downlinkThroughputBPS, &uplinkThroughputBPS, &popPingLatencyMS, &popPingDropRate, &percentObstructed, &secondsObstructed)
+		// daily
+		dayMin, err := dishy.GetDayStart(context.Background(), dishyWithTimeZoneOffset.TimeZoneOffset, time.Now())
 		if err != nil {
-			return fmt.Errorf("error scanning for dishy data: %v", err)
+			return fmt.Errorf("error getting day start: %v", err)
+		}
+		min = *dayMin
+		for min.Before(max) {
+			fmt.Printf("reindexing daily %s from %s to %s\n", dishyWithTimeZoneOffset.DishyID, min.Truncate(time.Hour), min.Add(24*time.Hour))
+			if err := ReindexSpeedDaily(context.Background(), dishyWithTimeZoneOffset.DishyID, min); err != nil {
+				return fmt.Errorf("error reindexing daily: %v", err)
+			}
+			if err := ReindexDataDaily(context.Background(), dishyWithTimeZoneOffset.DishyID, min); err != nil {
+				return fmt.Errorf("error reindexing daily: %v", err)
+			}
+
+			min = min.Add(time.Hour * 24)
 		}
 
-		totalSNR += snr
-		totalDownlinkThroughput += downlinkThroughputBPS
-		totalUplinkThroughput += uplinkThroughputBPS
-		totalPopPingLatency += popPingLatencyMS
-		totalPopPingDropRate += popPingDropRate
-		totalPercentObstructed += percentObstructed
-		totalSecondsObstructed += secondsObstructed
-
-		metricCount++
-	}
-
-	if metricCount == 0 {
-		return nil
-	}
-
-	avgSNR := float64(totalSNR) / float64(metricCount)
-	avgDownlinkThroughput := totalDownlinkThroughput / float64(metricCount)
-	avgUplinkThroughput := totalUplinkThroughput / float64(metricCount)
-	avgPopPingLatency := totalPopPingLatency / float64(metricCount)
-	avgPopPingDropRate := totalPopPingDropRate / float64(metricCount)
-	avgPercentObstructed := totalPercentObstructed / float64(metricCount)
-	avgSecondsObstructed := totalSecondsObstructed / float64(metricCount)
-
-	query = `insert into dishy_data_hourly (time_start, dishy_id, snr, downlink_throughput_bps, uplink_throughput_bps, pop_ping_latency_ms, pop_ping_drop_rate, percent_obstructed, seconds_obstructed)
-values ($1, $2, $3, $4, $5, $6, $7, $8, $9)
-on conflict (time_start, dishy_id) do update set
-snr = $3, downlink_throughput_bps = $4, uplink_throughput_bps = $5, pop_ping_latency_ms = $6, pop_ping_drop_rate = $7, percent_obstructed = $8, seconds_obstructed = $9`
-
-	_, err = pg.Exec(ctx, query, startHour, dishyID, avgSNR, avgDownlinkThroughput, avgUplinkThroughput, avgPopPingLatency, avgPopPingDropRate, avgPercentObstructed, avgSecondsObstructed)
-	if err != nil {
-		return fmt.Errorf("error inserting dishy data hourly: %v", err)
-	}
-
-	return nil
-}
-
-func ReindexSpeedHourly(ctx context.Context, dishyID string, when time.Time) error {
-	pg := persistence.MustGetPGSession()
-
-	startHour := when.Truncate(time.Hour)
-	endHour := startHour.Add(time.Hour)
-
-	query := `select download_speed, upload_speed from dishy_speed where time >= $1 and time < $2 and dishy_id = $3`
-	rows, err := pg.Query(ctx, query, startHour, endHour, dishyID)
-	if err != nil {
-		return fmt.Errorf("error querying for dishy speed: %v", err)
-	}
-	defer rows.Close()
-
-	metricCount := 0
-	totalDownloadSpeed := float64(0)
-	totalUploadSpeed := float64(0)
-
-	for rows.Next() {
-		var downloadSpeed float64
-		var uploadSpeed float64
-		err := rows.Scan(&downloadSpeed, &uploadSpeed)
+		// four hour
+		fourHourMin, err := dishy.GetFourHourStart(context.Background(), dishyWithTimeZoneOffset.TimeZoneOffset, time.Now())
 		if err != nil {
-			return fmt.Errorf("error scanning for dishy speed: %v", err)
+			return fmt.Errorf("error getting four hour start: %v", err)
+		}
+		min = *fourHourMin
+		for min.Before(max) {
+			fmt.Printf("reindexing four hour %s from %s to %s\n", dishyWithTimeZoneOffset.DishyID, min, min.Add(4*time.Hour))
+			if err := ReindexSpeedFourHour(context.Background(), dishyWithTimeZoneOffset.DishyID, min); err != nil {
+				return fmt.Errorf("error reindexing four hour: %v", err)
+			}
+			if err := ReindexDataFourHour(context.Background(), dishyWithTimeZoneOffset.DishyID, min); err != nil {
+				return fmt.Errorf("error reindexing hour hour: %v", err)
+			}
+
+			min = min.Add(time.Hour * 4)
 		}
 
-		metricCount++
-		totalDownloadSpeed += downloadSpeed
-		totalUploadSpeed += uploadSpeed
-	}
-
-	if metricCount == 0 {
-		return nil
-	}
-
-	averageDownloadSpeed := totalDownloadSpeed / float64(metricCount)
-	averageUploadSpeed := totalUploadSpeed / float64(metricCount)
-
-	query = `insert into dishy_speed_hourly (time_start, dishy_id, download_speed, upload_speed) values ($1, $2, $3, $4)
-on conflict (time_start, dishy_id) do update set download_speed = $3, upload_speed = $4`
-
-	_, err = pg.Exec(ctx, query, startHour, dishyID, averageDownloadSpeed, averageUploadSpeed)
-	if err != nil {
-		return fmt.Errorf("error inserting dishy speed: %v", err)
 	}
 
 	return nil

@@ -49,6 +49,7 @@ type Store interface {
 	GetDishy(ctx context.Context, id string) (*dishytypes.Dishy, error)
 	SetDishyLastReceivedStats(ctx context.Context, id string, when time.Time) error
 	UpdateDishyGeo(ctx context.Context, id string, when time.Time, geo *dishytypes.GeoCheck) error
+	GetDishyTimezoneOffset(ctx context.Context, id string) (int, error)
 
 	// stats
 	GetConnectedDishyCount(ctx context.Context) (int, error)

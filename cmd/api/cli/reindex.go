@@ -13,8 +13,8 @@ import (
 func ReindexCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "reindex",
-		Short: "Reindex the hourly data",
-		Long:  `Reindexes all hourly data`,
+		Short: "Reindex the rollup data",
+		Long:  `Reindexes all rollup data`,
 		PreRun: func(cmd *cobra.Command, args []string) {
 			viper.BindPFlags(cmd.Flags())
 		},

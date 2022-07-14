@@ -243,5 +243,79 @@ func generateWeeklyReportContext(ctx context.Context, dishyID string, start time
 		End:   end,
 	}
 
+	averageDownloadSpeedPercentChange, err := getAverageDownloadSpeedPercentChange(ctx, dishyID, start, end)
+	if err != nil {
+		return nil, fmt.Errorf("error getting average download speed percent change: %v", err)
+	}
+	weeklyReportContext.AverageDownloadSpeedPercentChange = averageDownloadSpeedPercentChange
+
+	averageUploadSpeedPercentChange, err := getAverageUploadSpeedPercentChange(ctx, dishyID, start, end)
+	if err != nil {
+		return nil, fmt.Errorf("error getting average upload speed percent change: %v", err)
+	}
+	weeklyReportContext.AverageUploadSpeedPercentChange = averageUploadSpeedPercentChange
+
+	// TODO
+	weeklyReportContext.AverageDownloadSpeedComparisonPercent = 0
+
+	// TODO
+	weeklyReportContext.AverageUploadSpeedComparisonPercent = 0
+
+	fastestDownloadSpeed, err := getFastestDownloadSpeed(ctx, dishyID, start, end)
+	if err != nil {
+		return nil, fmt.Errorf("error getting fastest download speed: %v", err)
+	}
+	weeklyReportContext.FastestDownloadSpeed = fastestDownloadSpeed
+
+	fastestUploadSpeed, err := getFastestUploadSpeed(ctx, dishyID, start, end)
+	if err != nil {
+		return nil, fmt.Errorf("error getting fastest upload speed: %v", err)
+	}
+	weeklyReportContext.FastestUploadSpeed = fastestUploadSpeed
+
+	averageDownloadSpeed, err := getAverageDownloadSpeed(ctx, dishyID, start, end)
+	if err != nil {
+		return nil, fmt.Errorf("error getting average download speed: %v", err)
+	}
+	weeklyReportContext.AverageDownloadSpeed = averageDownloadSpeed
+
+	averageUploadSpeed, err := getAverageUploadSpeed(ctx, dishyID, start, end)
+	if err != nil {
+		return nil, fmt.Errorf("error getting average upload speed: %v", err)
+	}
+	weeklyReportContext.AverageUploadSpeed = averageUploadSpeed
+
+	fastestDownloadSpeedStart, fastestDownloadSpeedEnd, fastestDownloadSpeedMetric, err := getFastestDownloadSpeedTimeBlock(ctx, dishyID, start, end)
+	if err != nil {
+		return nil, fmt.Errorf("error getting fastest download speed time block: %v", err)
+	}
+	weeklyReportContext.FastestDownloadSpeedTimeBlock = fmt.Sprintf("%s-%s", fastestDownloadSpeedStart.Format(time.RFC3339), fastestDownloadSpeedEnd.Format(time.RFC3339))
+	weeklyReportContext.FastestDownloadSpeedTimeSpeed = fastestDownloadSpeedMetric
+
+	fastestUploadSpeedStart, fastestUploadSpeedEnd, fastestUploadSpeedMetric, err := getFastestUploadSpeedTimeBlock(ctx, dishyID, start, end)
+	if err != nil {
+		return nil, fmt.Errorf("error getting fastest upload speed time block: %v", err)
+	}
+	weeklyReportContext.FastestUploadSpeedTimeBlock = fmt.Sprintf("%s-%s", fastestUploadSpeedStart.Format(time.RFC3339), fastestUploadSpeedEnd.Format(time.RFC3339))
+	weeklyReportContext.FastestUploadSpeedTimeSpeed = fastestUploadSpeedMetric
+
+	// TODO
+	weeklyReportContext.SlowestDownloadSpeedTimeBlock = ""
+	weeklyReportContext.SlowestDownloadSpeedTimeSpeed = 0
+
+	// TODO
+	weeklyReportContext.SlowestUploadSpeedTimeBlock = ""
+	weeklyReportContext.SlowestUploadSpeedTimeSpeed = 0
+
+	numberFirmwareUpdates, err := getNumberFirmwareUpdates(ctx, dishyID, start, end)
+	if err != nil {
+		return nil, fmt.Errorf("error getting number firmware updates: %v", err)
+	}
+	weeklyReportContext.NumberFirmwareUpdates = numberFirmwareUpdates
+
 	return &weeklyReportContext, nil
+}
+
+func getPreviousWeekStartEnd(start time.Time, end time.Time) (time.Time, time.Time) {
+	return start.AddDate(0, 0, -7), end.AddDate(0, 0, -7)
 }

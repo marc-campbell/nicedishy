@@ -151,3 +151,17 @@ values
 
 	return nil
 }
+
+func (s PGStore) GetDishyTimezoneOffset(ctx context.Context, id string) (int, error) {
+	pg := persistence.MustGetPGSession()
+
+	query := `select timezone_offset from dishy_geo where id = $1 order by time desc limit 1`
+	row := pg.QueryRow(ctx, query, id)
+
+	var offset int
+	if err := row.Scan(&offset); err != nil {
+		return 0, fmt.Errorf("error scanning timezone_offset: %v", err)
+	}
+
+	return offset, nil
+}
