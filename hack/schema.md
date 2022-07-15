@@ -185,7 +185,11 @@ create table dishy_report_weekly (
 
 
 
-CREATE OR REPLACE FUNCTION download_speed(IN id TEXT)
+CREATE OR REPLACE FUNCTION download_speed(
+  IN id TEXT, 
+  IN min_time BIGINT,
+  IN max_time BIGINT
+)
 RETURNS table (
     time_start timestamptz, 
     download_speed double precision
@@ -194,8 +198,16 @@ LANGUAGE plpgsql
 AS $$
 DECLARE 
     tabname varchar;
+    interval bigint;
 BEGIN
+    interval := max_time - min_time;
     tabname := 'dishy_speed_hourly';
+    IF interval > 604800000 THEN
+      tabname := 'dishy_speed_fourhour';
+    END IF;
+    IF interval > 1209600000 THEN
+      tabname := 'dishy_speed_daily';
+    END IF; 
     return query EXECUTE '
         select 
             time_start, 
@@ -203,10 +215,12 @@ BEGIN
         from '
         || quote_ident(tabname) 
         || ' where dishy_id = $1'
-        || ' order by time_start desc limit 10;'
-        using id;
+        || ' and time_start >= to_timestamp($2/1000)::date'
+        || ' and time_start < to_timestamp($3/1000)::date'
+        || ' order by time_start desc;'
+        using id, min_time, max_time;
 END;
 $$;
 
 
-select * from download_speed('rVe0QHfn7N6NM-XbuSItiU5v2bklb3-WJHwb');
+% select time_start,download_speed from download_speed('rVe0QHfn7N6NM-XbuSItiU5v2bklb3-WJHwb', 1655292003329, 1657884003329);

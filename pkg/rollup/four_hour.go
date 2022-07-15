@@ -89,7 +89,7 @@ func ReindexSpeedFourHour(ctx context.Context, dishyID string, when time.Time) e
 	startHour := when.Truncate(time.Hour)
 	endHour := startHour.Add(time.Hour * 24)
 
-	query := `select download_speed, upload_speed from dishy_speed where time >= $1 and time < $2 and dishy_id = $3`
+	query := `select download_speed, upload_speed from dishy_speed_hourly where time_start >= $1 and time_start < $2 and dishy_id = $3`
 	rows, err := pg.Query(ctx, query, startHour, endHour, dishyID)
 	if err != nil {
 		return fmt.Errorf("error querying for dishy speed: %v", err)

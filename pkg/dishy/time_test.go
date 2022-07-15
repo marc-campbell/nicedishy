@@ -10,6 +10,14 @@ import (
 )
 
 func TestGetDayStart(t *testing.T) {
+	reindexIn, err := time.Parse(time.RFC3339, "2022-01-01T00:01:00Z")
+	if err != nil {
+		panic(err)
+	}
+	reindexWant, err := time.Parse(time.RFC3339, "2021-12-31T7:00:00Z")
+	if err != nil {
+		panic(err)
+	}
 	noonPDTIn, err := time.Parse(time.RFC3339, "2020-04-01T12:00:00-07:00")
 	if err != nil {
 		panic(err)
@@ -53,6 +61,14 @@ func TestGetDayStart(t *testing.T) {
 				when:           eighteenThirtyFourESTIn,
 			},
 			want: eighteenThirtyFourESTWant,
+		},
+		{
+			name: "reindex",
+			args: args{
+				timezoneOffset: -25200,
+				when:           reindexIn,
+			},
+			want: reindexWant,
 		},
 	}
 	for _, tt := range tests {

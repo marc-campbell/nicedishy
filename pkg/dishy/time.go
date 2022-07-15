@@ -11,6 +11,7 @@ func GetFourHourStart(ctx context.Context, timezoneOffset int, when time.Time) (
 
 	for {
 		if when.Hour()%4 == 0 {
+			when = when.Add(-time.Duration(timezoneOffset) * time.Second)
 			return &when, nil
 		}
 		when = when.Add(-time.Hour)
@@ -22,7 +23,8 @@ func GetDayStart(ctx context.Context, timezoneOffset int, when time.Time) (*time
 	when = when.Add(time.Duration(timezoneOffset) * time.Second)
 
 	for {
-		if when.Hour() == 0 {
+		if when.UTC().Hour() == 0 {
+			when = when.Add(-time.Duration(timezoneOffset) * time.Second)
 			return &when, nil
 		}
 		when = when.Add(-time.Hour)
