@@ -97,7 +97,7 @@ function getPanels(dishyId: string): any {
           "group": [],
           "metricColumn": "none",
           "rawQuery": false,
-          "rawSql": `SELECT\n  time_start AS \"time\",\n  upload_speed\nFROM dishy_speed_hourly\nWHERE\n  $__timeFilter(time_start)\nAND dishy_id='${dishyId}'\nORDER BY 1`,
+          "rawSql": `SELECT\n  time_start AS \"time\",\n  upload_speed\nFROM dishy_speed_hourly\nWHERE\n  dishy_id='${dishyId}'\n AND \n$__timeFilter(time_start)\nORDER BY 1`,
           "refId": "A",
           "select": [
             [
@@ -195,7 +195,7 @@ function getPanels(dishyId: string): any {
         "group": [],
         "metricColumn": "none",
         "rawQuery": false,
-        "rawSql": `SELECT\n  \"time\" AS \"time\",\n  upload_speed\nFROM dishy_speed\nWHERE\n  $__timeFilter(\"time\") and dishy_id='${dishyId}' \nORDER BY 1`,
+        "rawSql": `SELECT\n  \"time\" AS \"time\",\n  upload_speed\nFROM dishy_speed\nWHERE\n dishy_id='${dishyId}' \n AND \n $__timeFilter(\"time\") \nORDER BY 1`,
         "refId": "A",
         "select": [
         [
@@ -293,7 +293,7 @@ function getPanels(dishyId: string): any {
         "group": [],
         "metricColumn": "none",
         "rawQuery": false,
-        "rawSql": `SELECT\n  \"time\" AS \"time\",\n  upload_speed\nFROM dishy_speed\nWHERE\n  $__timeFilter(\"time\") and dishy_id='${dishyId}' \nORDER BY 1`,
+        "rawSql": `SELECT\n  \"time\" AS \"time\",\n  upload_speed\nFROM dishy_speed\nWHERE\n dishy_id='${dishyId}' \n AND \n $__timeFilter(\"time\") \nORDER BY 1`,
         "refId": "A",
         "select": [
         [
@@ -399,7 +399,7 @@ function getPanels(dishyId: string): any {
           "group": [],
           "metricColumn": "none",
           "rawQuery": false,
-          "rawSql": `SELECT\n  time_start AS \"time\",\n  download_speed\nFROM dishy_speed_hourly\nWHERE\n  $__timeFilter(time_start)\nAND dishy_id='${dishyId}'\nORDER BY 1`,
+          "rawSql": `SELECT\n  time_start AS \"time\",\n  download_speed\nFROM dishy_speed_hourly\nWHERE\n dishy_id='${dishyId}' \n AND \n $__timeFilter(time_start) \nORDER BY 1`,
           "refId": "A",
           "select": [
             [
@@ -496,7 +496,7 @@ function getPanels(dishyId: string): any {
         "group": [],
         "metricColumn": "none",
         "rawQuery": false,
-        "rawSql": `SELECT\n  \"time\" AS \"time\",\n  download_speed\nFROM dishy_speed\nWHERE\n  $__timeFilter(\"time\") and dishy_id='${dishyId}' \nORDER BY 1`,
+        "rawSql": `SELECT\n  \"time\" AS \"time\",\n  download_speed\nFROM dishy_speed\nWHERE\n dishy_id='${dishyId}'\n AND \n $__timeFilter(\"time\") \nORDER BY 1`,
         "refId": "A",
         "select": [
         [
@@ -594,7 +594,7 @@ function getPanels(dishyId: string): any {
         "group": [],
         "metricColumn": "none",
         "rawQuery": false,
-        "rawSql": `SELECT\n  \"time\" AS \"time\",\n  download_speed\nFROM dishy_speed\nWHERE\n  $__timeFilter(\"time\") and dishy_id='${dishyId}' \nORDER BY 1`,
+        "rawSql": `SELECT\n  \"time\" AS \"time\",\n  download_speed\nFROM dishy_speed\nWHERE\n  dishy_id='${dishyId}'\n and \n$__timeFilter(\"time\") \nORDER BY 1`,
         "refId": "A",
         "select": [
         [
@@ -712,7 +712,7 @@ function getPanels(dishyId: string): any {
           "group": [],
           "metricColumn": "none",
           "rawQuery": false,
-          "rawSql": `SELECT\n  time_start AS \"time\",\n  pop_ping_latency_ms\nFROM dishy_data_hourly\nWHERE\n  $__timeFilter(time_start)\nAND dishy_id='${dishyId}'\nORDER BY 1`,
+          "rawSql": `SELECT\n  time_start AS \"time\",\n  pop_ping_latency_ms\nFROM dishy_data_hourly\nWHERE\n dishy_id='${dishyId}' \n AND \n $__timeFilter(time_start) \nORDER BY 1`,
           "refId": "A",
           "select": [
             [
@@ -794,7 +794,7 @@ function getPanels(dishyId: string): any {
         "group": [],
         "metricColumn": "none",
         "rawQuery": false,
-        "rawSql": `SELECT\n  \"time\" AS \"time\",\n  pop_ping_latency_ms\nFROM dishy_data\nWHERE\n  $__timeFilter(\"time\") and dishy_id='${dishyId}' \nORDER BY 1`,
+        "rawSql": `SELECT\n  \"time\" AS \"time\",\n  pop_ping_latency_ms\nFROM dishy_data\nWHERE\n  dishy_id='${dishyId}' \n AND \n $__timeFilter(\"time\") \nORDER BY 1`,
         "refId": "A",
         "select": [
         [
@@ -876,7 +876,7 @@ function getPanels(dishyId: string): any {
         "group": [],
         "metricColumn": "none",
         "rawQuery": false,
-        "rawSql": `SELECT\n  \"time\" AS \"time\",\n  pop_ping_latency_ms\nFROM dishy_data\nWHERE\n  $__timeFilter(\"time\") and dishy_id='${dishyId}' \nORDER BY 1`,
+        "rawSql": `SELECT\n  \"time\" AS \"time\",\n  pop_ping_latency_ms\nFROM dishy_data\nWHERE\n dishy_id='${dishyId}' \n AND \n $__timeFilter(\"time\") \nORDER BY 1`,
         "refId": "A",
         "select": [
         [
@@ -955,7 +955,7 @@ function getPanels(dishyId: string): any {
         "group": [],
         "metricColumn": "software_version",
         "rawQuery": false,
-        "rawSql": `SELECT\n  \"time\" AS \"time\",\n  software_version AS metric,\n  downlink_throughput_bps\nFROM dishy_data\nWHERE\n  $__timeFilter(\"time\") and dishy_id='${dishyId}' \nORDER BY 1,2`,
+        "rawSql": `SELECT\n  \"time\" AS \"time\",\n  software_version AS metric,\n  downlink_throughput_bps\nFROM dishy_data\nWHERE\n dishy_id='${dishyId}' \n AND \n $__timeFilter(\"time\") \nORDER BY 1,2`,
         "refId": "A",
         "select": [
         [
@@ -1033,7 +1033,7 @@ function getPanels(dishyId: string): any {
         "group": [],
         "metricColumn": "hardware_version",
         "rawQuery": false,
-        "rawSql": `SELECT\n  \"time\" AS \"time\",\n  hardware_version AS metric,\n  downlink_throughput_bps\nFROM dishy_data\nWHERE\n  $__timeFilter(\"time\") and dishy_id='${dishyId}' \nORDER BY 1,2`,
+        "rawSql": `SELECT\n  \"time\" AS \"time\",\n  hardware_version AS metric,\n  downlink_throughput_bps\nFROM dishy_data\nWHERE\n dishy_id='${dishyId}' \n AND \n $__timeFilter(\"time\") \nORDER BY 1,2`,
         "refId": "A",
         "select": [
         [
@@ -1139,7 +1139,7 @@ function getPanels(dishyId: string): any {
         "group": [],
         "metricColumn": "none",
         "rawQuery": false,
-        "rawSql": `SELECT\n  \"time\" AS \"time\",\n  pop_ping_drop_rate\nFROM dishy_data\nWHERE\n  $__timeFilter(\"time\") and dishy_id='${dishyId}' \nORDER BY 1`,
+        "rawSql": `SELECT\n  \"time\" AS \"time\",\n  pop_ping_drop_rate\nFROM dishy_data\nWHERE\n dishy_id='${dishyId}' \n AND \n $__timeFilter(\"time\") \nORDER BY 1`,
         "refId": "A",
         "select": [
         [

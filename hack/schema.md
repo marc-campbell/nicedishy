@@ -110,6 +110,53 @@ create table dishy_speed_hourly (
 );
 SELECT create_hypertable('dishy_speed_hourly', 'time_start'); 
 
+create table dishy_speed_fourhour (
+  time_start timestamptz not null,
+  dishy_id text not null,
+  download_speed double precision,
+  upload_speed double precision,
+  primary key (time_start, dishy_id)
+);
+SELECT create_hypertable('dishy_speed_fourhour', 'time_start'); 
+
+create table dishy_data_fourhour (
+  time_start timestamptz not null,
+  dishy_id text not null,
+  snr integer,
+  downlink_throughput_bps double precision,
+  uplink_throughput_bps double precision,
+  pop_ping_latency_ms double precision,
+  pop_ping_drop_rate double precision,
+  percent_obstructed double precision,
+  seconds_obstructed double precision,
+  primary key (time_start, dishy_id)
+);
+SELECT create_hypertable('dishy_data_fourhour', 'time_start'); 
+
+create table dishy_speed_daily (
+  time_start timestamptz not null,
+  dishy_id text not null,
+  download_speed double precision,
+  upload_speed double precision,
+  primary key (time_start, dishy_id)
+);
+SELECT create_hypertable('dishy_speed_daily', 'time_start'); 
+
+create table dishy_data_daily (
+  time_start timestamptz not null,
+  dishy_id text not null,
+  snr integer,
+  downlink_throughput_bps double precision,
+  uplink_throughput_bps double precision,
+  pop_ping_latency_ms double precision,
+  pop_ping_drop_rate double precision,
+  percent_obstructed double precision,
+  seconds_obstructed double precision,
+  primary key (time_start, dishy_id)
+);
+SELECT create_hypertable('dishy_data_daily', 'time_start'); 
+
+
 create table email_notification (
   id text not null primary key,
   queued_at timestamptz not null,
@@ -134,3 +181,48 @@ create table dishy_report_weekly (
   is_generating boolean not null,
   primary key (dishy_id, week_start)
 );
+
+
+
+
+CREATE OR REPLACE FUNCTION download_speed(
+  IN id TEXT, 
+  IN min_time BIGINT,
+  IN max_time BIGINT
+)
+RETURNS table (
+    time_start timestamptz, 
+    download_speed double precision
+)
+LANGUAGE plpgsql
+AS $$
+DECLARE 
+    tabname varchar;
+    interval bigint;
+BEGIN
+    interval := max_time - min_time;
+    tabname := 'dishy_speed_hourly';
+    IF interval > 604800000 THEN
+      tabname := 'dishy_speed_fourhour';
+    END IF;
+    IF interval > 1209600000 THEN
+      tabname := 'dishy_speed_daily';
+    END IF; 
+    return query EXECUTE '
+        select 
+            time_start, 
+            download_speed 
+        from '
+        || quote_ident(tabname) 
+        || ' where dishy_id = $1'
+        || ' and time_start >= to_timestamp($2/1000)::date'
+        || ' and time_start < to_timestamp($3/1000)::date'
+        || ' order by time_start desc;'
+        using id, min_time, max_time;
+END;
+$$;
+
+
+% select time_start,download_speed from download_speed('rVe0QHfn7N6NM-XbuSItiU5v2bklb3-WJHwb', 1655292003329, 1657884003329);
+select time_start as "time",
+download_speed from download_speed('rVe0QHfn7N6NM-XbuSItiU5v2bklb3-WJHwb', 1657886376257, 1658491176257) order by 1;
