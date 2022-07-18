@@ -10,6 +10,9 @@ markdown_extensions:
 nav:
   - 'What is NiceDishy': index.md
   - 'Getting Started': getting-started.md
+  - 'Installation Instructions':
+    - MacOS: install-macos.md
+    - Windows: install-windows.md
   - 'How NiceDishy Works': how-nicedishy-works.md
   - 'Notifications': notifications.md
   - 'Troubleshooting': troubleshooting.md

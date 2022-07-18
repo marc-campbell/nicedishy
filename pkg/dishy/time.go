@@ -7,7 +7,7 @@ import (
 
 func GetFourHourStart(ctx context.Context, timezoneOffset int, when time.Time) (*time.Time, error) {
 	when = when.Truncate(time.Hour)
-	when = when.Add(-(time.Duration(timezoneOffset) * time.Minute))
+	when = when.Add(-(time.Duration(timezoneOffset) * time.Second))
 
 	for {
 		if when.Hour()%4 == 0 {

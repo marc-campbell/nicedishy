@@ -153,5 +153,43 @@ values
 		return
 	}
 
+	timezoneOffset, err := stores.GetStore().GetDishyTimezoneOffset(context.Background(), d.ID)
+	if err != nil {
+		logger.Error(err)
+		response.Error = err.Error()
+		JSON(w, http.StatusInternalServerError, response)
+		return
+	}
+
+	// update daily rollups
+	dayStart, err := dishy.GetDayStart(context.Background(), timezoneOffset, when)
+	if err != nil {
+		logger.Error(err)
+		response.Error = err.Error()
+		JSON(w, http.StatusInternalServerError, response)
+		return
+	}
+	if err := rollup.ReindexSpeedDaily(context.Background(), d.ID, *dayStart); err != nil {
+		logger.Error(err)
+		response.Error = err.Error()
+		JSON(w, http.StatusInternalServerError, response)
+		return
+	}
+
+	// update fourhour rollups
+	fourHourStart, err := dishy.GetFourHourStart(context.Background(), timezoneOffset, when)
+	if err != nil {
+		logger.Error(err)
+		response.Error = err.Error()
+		JSON(w, http.StatusInternalServerError, response)
+		return
+	}
+	if err := rollup.ReindexSpeedFourHour(context.Background(), d.ID, *fourHourStart); err != nil {
+		logger.Error(err)
+		response.Error = err.Error()
+		JSON(w, http.StatusInternalServerError, response)
+		return
+	}
+
 	w.WriteHeader(http.StatusCreated)
 }

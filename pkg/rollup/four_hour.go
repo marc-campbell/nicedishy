@@ -84,10 +84,11 @@ snr = $3, downlink_throughput_bps = $4, uplink_throughput_bps = $5, pop_ping_lat
 
 // ReindexSpeedFourHour, when is the start of block adjusted for local dishy time
 func ReindexSpeedFourHour(ctx context.Context, dishyID string, when time.Time) error {
+	fmt.Printf("when: %s\n", when)
 	pg := persistence.MustGetPGSession()
 
 	startHour := when.Truncate(time.Hour)
-	endHour := startHour.Add(time.Hour * 24)
+	endHour := startHour.Add(time.Hour * 4)
 
 	query := `select download_speed, upload_speed from dishy_speed_hourly where time_start >= $1 and time_start < $2 and dishy_id = $3`
 	rows, err := pg.Query(ctx, query, startHour, endHour, dishyID)

@@ -7,6 +7,7 @@ import (
 	"math/rand"
 	"time"
 
+	"github.com/marc-campbell/nicedishy/pkg/dishy"
 	"github.com/marc-campbell/nicedishy/pkg/logger"
 	"github.com/marc-campbell/nicedishy/pkg/persistence"
 	"github.com/marc-campbell/nicedishy/pkg/rollup"
@@ -238,6 +239,31 @@ func writeSpeed(when time.Time, id string) error {
 	}
 
 	if err := rollup.ReindexSpeedHourly(context.Background(), id, when); err != nil {
+		return err
+	}
+
+	timezoneOffset, err := stores.GetStore().GetDishyTimezoneOffset(context.Background(), id)
+	if err != nil {
+		return err
+	}
+
+	// daily summary
+	dayStart, err := dishy.GetDayStart(context.Background(), timezoneOffset, when)
+	if err != nil {
+		return fmt.Errorf("error getting day start: %v", err)
+	}
+	if err := rollup.ReindexSpeedDaily(context.Background(), id, *dayStart); err != nil {
+		return err
+	}
+
+	// four hour summary
+	fmt.Printf("when (b): %s\n", when)
+	fourHourStart, err := dishy.GetFourHourStart(context.Background(), timezoneOffset, when)
+	if err != nil {
+		return fmt.Errorf("error getting four hour start: %v", err)
+	}
+	fmt.Printf("fourHourStart: %s\n", *fourHourStart)
+	if err := rollup.ReindexSpeedFourHour(context.Background(), id, *fourHourStart); err != nil {
 		return err
 	}
 
