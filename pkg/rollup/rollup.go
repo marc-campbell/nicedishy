@@ -18,7 +18,8 @@ type DishyWithTimeZoneOffset struct {
 func ReindexAll() error {
 	pg := persistence.MustGetPGSession()
 
-	query := `select distinct(d.id), g.timezone_offset from dishy d inner join dishy_geo g on d.id = g.id`
+	query := `select distinct(d.id), g.timezone_offset from dishy d inner join dishy_geo g on d.id = g.id
+where g.timezone_offset is not null`
 	rows, err := pg.Query(context.Background(), query)
 	if err != nil {
 		return fmt.Errorf("error querying for dishy: %v", err)
