@@ -74,7 +74,7 @@ dev:
       echo GRAFANA_API_KEY="${GRAFANA_API_KEY}" >> /okteto/.env.local && \
       echo GRAFANA_DATASOURCE_UID="ybmyTGxnz" >> /okteto/.env.local && \
       echo MAILCHIMP_API_KEY="${MAILCHIMP_API_KEY}" >> /okteto/.env.local && \
-      echo INTERNAL_AUTH_TOKEN=internal-auth-token && \
+      echo INTERNAL_AUTH_TOKEN=internal-auth-token >> /okteto/.env.local && \
       yarn && \
       yarn dev
     environment:

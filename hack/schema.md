@@ -202,11 +202,11 @@ DECLARE
 BEGIN
     interval := max_time - min_time;
     tabname := 'dishy_speed_hourly';
-    IF interval > 604800000 THEN
-      tabname := 'dishy_speed_fourhour';
-    END IF;
-    IF interval > 1209600000 THEN
-      tabname := 'dishy_speed_daily';
+
+    IF interval >= 1209600000 THEN
+      tabname := 'dishy_speed_daily';      
+    ELSIF interval >= 604800000 THEN
+      tabname := 'dishy_speed_fourhour';      
     END IF; 
     return query EXECUTE '
         select 
@@ -225,4 +225,4 @@ $$;
 
 % select time_start,download_speed from download_speed('rVe0QHfn7N6NM-XbuSItiU5v2bklb3-WJHwb', 1655292003329, 1657884003329);
 select time_start as "time",
-download_speed from download_speed('rVe0QHfn7N6NM-XbuSItiU5v2bklb3-WJHwb', 1657886376257, 1658491176257) order by 1;
+download_speed from download_speed('28suwqfvNtHj31El3d6JniEnwgb', 1657886376257, 1658491176257) order by 1;

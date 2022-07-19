@@ -399,7 +399,7 @@ function getPanels(dishyId: string): any {
           "group": [],
           "metricColumn": "none",
           "rawQuery": false,
-          "rawSql": `SELECT\n  time_start AS \"time\",\n  download_speed\nFROM dishy_speed_hourly\nWHERE\n dishy_id='${dishyId}' \n AND \n $__timeFilter(time_start) \nORDER BY 1`,
+          "rawSql": `select time_start as "time", download_speed from download_speed('${dishyId}', $__from, $__to) order by 1`,
           "refId": "A",
           "select": [
             [
