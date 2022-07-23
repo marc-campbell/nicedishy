@@ -16,16 +16,15 @@ require (
 	github.com/nats-io/nats-server/v2 v2.6.6 // indirect
 	github.com/nats-io/nats.go v1.13.1-0.20211122170419-d7c1d78a50fc
 	github.com/pkg/errors v0.9.1
-	github.com/posthog/posthog-go v0.0.0-20211028072449-93c17c49e2b0 // indirect
+	github.com/posthog/posthog-go v0.0.0-20211028072449-93c17c49e2b0
 	github.com/rogpeppe/go-internal v1.8.0 // indirect
 	github.com/segmentio/ksuid v1.0.4
-	github.com/spf13/cobra v1.4.0
+	github.com/spf13/cobra v1.5.0
 	github.com/spf13/viper v1.11.0
-	github.com/stretchr/testify v1.8.0 // indirect
+	github.com/stretchr/testify v1.8.0
 	github.com/swaggo/swag v1.8.0
 	go.uber.org/zap v1.21.0
 	goji.io v2.0.2+incompatible // indirect
 	golang.org/x/mod v0.5.0 // indirect
-	golang.org/x/oauth2 v0.0.0-20220411215720-9780585627b5
 	gopkg.in/check.v1 v1.0.0-20201130134442-10cb98267c6c // indirect
 )
