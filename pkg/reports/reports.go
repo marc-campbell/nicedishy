@@ -113,7 +113,7 @@ where g.id = $1 order by g.time desc limit 1`
 		row := metricsDB.QueryRow(ctx, query, dishyID)
 		var timezoneOffset sql.NullInt64
 		if err := row.Scan(&timezoneOffset); err != nil {
-			logger.Errorf("error getting timezone offset: %w", err)
+			logger.Errorf("error getting timezone offset for dishy %s: %w", dishyID, err)
 			time.Sleep(time.Minute)
 			continue
 		}
