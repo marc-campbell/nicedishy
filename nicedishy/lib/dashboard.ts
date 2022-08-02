@@ -793,7 +793,7 @@ function getPanels(dishyId: string): any {
         "format": "time_series",
         "group": [],
         "metricColumn": "none",
-        "rawQuery": false,
+        "rawQuery": true,
         "rawSql": `SELECT\n  \"time\" AS \"time\",\n  pop_ping_latency_ms\nFROM dishy_data\nWHERE\n  dishy_id='${dishyId}' \n AND \n $__timeFilter(\"time\") \nORDER BY 1`,
         "refId": "A",
         "select": [
