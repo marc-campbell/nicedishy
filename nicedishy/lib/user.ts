@@ -33,7 +33,6 @@ export async function getOrCreateUser(email: string, avatarUrl: string): Promise
 }
 
 export async function getUser(id: string): Promise<User> {
-  console.log("getUser", id);
   try {
     const db = await getDB();
 

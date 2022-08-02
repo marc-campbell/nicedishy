@@ -16,6 +16,11 @@ import (
 	"github.com/spf13/viper"
 )
 
+const (
+	days            = 90
+	intervalMinutes = 12
+)
+
 func GenerateDataCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "generate-data",
@@ -46,7 +51,7 @@ func GenerateDataCmd() *cobra.Command {
 			}
 
 			// find the most recent timestamp in the database, and backfill to now
-			startFrom := time.Now().Add(-time.Duration(30) * 24 * time.Hour) // 30 days
+			startFrom := time.Now().Add(-time.Duration(days) * 24 * time.Hour) // 90 days
 			if d.LastMetricAt != nil {
 				startFrom = *d.LastMetricAt
 				startFrom = startFrom.Add(time.Duration(time.Minute))
@@ -54,7 +59,7 @@ func GenerateDataCmd() *cobra.Command {
 
 			nextGeoCheck := startFrom.Add(-1 * time.Duration(time.Minute))
 			if d.LastGeocheckAt != nil {
-				nextGeoCheck = d.LastGeocheckAt.Add(time.Hour * 30 * 24)
+				nextGeoCheck = d.LastGeocheckAt.Add(time.Hour * days * 24)
 			}
 
 			i := 0
@@ -63,7 +68,7 @@ func GenerateDataCmd() *cobra.Command {
 					if err := writeGeoCheck(startFrom, d.ID); err != nil {
 						return err
 					}
-					nextGeoCheck = startFrom.Add(time.Hour * 30 * 24)
+					nextGeoCheck = startFrom.Add(time.Hour * days * 24)
 				}
 
 				if err := writeData(startFrom, d.ID); err != nil {
@@ -81,13 +86,13 @@ func GenerateDataCmd() *cobra.Command {
 					return err
 				}
 
-				startFrom = startFrom.Add(time.Duration(5) * time.Minute)
+				startFrom = startFrom.Add(time.Duration(intervalMinutes) * time.Minute)
 				i++
 			}
 
 			// and keep running to write more data
 			for {
-				time.Sleep(time.Minute * 5)
+				time.Sleep(time.Minute * intervalMinutes)
 
 				if nextGeoCheck.Before(startFrom) {
 					if err := writeGeoCheck(startFrom, d.ID); err != nil {
@@ -257,12 +262,11 @@ func writeSpeed(when time.Time, id string) error {
 	}
 
 	// four hour summary
-	fmt.Printf("when (b): %s\n", when)
 	fourHourStart, err := dishy.GetFourHourStart(context.Background(), timezoneOffset, when)
 	if err != nil {
 		return fmt.Errorf("error getting four hour start: %v", err)
 	}
-	fmt.Printf("fourHourStart: %s\n", *fourHourStart)
+	fmt.Printf("%s: %s -- %s\n", id, when.Format(time.RFC3339), fourHourStart.Format(time.RFC3339))
 	if err := rollup.ReindexSpeedFourHour(context.Background(), id, *fourHourStart); err != nil {
 		return err
 	}

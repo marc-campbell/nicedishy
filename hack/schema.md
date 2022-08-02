@@ -206,12 +206,52 @@ BEGIN
     IF interval >= 1209600000 THEN
       tabname := 'dishy_speed_daily';      
     ELSIF interval >= 604800000 THEN
-      tabname := 'dishy_speed_fourhour';      
+      tabname := 'dishy_speed_fourhour';
     END IF; 
+
     return query EXECUTE '
         select 
             time_start, 
             download_speed 
+        from '
+        || quote_ident(tabname) 
+        || ' where dishy_id = $1'
+        || ' and time_start >= to_timestamp($2/1000)::date'
+        || ' and time_start < to_timestamp($3/1000)::date'
+        || ' order by time_start desc;'
+        using id, min_time, max_time;
+END;
+$$;
+
+
+CREATE OR REPLACE FUNCTION upload_speed(
+  IN id TEXT, 
+  IN min_time BIGINT,
+  IN max_time BIGINT
+)
+RETURNS table (
+    time_start timestamptz, 
+    upload_speed double precision
+)
+LANGUAGE plpgsql
+AS $$
+DECLARE 
+    tabname varchar;
+    interval bigint;
+BEGIN
+    interval := max_time - min_time;
+    tabname := 'dishy_speed_hourly';
+
+    IF interval >= 1209600000 THEN
+      tabname := 'dishy_speed_daily';      
+    ELSIF interval >= 604800000 THEN
+      tabname := 'dishy_speed_fourhour';  
+    END IF; 
+
+    return query EXECUTE '
+        select 
+            time_start, 
+            upload_speed 
         from '
         || quote_ident(tabname) 
         || ' where dishy_id = $1'

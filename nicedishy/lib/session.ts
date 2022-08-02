@@ -73,6 +73,10 @@ export async function deleteSession(id: string): Promise<void> {
 
 export async function loadSession(token: string): Promise<Session | undefined> {
   try {
+    if (!token) {
+      return;
+    }
+
     const claims = await jwt.verify(token, process.env.SESSION_KEY!) as jwt.JwtPayload;
 
     const db = await getDB();
