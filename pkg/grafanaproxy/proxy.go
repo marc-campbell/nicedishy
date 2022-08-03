@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 	"net/http/httputil"
@@ -166,31 +167,34 @@ func isUpstreamURLAllowed(r *http.Request) (bool, error) {
 		}
 
 		unknownQuery := false
-		// for _, q := range query.Queries {
-		// 	/*
-		// 		SELECT
-		// 			"time" AS "time",
-		// 			pop_ping_latency_ms
-		// 			FROM dishy_data
-		// 			WHERE
-		// 			$__timeFilter("time")
-		// 			ORDER BY 1
-		// 	*/
+		for _, q := range query.Queries {
+			/*
+				SELECT
+					"time" AS "time",
+					pop_ping_latency_ms
+					FROM dishy_data
+					WHERE
+					$__timeFilter("time")
+					ORDER BY 1
+			*/
 
-		// 	// first, make sure we have only a single statement
-		// 	if strings.Count(q.RawSQL, ";") > 1 {
-		// 		unknownQuery = true
-		// 	}
+			// first, make sure we have only a single statement
+			if strings.Count(q.RawSQL, ";") > 1 {
+				unknownQuery = true
+			}
 
-		// 	// now, make sure we are only selecting from our table
-		// 	if !strings.Contains(q.RawSQL, "FROM dishy_data") && !strings.Contains(q.RawSQL, "FROM dishy_speed") {
-		// 		unknownQuery = true
-		// 	}
+			// now, make sure we are only selecting from our table
+			if !strings.Contains(q.RawSQL, "FROM dishy_data") &&
+				!strings.Contains(q.RawSQL, "FROM dishy_speed") &&
+				!strings.Contains(q.RawSQL, "from download_speed") &&
+				!strings.Contains(q.RawSQL, "from upload_speed") {
+				unknownQuery = true
+			}
 
-		// 	if unknownQuery {
-		// 		fmt.Printf("unknown query: %s\n", q.RawSQL)
-		// 	}
-		// }
+			if unknownQuery {
+				fmt.Printf("unknown query: %s\n", q.RawSQL)
+			}
+		}
 
 		if unknownQuery {
 			return false, nil

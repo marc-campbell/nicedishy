@@ -199,26 +199,38 @@ AS $$
 DECLARE 
     tabname varchar;
     interval bigint;
+    timecolumn varchar;
 BEGIN
     interval := max_time - min_time;
-    tabname := 'dishy_speed_hourly';
+    tabname := 'dishy_speed';
+    timecolumn := 'time';
 
     IF interval >= 1209600000 THEN
       tabname := 'dishy_speed_daily';      
+      timecolumn := 'time_start';
     ELSIF interval >= 604800000 THEN
       tabname := 'dishy_speed_fourhour';
-    END IF; 
+      timecolumn := 'time_start';
+    ELSIF interval >= 172800000 THEN 
+      tabname := 'dishy_speed_hourly';
+      timecolumn := 'time_start';
+    END IF;
 
     return query EXECUTE '
         select 
-            time_start, 
-            download_speed 
+            ' 
+            || quote_ident(timecolumn) 
+            || ' as time_start,
+            download_speed
         from '
         || quote_ident(tabname) 
-        || ' where dishy_id = $1'
-        || ' and time_start >= to_timestamp($2/1000)::date'
-        || ' and time_start < to_timestamp($3/1000)::date'
-        || ' order by time_start desc;'
+        || ' where dishy_id = $1 and '
+        || quote_ident(timecolumn) 
+        || ' >= to_timestamp($2/1000) and '
+        || quote_ident(timecolumn) 
+        || ' < to_timestamp($3/1000) order by '
+        || quote_ident(timecolumn)
+        || ' desc;'
         using id, min_time, max_time;
 END;
 $$;
@@ -238,31 +250,59 @@ AS $$
 DECLARE 
     tabname varchar;
     interval bigint;
+    timecolumn varchar;
 BEGIN
     interval := max_time - min_time;
-    tabname := 'dishy_speed_hourly';
+    tabname := 'dishy_speed';
+    timecolumn := 'time';
 
     IF interval >= 1209600000 THEN
       tabname := 'dishy_speed_daily';      
+      timecolumn := 'time_start';
     ELSIF interval >= 604800000 THEN
-      tabname := 'dishy_speed_fourhour';  
-    END IF; 
+      tabname := 'dishy_speed_fourhour';
+      timecolumn := 'time_start';
+    ELSIF interval >= 172800000 THEN 
+      tabname := 'dishy_speed_hourly';
+      timecolumn := 'time_start';
+    END IF;
 
     return query EXECUTE '
         select 
-            time_start, 
-            upload_speed 
+            ' 
+            || quote_ident(timecolumn) 
+            || ' as time_start,
+            upload_speed
         from '
         || quote_ident(tabname) 
-        || ' where dishy_id = $1'
-        || ' and time_start >= to_timestamp($2/1000)::date'
-        || ' and time_start < to_timestamp($3/1000)::date'
-        || ' order by time_start desc;'
+        || ' where dishy_id = $1 and '
+        || quote_ident(timecolumn) 
+        || ' >= to_timestamp($2/1000) and '
+        || quote_ident(timecolumn) 
+        || ' < to_timestamp($3/1000) order by '
+        || quote_ident(timecolumn) 
+        || ' desc;'
         using id, min_time, max_time;
 END;
 $$;
 
+q
 
 % select time_start,download_speed from download_speed('rVe0QHfn7N6NM-XbuSItiU5v2bklb3-WJHwb', 1655292003329, 1657884003329);
 select time_start as "time",
 download_speed from download_speed('28suwqfvNtHj31El3d6JniEnwgb', 1657886376257, 1658491176257) order by 1;
+
+delete from dishy_data; delete from dishy_data_hourly; delete from dishy_data_fourhour; delete from dishy_speed; delete from dishy_speed_daily; delete from dishy_speed_hourly; update dishy set last_metric_at = null; delete from dishy_speed_fourhour;
+
+
+select * from download_speed('zVByq3ggfnyYhVzs2iblkhcCDLWx4uVfig_p', 1659446478000, 1659532878000);
+        select time as time_start,
+        download_speed
+        from dishy_speed
+        where dishy_id = 'zVByq3ggfnyYhVzs2iblkhcCDLWx4uVfig_p'
+        and time >= to_timestamp(1659446478000/1000) 
+        and time < to_timestamp(1659532878000/1000) order by time desc;
+
+        
+
+  select * from table_name where time >= to_timestamp(1659446478000/1000) and time < to_timestamp(1659532878000/1000) order by time desc;
