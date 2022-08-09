@@ -86,16 +86,16 @@ export default function DishyCard({dishy, stats, speed}) {
                     (
                       <p>Your device is no longer sending data to NiceDishy.com. Check the installation or reinstall using the links below.</p>
                     )}
-                  <a href="#" className="btn btn-primary" onClick={handleDownloadClick}>Download</a>
+                  <a href="/download" className="btn btn-primary" onClick={handleDownloadClick}>Download</a>
                   {' '}
-                  <a href="#" className="btn btn-outline-primary">Docs</a>
+                  <a href="https://docs.nicedishy.com" className="btn btn-outline-primary">Docs</a>
                   <br /><br />
                   <Link href="#" passHref>
                     <a onClick={handleSettingsClick.bind(this, dishy.id)}>
                       <i className="bi bi-gear"></i> Settings
                     </a>
-                  </Link><br />
-                  <Link href={`${process.env.NEXT_PUBLIC_DASHBOARD_ENDPOINT}/d/${dishy.id}/default-dashboard?kiosk`} passHref><a target="_blank"><i className="bi bi-clock-history"></i>{' '}Dashboard</a></Link><br />
+                  </Link>
+                  <Link href={`${process.env.NEXT_PUBLIC_DASHBOARD_ENDPOINT}/d/${dishy.id}/default-dashboard?kiosk`} passHref><a target="_blank" style={{marginLeft: "20px"}}><i className="bi bi-clock-history"></i>{' '}Dashboard</a></Link><br />
                 </div>
               </div>
             </div>
@@ -106,41 +106,45 @@ export default function DishyCard({dishy, stats, speed}) {
   }
 
   return (
-    <div key={dishy.id} className="card" style={{width: "100%", height: "300px"}}>
+    <div key={dishy.id} className="card" style={{width: "100%", minHeight: "300px"}}>
       <div className="card-body">
         <div className="row">
           <div className="col-6" style={{textAlign: "center"}}>
             <h2 className="card-title" style={{textAlign: "left"}}>{dishy.name}</h2>
             <div className="row" style={{paddingTop: "30px"}}>
-              <div className="col-4">
-                <div style={{fontSize: "3em", lineHeight: "1.2em", paddingTop: "10px"}}>{stats.popPingLatencyMs.toFixed(0)}ms</div>
+              <div className="col-sm-4">
+                <div className="above-label">
+                  <div style={{fontSize: "3em", lineHeight: "1.2em", paddingTop: "10px"}}>{stats.popPingLatencyMs.toFixed(0)}ms</div>
+                </div>
+                <div className="below-label">
+                  ping
+                </div>
               </div>
-              <div className={`col-4 ${speed ? '' : 'hidden'}`}>
-                <GaugeChart
-                  percent={speed ? speed.uploadSpeed / 40000000 : 0}
-                  colors={["#FF5F6D", "#00ff00"]}
-                  hideText={true}
-                />
+              <div className={`col-sm-4 ${speed ? '' : 'hidden'}`}>
+                <div className="above-label">
+                  <GaugeChart
+                    percent={speed ? speed.uploadSpeed / 40000000 : 0}
+                    colors={["#FF5F6D", "#00ff00"]}
+                    hideText={true}
+                  />
+                </div>
+                <div className="below-label">
+                  upload speed<br />
+                  ({speed ? Utilities.mbps(speed.uploadSpeed, 10) : 0})
+                </div>
               </div>
-              <div className={`col-4 ${speed ? '' : 'hidden'}`}>
-                <GaugeChart
-                  percent={speed ? speed.downloadSpeed / 300000000 : 0}
-                  colors={["#FF5F6D", "#00ff00"]}
-                  hideText={true}
-                />
-              </div>
-            </div>
-            <div className="row" style={{paddingTop: "30px"}}>
-              <div className="col-4">
-                ping
-              </div>
-              <div className={`col-4 ${speed ? '' : 'hidden'}`}>
-                upload speed<br />
-                ({speed ? Utilities.mbps(speed.uploadSpeed, 10) : 0})
-              </div>
-              <div className={`col-4 ${speed ? '' : 'hidden'}`}>
-                download speed<br />
-                ({speed ? Utilities.mbps(speed.downloadSpeed, 10) : 0})
+              <div className={`col-sm-4 ${speed ? '' : 'hidden'}`}>
+                <div className="above-label">
+                  <GaugeChart
+                    percent={speed ? speed.downloadSpeed / 300000000 : 0}
+                    colors={["#FF5F6D", "#00ff00"]}
+                    hideText={true}
+                  />
+                </div>
+                <div className="below-label">
+                  download speed<br />
+                  ({speed ? Utilities.mbps(speed.downloadSpeed, 10) : 0})
+                </div>
               </div>
             </div>
           </div>
@@ -152,13 +156,13 @@ export default function DishyCard({dishy, stats, speed}) {
               </div>
             </div>
             <div className="row">
-              <div className="col-12">
+              <div className="col-lg-12">
                 <Link href={`${process.env.NEXT_PUBLIC_DASHBOARD_ENDPOINT}/d/${dishy.id}/default-dashboard?kiosk`} passHref><a target="_blank"><i className="bi bi-clock-history"></i>{' '}Dashboard</a></Link>
                   {' '}(
-                    <Link href={`${process.env.NEXT_PUBLIC_DASHBOARD_ENDPOINT}/d/${dishy.id}/default-dashboard?kiosk&refresh=5s&from=now-6h&to=now`} passHref><a target="_blank">6h</a></Link>
-                  {' '}/{' '}<Link href={`${process.env.NEXT_PUBLIC_DASHBOARD_ENDPOINT}/d/${dishy.id}/default-dashboard?kiosk&refresh=5s&from=now-24h&to=now`} passHref><a target="_blank">1d</a></Link>
+                  <Link href={`${process.env.NEXT_PUBLIC_DASHBOARD_ENDPOINT}/d/${dishy.id}/default-dashboard?kiosk&refresh=5s&from=now-24h&to=now`} passHref><a target="_blank">1d</a></Link>
                   {' '}/{' '}<Link href={`${process.env.NEXT_PUBLIC_DASHBOARD_ENDPOINT}/d/${dishy.id}/default-dashboard?kiosk&refresh=5s&from=now-7d&to=now`} passHref><a target="_blank">1w</a></Link>
-                  {' '}/{' '}<Link href={`${process.env.NEXT_PUBLIC_DASHBOARD_ENDPOINT}/d/${dishy.id}/default-dashboard?kiosk&refresh=5s&from=now-30d&to=now`} passHref><a target="_blank">1m</a></Link>)
+                  {' '}/{' '}<Link href={`${process.env.NEXT_PUBLIC_DASHBOARD_ENDPOINT}/d/${dishy.id}/default-dashboard?kiosk&refresh=5s&from=now-30d&to=now`} passHref><a target="_blank">1m</a></Link>
+                  {' '}/{' '}<Link href={`${process.env.NEXT_PUBLIC_DASHBOARD_ENDPOINT}/d/${dishy.id}/default-dashboard?kiosk&refresh=5s&from=now-90d&to=now`} passHref><a target="_blank">3m</a></Link>)
                 <br />
                 {/* <a href={`/dishy/${dishy.id}/compare`}><i className="bi bi-people-fill"></i>{' '}How do I compare?</a><br /> */}
                 {/* <a href={`/dishy/${dishy.id}/troubleshooting`}><i className="bi bi-lightbulb"></i>{' '}Troubleshooting</a><br /> */}

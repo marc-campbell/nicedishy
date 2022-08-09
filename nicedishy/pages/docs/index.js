@@ -5,8 +5,6 @@ export default function Page() {
 
   return (
     <>
-      <h1>NiceDishy Documentation</h1>
-
     </>
   );
 }
@@ -17,4 +15,14 @@ Page.getLayout = function getLayout(page) {
       {page}
     </Layout>
   );
+}
+
+export async function getServerSideProps(ctx) {
+  return {
+    redirect: {
+      permanent: false,
+      destination: "https://docs.nicedishy.com",
+    },
+    props: {},
+  };
 }

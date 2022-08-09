@@ -58,6 +58,11 @@ export async function createDishyToken(dishyId: string): Promise<string> {
   return token;
 }
 
+export async function renameDishy(userId: string, id: string, name: string): Promise<void> {
+  const db = await getDB();
+  await db.query(`update dishy set name = $1 where id = $2 and user_id = $3`, [name, id, userId]);
+}
+
 export async function deleteDishy(userId: string, id: string): Promise<void> {
   const db = await getDB();
   await db.query(`delete from dishy where id = $1 and user_id = $2`, [id, userId]);
