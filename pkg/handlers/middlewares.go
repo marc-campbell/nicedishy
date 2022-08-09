@@ -1,31 +1,11 @@
 package handlers
 
 import (
-	"context"
 	"net/http"
 
 	dishytypes "github.com/marc-campbell/nicedishy/pkg/dishy/types"
-	"github.com/marc-campbell/nicedishy/pkg/stores"
 	tokentypes "github.com/marc-campbell/nicedishy/pkg/token/types"
 )
-
-func RequireValidNonceMiddleware(next http.Handler) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		nonceID := r.URL.Query().Get("nonce")
-		sessionID, err := stores.GetStore().GetSessionNonce(context.TODO(), nonceID)
-		if err != nil {
-			return
-		}
-
-		sess, err := stores.GetStore().GetSession(context.TODO(), sessionID)
-		if err != nil {
-			return
-		}
-
-		r = setSession(r, sess)
-		next.ServeHTTP(w, r)
-	})
-}
 
 func RequireValidInternalAuthQuietMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -35,18 +15,6 @@ func RequireValidInternalAuthQuietMiddleware(next http.Handler) http.Handler {
 		}
 
 		r = setInternalUser(r, username)
-		next.ServeHTTP(w, r)
-	})
-}
-
-func RequireValidSessionQuietMiddleware(next http.Handler) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		s, err := requireValidSession(w, r)
-		if err != nil {
-			return
-		}
-
-		r = setSession(r, s)
 		next.ServeHTTP(w, r)
 	})
 }
