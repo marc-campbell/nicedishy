@@ -5,6 +5,7 @@ import { useRouter } from 'next/router'
 import Image from 'next/image'
 import cookies from 'next-cookies';
 import { loadSession } from "../lib/session";
+import Link from 'next/link';
 
 export default function Navbar({isLoggedIn}) {
   const router = useRouter();
@@ -25,7 +26,7 @@ export default function Navbar({isLoggedIn}) {
   return (
       <nav className="navbar navbar-default">
         <div className="container-fluid">
-          <a className="navbar-brand" href="#" onClick={handleLogoClick}>
+          <a className="navbar-brand" href="/" onClick={handleLogoClick}>
             <Image src="/images/nicedishy-logo.png" alt="" height="48px" width="200px" />
           </a>
           <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -34,7 +35,7 @@ export default function Navbar({isLoggedIn}) {
 
           <div className="nav navbar-nav navbar-right">
             {
-              isLoggedIn ? <span className="btn btn-link hidden" style={{textAlign: "right"}} onClick={handleLogout}>Logout</span> : null
+              isLoggedIn ? <Link href="/logout" onCLick={handleLogout} passHref><span className="btn btn-link hidden" style={{textAlign: "right"}} onClick={handleLogout}>Logout</span></Link> : null
             }
           </div>
         </div>
