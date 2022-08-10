@@ -26,9 +26,11 @@ export default function Navbar({isLoggedIn}) {
   return (
       <nav className="navbar navbar-default">
         <div className="container-fluid">
-          <a className="navbar-brand" href="/" onClick={handleLogoClick}>
-            <Image src="/images/nicedishy-logo.png" alt="" height="48px" width="200px" />
-          </a>
+          <Link href="#" passHref>
+            <a className="navbar-brand" onClick={handleLogoClick}>
+              <Image src="/images/nicedishy-logo.png" alt="" height="48px" width="200px" />
+            </a>
+          </Link>
           <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span className="navbar-toggler-icon"></span>
           </button>
