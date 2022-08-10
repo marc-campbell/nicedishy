@@ -12,7 +12,26 @@ export default function Page({dishy, settings, authToken}) {
   const [name, setName] = useState(dishy.name);
 
   const handleSave = async () => {
+    try {
+      const res = await fetch(`/api/dishy/${dishy.id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${authToken}`,
+        },
+        body: JSON.stringify({
+          name: name,
+        }),
+      });
 
+      if (!res.ok) {
+        return;
+      }
+
+      alert('Saved!');
+    } catch (err) {
+      console.error(err);
+    }
   }
 
   const handleDelete = async () => {
@@ -40,15 +59,23 @@ export default function Page({dishy, settings, authToken}) {
       <h1>Dishy Settings</h1>
       <div className="container">
         <div className="row" style={{paddingTop: "60px", paddingBottom: "60px"}}>
-          <div className="col-lg-5">
+          <div className="col-lg-12">
             <h3>Dishy Settings</h3>
-            <form>
-              <div className="form-group">
-                <label htmlFor="name">Name</label>
-                <input type="name" className="form-control" id="name" placeholder="Mammoth Lakes, CA" value={name} onChange={e => setName(e.target.value)}/>
+            <div className="row">
+              <div className="col-lg-6">
+                <form>
+                  <div className="form-group">
+                    <label htmlFor="name">Name</label>
+                    <input type="name" className="form-control" id="name" placeholder="Mammoth Lakes, CA" value={name} onChange={e => setName(e.target.value)}/>
+                  </div>
+                </form>
               </div>
-            </form>
+              <div className="col-lg-6">
+                <div className="btn btn-secondary" style={{marginTop: "24px"}} onClick={handleSave}>Save</div>
+              </div>
+            </div>
           </div>
+
           <div className="row" style={{paddingTop: "60px", paddingBottom: "60px"}}>
             <div className="col-lg-12">
               <h3>Danger Zone</h3>

@@ -1,8 +1,8 @@
-import { createDishyToken, deleteDishy, getDishy, listDishies } from "../../../../lib/dishy";
+import { createDishyToken, deleteDishy, getDishy, listDishies, renameDishy } from "../../../../lib/dishy";
 import { loadSession } from "../../../../lib/session";
 
 export default async function handler(req, res) {
-  if (req.method !== 'DELETE') {
+  if (req.method !== 'DELETE' && req.method !== 'PUT') {
     res.status(405).send({ error: 'Method not allowed' });
     return;
   }
@@ -31,7 +31,11 @@ export default async function handler(req, res) {
     return;
   }
 
-  await deleteDishy(userId, dishyId);
+  if (req.method === 'DELETE') {
+    await deleteDishy(userId, dishyId);
+  } else if (req.method === 'PUT') {
+    await renameDishy(userId, dishyId, req.body.name);
+  }
 
   res.status(204).send();
 }
