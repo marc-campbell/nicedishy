@@ -86,7 +86,9 @@ export default function DishyCard({dishy, stats, speed}) {
                     (
                       <p>Your device is no longer sending data to NiceDishy.com. Check the installation or reinstall using the links below.</p>
                     )}
-                  <a href="/download" className="btn btn-primary" onClick={handleDownloadClick}>Download</a>
+                  <Link href="/download" passHref>
+                    <a className="btn btn-primary" onClick={handleDownloadClick}>Download</a>
+                  </Link>
                   {' '}
                   <a href="https://docs.nicedishy.com" className="btn btn-outline-primary">Docs</a>
                   <br /><br />
