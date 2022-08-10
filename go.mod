@@ -10,7 +10,7 @@ require (
 	github.com/gosimple/slug v1.12.0 // indirect
 	github.com/grafana-tools/sdk v0.0.0-20211220201350-966b3088eec9
 	github.com/hanzoai/gochimp3 v0.0.0-20210305004051-da66ea724147
-	github.com/jackc/pgx/v4 v4.16.1
+	github.com/jackc/pgx/v4 v4.17.0
 	github.com/keighl/postmark v0.0.0-20190821160221-28358b1a94e3
 	github.com/kr/pretty v0.3.0 // indirect
 	github.com/nats-io/nats-server/v2 v2.6.6 // indirect
