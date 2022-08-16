@@ -14,7 +14,7 @@ func TestGetDayStart(t *testing.T) {
 	if err != nil {
 		panic(err)
 	}
-	reindexWant, err := time.Parse(time.RFC3339, "2021-12-31T7:00:00Z")
+	reindexWant, err := time.Parse(time.RFC3339, "2022-01-01T0:00:00Z")
 	if err != nil {
 		panic(err)
 	}
@@ -22,7 +22,7 @@ func TestGetDayStart(t *testing.T) {
 	if err != nil {
 		panic(err)
 	}
-	noonPDTWant, err := time.Parse(time.RFC3339, "2020-04-01T00:00:00-07:00")
+	noonPDTWant, err := time.Parse(time.RFC3339, "2020-04-01T00:00:00Z")
 	if err != nil {
 		panic(err)
 	}
@@ -31,7 +31,7 @@ func TestGetDayStart(t *testing.T) {
 	if err != nil {
 		panic(err)
 	}
-	eighteenThirtyFourESTWant, err := time.Parse(time.RFC3339, "2020-04-19T00:00:00-05:00")
+	eighteenThirtyFourESTWant, err := time.Parse(time.RFC3339, "2020-04-19T00:00:00Z")
 	if err != nil {
 		panic(err)
 	}
@@ -77,7 +77,7 @@ func TestGetDayStart(t *testing.T) {
 			got, err := GetDayStart(context.TODO(), tt.args.timezoneOffset, tt.args.when)
 			req.NoError(err)
 
-			assert.Equal(t, tt.want, *got)
+			assert.Equal(t, tt.want, got.In(time.UTC))
 		})
 	}
 }
@@ -87,7 +87,7 @@ func TestGetFourHourStart(t *testing.T) {
 	if err != nil {
 		panic(err)
 	}
-	reindexWant, err := time.Parse(time.RFC3339, "2022-01-01T07:00:00Z")
+	reindexWant, err := time.Parse(time.RFC3339, "2022-01-01T00:00:00Z")
 	if err != nil {
 		panic(err)
 	}
@@ -96,7 +96,7 @@ func TestGetFourHourStart(t *testing.T) {
 	if err != nil {
 		panic(err)
 	}
-	noonPDTWant, err := time.Parse(time.RFC3339, "2020-04-01T19:00:00Z")
+	noonPDTWant, err := time.Parse(time.RFC3339, "2020-04-01T12:00:00Z")
 	if err != nil {
 		panic(err)
 	}
@@ -105,7 +105,7 @@ func TestGetFourHourStart(t *testing.T) {
 	if err != nil {
 		panic(err)
 	}
-	eighteenThirtyFourESTWant, err := time.Parse(time.RFC3339, "2020-04-19T21:00:00Z")
+	eighteenThirtyFourESTWant, err := time.Parse(time.RFC3339, "2020-04-19T16:00:00Z")
 	if err != nil {
 		panic(err)
 	}
@@ -151,7 +151,7 @@ func TestGetFourHourStart(t *testing.T) {
 			got, err := GetFourHourStart(context.TODO(), tt.args.timezoneOffset, tt.args.when)
 			req.NoError(err)
 
-			assert.Equal(t, &tt.want, got)
+			assert.Equal(t, tt.want, got.In(time.UTC))
 
 		})
 	}
