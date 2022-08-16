@@ -41,8 +41,10 @@ export default function Page() {
             <div className="card" style={{width: "100%"}}>
               <div className="card-body">
                 <h3><i className="bi bi-windows"></i> Windows</h3>
+                <a className="btn btn-outline-secondary" href="https://github.com/marc-campbell/nicedishy-windows/releases/download/v0.0.4/nicedishy.exe"><i className="bi bi-cloud-download"></i> Download</a>
+                {' '}
                 <a className="btn btn-outline-secondary" href="https://github.com/marc-campbell/nicedishy-windows"><i className="bi bi-github"></i> View Source Code</a>
-                <br /><br /><strong>Current Version:</strong> (download coming soon)
+                <br /><br /><strong>Current Version:</strong> 0.0.4
               </div>
             </div>
             <div className="card" style={{width: "100%"}}>
