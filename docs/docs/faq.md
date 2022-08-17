@@ -2,7 +2,7 @@
 
 #### How much does NiceDishy cost, and why is it free?
 
-NiceDishy is free, and there I have no plans to charge for it. I've lived with a 6/1 Mbps DSL connection for a while and Starlink changed the game for me. Faster internet is simply not available, even though I'm just outside of Los Angeles. That said, Starlink is still early, and it's fun to watch it improve and grow. I've been noticing trends where my speeds get better (and sometimes slower). I built the original version of NiceDishy as a monitoring site for my device, but realized that adding some auth to it and a few changes would make it easy for others. 
+NiceDishy is free. I've lived with a 6/1 Mbps DSL connection for a while and Starlink changed the game for me. Faster internet is simply not available, even though I'm just outside of Los Angeles. That said, Starlink is still early, and it's fun to watch it improve and grow. I've been noticing trends where my speeds get better (and sometimes slower). I built the original version of NiceDishy as a monitoring site for my device, but realized that adding some auth to it and a few changes would make it easy for others. 
 
 I hope it's useful, but also (and very selfishly) having a larger set of data to compare my dish to is going to help identify trends or "is it [down, faster, slower, better, worse, different] for everyone or just me?"
 

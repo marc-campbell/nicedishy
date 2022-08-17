@@ -60,11 +60,23 @@ function LoginCallback() {
               `user:${response.userId}`,
               { email: response.emailAddress },
             );
-            router.push(response.nextUrl);
+
+            const next = sessionStorage.getItem("next");
+            if (next) {
+              router.push(decodeURIComponent(next));
+            } else {
+              router.push(response.nextUrl);
+            }
+
           }
         });
       } else {
-        router.push(response.nextUrl);
+        const next = sessionStorage.getItem("next");
+        if (next) {
+          router.push(decodeURIComponent(next));
+        } else {
+          router.push(response.nextUrl);
+        }
       }
     } catch (err) {
       console.log(err);
