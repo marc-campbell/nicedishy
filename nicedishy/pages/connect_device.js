@@ -101,7 +101,7 @@ export async function getServerSideProps(ctx) {
     return {
       redirect: {
         permanent: false,
-        destination: "/login",
+        destination: `/login?next=${encodeURIComponent("/connect_device")}`,
       },
       props: {},
     };

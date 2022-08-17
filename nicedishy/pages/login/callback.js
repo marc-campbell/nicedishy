@@ -32,7 +32,13 @@ function LoginCallback() {
   useEffect( async () => {
     if (window.localStorage.getItem("token")) {
       setAuthComplete(true);
-      router.push("/dishies");
+
+      const next = sessionStorage.getItem("next");
+      if (next) {
+        router.push(decodeURIComponent(next));
+      } else {
+        router.push("/dishies");
+      }
       return;
     }
 

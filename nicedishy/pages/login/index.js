@@ -10,6 +10,8 @@ import { loadSession } from "../../lib/session";
 export default function Page() {
   const router = useRouter();
 
+  console.log(router.query);
+
   const onClickLogin = async (ev) => {
     ev.preventDefault();
 
@@ -24,43 +26,19 @@ export default function Page() {
       }
 
       const data = await res.json();
+
+      // drop the ?next url in session storage for now
+      if (router.query.next) {
+        sessionStorage.setItem("next", router.query.next);
+      } else {
+        sessionStorage.removeItem("next");
+      }
+
       window.location.href = data.redirectURL;
     } catch(err) {
       console.log(err);
     }
   }
-
-  useEffect( () => {
-    if (Utilities.getToken()) {
-      async function fetchData() {
-        // validate that the token is still valid
-        try {
-          const res = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/v1/whoami`, {
-          method: 'GET',
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": Utilities.getToken(),
-            },
-          });
-
-          if (!res.ok) {
-            console.error("error");
-            return;
-          }
-
-          const data = await res.json();
-          if (data.user) {
-            router.push("/dishies");
-            return;
-          }
-        } catch(err) {
-          console.log(err);
-        }
-        Utilities.logoutUser();
-      }
-      fetchData();
-    }
-  })
 
   return (
     <>

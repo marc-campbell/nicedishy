@@ -7,7 +7,7 @@ NiceDishy is a service that can receive metrics and data rom your [Starlink](htt
     
 ## Features
 
-NiceDishy is a *free* hosted service and installable agent (see "[How NiceDishy Works](/how-nicedishy-workds)") that ships your Starlink performance data
+NiceDishy is a *free* hosted service and installable agent (see "[How NiceDishy Works](/how-nicedishy-works)") that ships your Starlink performance data
 to a remote server. Using this data, the service can provide a lot more insights into how your dish is performing, what changes have been rolled out recently, 
 and just help you stay better connected to what's happening with the technology you have installed.
 
