@@ -29,7 +29,6 @@ export default function Page() {
         <li>When you mention us on social media</li>
       </ul>
       <p>We may collect, hold, use, and disclose information for the following purposes, and personal information will not be further processed in a manner that is incompatible with these purposes: </p>
-      <p>We may collect, hold, use, and disclose information for the following purposes, and personal information will not be further processed in a manner that is incompatible with these purposes: </p>
       <ul>
         <li>to enable you to access and use our website, associated applications, and associated social media platforms</li>
         <li>for security and fraud prevention, and to ensure that our sites and apps are safe, secure, and used in line with our terms of use</li>
@@ -60,7 +59,7 @@ export default function Page() {
       <h3>Contact Us</h3>
       <p>For any questions or concerns regarding your privacy, you may contact us using the following details: </p>
       <p>Marc Campbell<br />
-        help@nicedishy.com
+        marc@nicedishy.com
       </p>
     </div>
   )

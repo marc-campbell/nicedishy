@@ -55,6 +55,7 @@ func GenerateReports() {
 			continue
 		}
 
+		fmt.Printf("%s: %v\n", dishyID, tzOffset)
 		if dishyID == "" {
 			// logger.Info("no dishy id found for weekly report")
 			time.Sleep(time.Second * 5)
@@ -120,12 +121,10 @@ where g.id = $1 order by g.time desc limit 1`
 
 		if timezoneOffset.Valid {
 			// if the timezone offset means that we have a new week for this dishy,
-			if time.Now().UTC().Add(time.Second*time.Duration(timezoneOffset.Int64)).Weekday() == time.Sunday {
+			if time.Now().UTC().Add(time.Second*time.Duration(timezoneOffset.Int64)).Weekday() == time.Wednesday {
 				return dishyID, int(timezoneOffset.Int64), nil
 			}
 		}
-
-		time.Sleep(time.Minute)
 	}
 
 	return "", 0, nil
