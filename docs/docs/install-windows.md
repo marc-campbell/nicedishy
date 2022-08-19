@@ -1,1 +1,1 @@
-# isntalling on Windows
+# Installing on Windows
