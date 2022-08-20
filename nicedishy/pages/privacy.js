@@ -12,7 +12,7 @@ export default function Page() {
       <ul>
         <li>We do collect some personally identifiable inforamtion (PII) about you, such as your email address, ip address, and more</li>
         <li>We use this infromation to provide the best and most secure service we can to you</li>
-        <li>We don't use your information for anything else, such as selling data, selling ads, etc</li>
+        <li>We don&apos;t use your information for anything else, such as selling data, selling ads, etc</li>
         <li>We promise that any changes will be posted here with enough notice that you can choose to delete your data before they are applied</li>
       </ul>
       <h3>Information We Collect</h3>
