@@ -6,7 +6,15 @@ export default function Page() {
     <div>
       <h2>Privacy Policy</h2>
       <p>Your privacy is important to us. It is NiceDishy&#39;s policy to respect your privacy and comply with any applicable law and regulation regarding any personal information we may collect about you, including across our website, <a href="https://nicedishy.com">https://nicedishy.com</a>, and other sites we own and operate. </p>
-      <p>This policy is effective as of 16 January 2022 and was last updated on 16 January 2022. </p>
+      <p>This policy is effective as of 16 January 2022 and was last updated on 19 August 2022. </p>
+      <h3>tldr;</h3>
+      <p>Please read this policy completely, but the summary here is:</p>
+      <ul>
+        <li>We do collect some personally identifiable inforamtion (PII) about you, such as your email address, ip address, and more</li>
+        <li>We use this infromation to provide the best and most secure service we can to you</li>
+        <li>We don't use your information for anything else, such as selling data, selling ads, etc</li>
+        <li>We promise that any changes will be posted here with enough notice that you can choose to delete your data before they are applied</li>
+      </ul>
       <h3>Information We Collect</h3>
       <p>Information we collect includes both information you knowingly and actively provide us when using or participating in any of our services and promotions, and any information automatically sent by your devices in the course of accessing our products and services. </p>
       <h4>Log Data</h4>
@@ -37,7 +45,6 @@ export default function Page() {
       <h4>Security of Your Personal Information</h4>
       <p>When we collect and process personal information, and while we retain this information, we will protect it within commercially acceptable means to prevent loss and theft, as well as unauthorized access, disclosure, copying, use, or modification. </p>
       <p>Although we will do our best to protect the personal information you provide to us, we advise that no method of electronic transmission or storage is 100% secure, and no one can guarantee absolute data security. We will comply with laws applicable to us in respect of any data breach. </p>
-      <p>You are responsible for selecting any password and its overall security strength, ensuring the security of your own information within the bounds of our services. </p>
       <h4>How Long We Keep Your Personal Information</h4>
       <p>We keep your personal information only for as long as we need to. This time period may depend on what we are using your information for, in accordance with this privacy policy. If your personal information is no longer required, we will delete it or make it anonymous by removing all details that identify you. </p>
       <p>However, if necessary, we may retain your personal information for our compliance with a legal, accounting, or reporting obligation or for archiving purposes in the public interest, scientific, or historical research purposes or statistical purposes. </p>
