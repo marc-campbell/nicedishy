@@ -8,6 +8,7 @@ Try the following items to resolve this.
 1. Check that the computer running the NiceDishy software can access [https://192.168.100.1](https://192.168.100.1).
 1. Open the NiceDishy menu and disconnect/reconnect the software to your device.
 1. Uninstall and reinstall the NiceDishy agent.
+  (see notes for Windows and [MacOS](/troubleshooting-macos))
 1. Try rebooting the device running the NiceDishy software.
 
 If you still have trouble, let us know! Reach out at [help@nicedishy.com](mailto:help@nicedishy.com) and we'll be happy to get it fixed.
